@@ -3,19 +3,26 @@ using UnityEngine.AI;
 
 public class AvatarAI : MonoBehaviour
 {
-    GameObject player;
     NavMeshAgent agent;
-    [SerializeField] LayerMask ground_layer, player_layer;
+    [SerializeField] LayerMask ground_layer;
 
     //Patrolling Variables
     Vector3 destination_point;
     bool walking_point_set;
     [SerializeField] float range;
-    bool roam = true;
+    float roaming_count = 0.0f;
+    float not_roaming_count = 0.0f;
+    float roam_timer = 0.0f;
+    public float min_roam_time = 5.0f;
+    public float max_roam_time = 15.0f;
+    public float min_stand_time = 5.0f;
+    public float max_stand_time = 15.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        roaming_count = Random.Range(min_roam_time, max_roam_time);
+        not_roaming_count = Random.Range(min_stand_time, max_stand_time);
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -23,10 +30,13 @@ public class AvatarAI : MonoBehaviour
     void Update()
     {
         Patrol();
+        roam_timer += Time.deltaTime;
+        Debug.Log(roam_timer);
     }
 
     void Patrol(){
         
+        if (roam_timer < roaming_count){
             if (!walking_point_set){
             SearchForPoint();
             }
@@ -36,6 +46,16 @@ public class AvatarAI : MonoBehaviour
             }
 
             if (Vector3.Distance(transform.position, destination_point) < 10) walking_point_set = false;
+
+        }
+
+        else{
+            if (roam_timer > (roaming_count + not_roaming_count)){
+                roam_timer = 0.0f;
+                roaming_count = Random.Range(min_roam_time, max_roam_time);
+                not_roaming_count = Random.Range(min_stand_time, max_stand_time);
+            }
+        }
         
     }
 
