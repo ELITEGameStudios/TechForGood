@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>YOUniverse</title>
+
+    <style>
+        img {
+            image-rendering: pixelated;
+            border-radius: 15px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .char-button {
+            margin: 8px;
+            padding: 0px;
+        }
+
+        .char-options-hidden {
+            display: none;
+        }
+
+        #panel-parent {
+            display: flex;
+            flex-direction: row;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #panel-left {
+            flex-basis: 500px;
+        }
+
+        #char-submit {
+            margin-left: 100%;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="home.html">
+        <h1>YOUniverse</h1>
+    </a>
+    <h2>Dress Room</h2>
+
+    <div id="panel-parent">
+        <div id="panel-left">
+            <button onclick="activate('char-body-legs')">Body and Legs</button>
+            <button onclick="activate('char-head')">Head</button>
+            <button onclick="activate('char-hair')">Hair</button>
+            <button onclick="activate('char-accessories')">Accessories</button>
+
+            <br>
+
+            <div id="char-body-legs" class="char-options-hidden">
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+            </div>
+
+            <div id="char-head" class="char-options-hidden">
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+            </div>
+
+            <div id="char-hair" class="char-options-hidden">
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+            </div>
+
+            <div id="char-accessories" class="char-options-hidden">
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+                <button class="char-button"> <img src="hair.png" width="64px"> </button>
+            </div>
+        </div>
+
+        <div id="panel-right">
+            <img src="guy.gif" width="128px">
+            <br>
+            <button id="char-submit" onclick="charSubmit()">Done</button>
+        </div>
+    </div>
+
+    <script>
+        var currentElem;
+
+        function activate(activeId) {
+            if (currentElem) {
+                currentElem.classList.remove("char-options");
+                currentElem.classList.add("char-options-hidden");
+            }
+
+            const newElem = document.getElementById(activeId);
+
+            newElem.classList.remove("char-options-hidden");
+            newElem.classList.add("char-options");
+
+            currentElem = newElem;
+        }
+
+        function charSubmit() {
+            window.location.href = "home.html";
+        }
+
+        activate("char-body-legs");
+    </script>
+</body>
+
+</html>
