@@ -20,7 +20,7 @@ public class SigninController : Controller
 		return View();
 	}
 
-	public IActionResult Register(int? studentId, string? firstName, string? lastName)
+	public async Task<IActionResult> Register(int? studentId, string? firstName, string? lastName)
 	{
 		if (studentId == null && firstName == null && lastName == null)
 		{
@@ -34,34 +34,30 @@ public class SigninController : Controller
 			lastName = lastName
 		};
 
-		if (!IsValidUserToRegister(input, out RegisterErrors errors))
+		RegisterErrors? errors = await IsValidUserToRegister(input);
+		if (errors.HasValue)
 		{
-			ViewData["studentIdError"] = errors.studentIdError;
-			ViewData["firstNameError"] = errors.firstNameError;
-			ViewData["lastNameError"] = errors.lastNameError;
+			ViewData["studentIdError"] = errors.Value.studentIdError;
+			ViewData["firstNameError"] = errors.Value.firstNameError;
+			ViewData["lastNameError"] = errors.Value.lastNameError;
 
 			return View();
 		}
 
-		RegisterUser(input);
+		await RegisterUser(input);
 
 		return View("Index");
 	}
 
-	private bool IsValidUserToRegister(RegisterInput input, out RegisterErrors errors)
+	private async Task<RegisterErrors?> IsValidUserToRegister(RegisterInput input)
 	{
-		errors = new RegisterErrors();
+		RegisterErrors errors = new();
 
 		bool valid = true;
 
 		if (input.studentId == null)
 		{
 			errors.studentIdError = "Required.";
-			valid = false;
-		}
-		else if (_context.UserItems.FindAsync(input.studentId).Result != null)
-		{
-			errors.studentIdError = "That Student ID is already registered.";
 			valid = false;
 		}
 
@@ -77,10 +73,18 @@ public class SigninController : Controller
 			valid = false;
 		}
 
-		return valid;
+		if (!valid) return null;
+
+		if (await _context.UserItems.FindAsync(input.studentId) != null)
+		{
+			errors.studentIdError = "That Student ID is already registered.";
+			valid = false;
+		}
+
+		return valid ? null : errors;
 	}
 
-	private void RegisterUser(RegisterInput input)
+	private async Task RegisterUser(RegisterInput input)
 	{
 		if (input.studentId == null || input.lastName == null || input.firstName == null)
 		{
@@ -94,7 +98,8 @@ public class SigninController : Controller
 			FirstName = input.firstName,
 			LastName = input.lastName,
 		};
-		_context.UserItems.Add(userItem);
+		await _context.UserItems.AddAsync(userItem);
+		await _context.SaveChangesAsync();
 	}
 
 	struct RegisterInput

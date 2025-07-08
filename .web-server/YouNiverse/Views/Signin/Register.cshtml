@@ -12,21 +12,33 @@
 		{
 			<p class="register-error">@ViewData["studentIdError"]</p>
 		}
-		<br><br>
+		else
+		{
+			<br>
+			<br>
+		}
 		<label for="first-name">First Name:</label><br>
 		<input type="text" name="firstName" id="first-name" />
 		@if (ViewData["firstNameError"] != null)
 		{
 			<p class="register-error">@ViewData["firstNameError"]</p>
 		}
-		<br><br>
+		else
+		{
+			<br>
+			<br>
+		}
 		<label for="last-name">Last Name:</label><br>
 		<input type="text" name="lastName" id="last-name" />
 		@if (ViewData["lastNameError"] != null)
 		{
 			<p class="register-error">@ViewData["lastNameError"]</p>
 		}
-		<br><br>
+		else
+		{
+			<br>
+			<br>
+		}
 		<input type="submit" />
 	</form>
 	<br><br><br>
