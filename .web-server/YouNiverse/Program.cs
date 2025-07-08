@@ -1,4 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using YouNiverse.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<UserContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("UserContext")));
+}
+else
+{
+    builder.Services.AddDbContext<UserContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionUserContext")));
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

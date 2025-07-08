@@ -6,26 +6,32 @@ namespace YouNiverse.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+	private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+	public HomeController(ILogger<HomeController> logger)
+	{
+		_logger = logger;
+	}
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+	bool CheckIfSignedIn(out IActionResult result)
+	{
+		result = View("SigninRedirect");
+		return false;
+	}
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+	public IActionResult Index()
+	{
+		if (!CheckIfSignedIn(out IActionResult result))
+		{
+			return result;
+		}
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+		return View();
+	}
+
+	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	public IActionResult Error()
+	{
+		return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+	}
 }

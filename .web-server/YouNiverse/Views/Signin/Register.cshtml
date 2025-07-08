@@ -1,0 +1,40 @@
+@{
+	ViewData["Title"] = "Register";
+}
+
+<div class="text-center">
+	<h1>YOUNIVERSE</h1>
+	<h2>Register</h2><br>
+	<form>
+		<label for="student-id">Student ID:</label><br>
+		<input type="text" name="studentId" id="student-id" />
+		@if (ViewData["studentIdError"] != null)
+		{
+			<p class="register-error">@ViewData["studentIdError"]</p>
+		}
+		<br><br>
+		<label for="first-name">First Name:</label><br>
+		<input type="text" name="firstName" id="first-name" />
+		@if (ViewData["firstNameError"] != null)
+		{
+			<p class="register-error">@ViewData["firstNameError"]</p>
+		}
+		<br><br>
+		<label for="last-name">Last Name:</label><br>
+		<input type="text" name="lastName" id="last-name" />
+		@if (ViewData["lastNameError"] != null)
+		{
+			<p class="register-error">@ViewData["lastNameError"]</p>
+		}
+		<br><br>
+		<input type="submit" />
+	</form>
+	<br><br><br>
+	<p>Already have an account? <a asp-area="" asp-controller="Signin" asp-action="Index">Sign-in here.</a></p>
+</div>
+
+<style>
+	.register-error {
+		color: red;
+	}
+</style>

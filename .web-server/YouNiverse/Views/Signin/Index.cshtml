@@ -1,0 +1,17 @@
+@{
+	ViewData["Title"] = "Sign-In";
+}
+
+<div class="text-center">
+	<h1>YOUNIVERSE</h1>
+	<h2>Sign-In</h2><br>
+	<form>
+		<label for="student-id">Student ID:</label><br>
+		<input type="text" name="studentId" id="student-id" />
+		<input type="submit" /><br><br>
+		<input type="checkbox" id="remember-me">
+		<label for="remember-me">Remember me</label>
+	</form>
+	<br><br><br>
+	<p>Don't have an account? <a asp-area="" asp-controller="Signin" asp-action="Register">Register here.</a></p>
+</div>

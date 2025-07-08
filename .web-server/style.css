@@ -1,0 +1,22 @@
+@font-face {
+	font-family: 'GrapeSoda';
+	src: url('GrapeSoda.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Comicoro';
+	src: url('Comicoro.ttf') format('truetype');
+}
+
+body {
+	font-family: Comicoro;
+	font-size: 2em;
+}
+
+h1 {
+	font-family: GrapeSoda;
+}
+
+h2 {
+	font-family: GrapeSoda;
+}
