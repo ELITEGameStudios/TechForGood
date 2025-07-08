@@ -5,7 +5,8 @@
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
-/[Oo]bj/
+[Oo]bj/
+[Bb]in/
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
@@ -54,6 +55,10 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+
+# Include webserver csproj
+!.web-server/**/*.csproj
+!.web-server/**/*.sln
 
 # Unity3D generated meta files
 *.pidb.meta
