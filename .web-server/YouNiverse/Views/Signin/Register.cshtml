@@ -1,7 +1,7 @@
 @model LabRegisterModel
 
 @{
-	ViewData["Title"] = "Register";
+	ViewData["Title"] = "Timesheet";
 	string UserName = (@Model.StudentId == 0) ? "" : @Model.StudentId.ToString();
 	string autofocus = Convert.ToString(ViewData["autofocus"]) ?? "studentId";
 }
