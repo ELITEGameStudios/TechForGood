@@ -23,7 +23,7 @@ public class SigninController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Index(LabLoginViewModel model)
 	{
-		if (model.StudentId == 0)
+		if (model.StudentId <= 0)
 		{
 			ViewData["loginError"] = "Invalid Student ID.";
 			return View();
@@ -37,6 +37,7 @@ public class SigninController : Controller
 			{
 				StudentId = model.StudentId
 			};
+			ViewData["autofocus"] = "firstName";
 			return View("Register", registerModel);
 		}
 
@@ -54,21 +55,25 @@ public class SigninController : Controller
 	public async Task<IActionResult> Register(LabRegisterModel model)
 	{
 		bool valid = true;
+
+		if (model.StudentId == 0)
+		{
+			ViewData["studentIdError"] = "Required.";
+			ViewData["autofocus"] ??= "studentId";
+			valid = false;
+		}
+
 		if (model.FirstName == null)
 		{
 			ViewData["firstNameError"] = "Required.";
+			ViewData["autofocus"] ??= "firstName";
 			valid = false;
 		}
 
 		if (model.LastName == null)
 		{
 			ViewData["lastNameError"] = "Required.";
-			valid = false;
-		}
-
-		if (model.StudentId == 0)
-		{
-			ViewData["studentIdError"] = "Required.";
+			ViewData["autofocus"] ??= "lastName";
 			valid = false;
 		}
 

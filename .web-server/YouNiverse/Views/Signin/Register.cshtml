@@ -2,6 +2,8 @@
 
 @{
 	ViewData["Title"] = "Register";
+	string UserName = (@Model.StudentId == 0) ? "" : @Model.StudentId.ToString();
+	string autofocus = Convert.ToString(ViewData["autofocus"]) ?? "studentId";
 }
 
 <link rel="stylesheet" href="css/site.css">
@@ -11,7 +13,14 @@
 	<br>
 	<form method="post" action="/Signin/Register">
 		<label asp-for="StudentId">Student ID:</label><br>
-		<input type="text" asp-for="StudentId" autocomplete="username" value="@Model.StudentId" />
+		@if (@autofocus == "studentId")
+		{
+			<input type="text" asp-for="StudentId" autocomplete="username" value="@UserName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="StudentId" autocomplete="username" value="@UserName" />
+		}
 		@if (ViewData["studentIdError"] != null)
 		{
 			<p class="signin-error">@ViewData["studentIdError"]</p>
@@ -22,7 +31,14 @@
 			<br>
 		}
 		<label asp-for="FirstName">First Name:</label><br>
-		<input type="text" asp-for="FirstName" value="@Model.FirstName" />
+		@if (@autofocus == "firstName")
+		{
+			<input type="text" asp-for="FirstName" value="@Model.FirstName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="FirstName" value="@Model.FirstName" />
+		}
 		@if (ViewData["firstNameError"] != null)
 		{
 			<p class="signin-error">@ViewData["firstNameError"]</p>
@@ -33,7 +49,14 @@
 			<br>
 		}
 		<label asp-for="LastName">Last Name:</label><br>
-		<input type="text" asp-for="LastName" value="@Model.LastName" />
+		@if (@autofocus == "lastName")
+		{
+			<input type="text" asp-for="LastName" value="@Model.LastName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="LastName" value="@Model.LastName" />
+		}
 		@if (ViewData["lastNameError"] != null)
 		{
 			<p class="signin-error">@ViewData["lastNameError"]</p>

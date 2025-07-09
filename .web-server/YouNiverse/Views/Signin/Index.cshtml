@@ -10,7 +10,7 @@
 	<h1>Welcome to the Game Lab</h1><br>
 	<form method="post">
 		<label asp-for="StudentId">Sign In/Out:</label><br>
-		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" />
+		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" autofocus />
 		<input type="submit" />
 		@if (ViewData["loginError"] != null)
 		{
