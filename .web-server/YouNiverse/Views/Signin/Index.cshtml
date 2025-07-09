@@ -1,17 +1,26 @@
+@model LabLoginViewModel
+
 @{
 	ViewData["Title"] = "Sign-In";
 }
 
+<link rel="stylesheet" href="css/site.css">
+
 <div class="text-center">
-	<h1>YOUNIVERSE</h1>
-	<h2>Sign-In</h2><br>
-	<form>
-		<label for="student-id">Student ID:</label><br>
-		<input type="text" name="studentId" id="student-id" />
-		<input type="submit" /><br><br>
-		<input type="checkbox" id="remember-me">
-		<label for="remember-me">Remember me</label>
+	<h1>Welcome to the Game Lab</h1><br>
+	<form method="post">
+		<label asp-for="StudentId">Sign In/Out:</label><br>
+		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" />
+		<input type="submit" />
+		@if (ViewData["loginError"] != null)
+		{
+			<p class="signin-error">@ViewData["loginError"]</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
 	</form>
-	<br><br><br>
-	<p>Don't have an account? <a asp-area="" asp-controller="Signin" asp-action="Register">Register here.</a></p>
+	<a href="Account/Signin">YOUniverse Profile</a><br>
 </div>

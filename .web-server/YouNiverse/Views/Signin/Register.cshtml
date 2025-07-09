@@ -1,38 +1,42 @@
+@model LabRegisterModel
+
 @{
 	ViewData["Title"] = "Register";
 }
 
+<link rel="stylesheet" href="css/site.css">
+
 <div class="text-center">
-	<h1>YOUNIVERSE</h1>
-	<h2>Register</h2><br>
-	<form>
-		<label for="student-id">Student ID:</label><br>
-		<input type="text" name="studentId" id="student-id" />
+	<h1>Register</h1>
+	<br>
+	<form method="post" action="/Signin/Register">
+		<label asp-for="StudentId">Student ID:</label><br>
+		<input type="text" asp-for="StudentId" autocomplete="username" value="@Model.StudentId" />
 		@if (ViewData["studentIdError"] != null)
 		{
-			<p class="register-error">@ViewData["studentIdError"]</p>
+			<p class="signin-error">@ViewData["studentIdError"]</p>
 		}
 		else
 		{
 			<br>
 			<br>
 		}
-		<label for="first-name">First Name:</label><br>
-		<input type="text" name="firstName" id="first-name" />
+		<label asp-for="FirstName">First Name:</label><br>
+		<input type="text" asp-for="FirstName" value="@Model.FirstName" />
 		@if (ViewData["firstNameError"] != null)
 		{
-			<p class="register-error">@ViewData["firstNameError"]</p>
+			<p class="signin-error">@ViewData["firstNameError"]</p>
 		}
 		else
 		{
 			<br>
 			<br>
 		}
-		<label for="last-name">Last Name:</label><br>
-		<input type="text" name="lastName" id="last-name" />
+		<label asp-for="LastName">Last Name:</label><br>
+		<input type="text" asp-for="LastName" value="@Model.LastName" />
 		@if (ViewData["lastNameError"] != null)
 		{
-			<p class="register-error">@ViewData["lastNameError"]</p>
+			<p class="signin-error">@ViewData["lastNameError"]</p>
 		}
 		else
 		{
@@ -42,11 +46,5 @@
 		<input type="submit" />
 	</form>
 	<br><br><br>
-	<p>Already have an account? <a asp-area="" asp-controller="Signin" asp-action="Index">Sign-in here.</a></p>
+	<a href="../">Cancel</a>
 </div>
-
-<style>
-	.register-error {
-		color: red;
-	}
-</style>

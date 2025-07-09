@@ -10,8 +10,8 @@ using YouNiverse.Models;
 namespace YouNiverse.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20250708213528_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250709192516_InitialData")]
+    partial class InitialData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace YouNiverse.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("HasYou")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
                         .HasColumnType("TEXT");

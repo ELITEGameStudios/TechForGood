@@ -1,12 +1,8 @@
 namespace YouNiverse.Models;
 
-public class UserItem
+public class LabRegisterModel
 {
-	// Required
-	public int Id { get; set; }
-
+	public int StudentId { get; set; }
 	public string? FirstName { get; set; }
 	public string? LastName { get; set; }
-
-	public bool HasYou { get; set; }
 }

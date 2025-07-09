@@ -1,6 +1,6 @@
 namespace YouNiverse.Models;
 
-public class UserItem
+public class TimesheetUser
 {
 	// Required
 	public int Id { get; set; }
@@ -8,5 +8,6 @@ public class UserItem
 	public string? FirstName { get; set; }
 	public string? LastName { get; set; }
 
-	public bool HasYou { get; set; }
+	public ICollection<TimeEntry> TimeEntries { get; set; }
+		= [];
 }

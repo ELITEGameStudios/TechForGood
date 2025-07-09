@@ -1,16 +1,16 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using YouNiverse.Models;
 
 namespace YouNiverse.Controllers;
 
 public class SigninController : Controller
 {
-	private readonly UserContext _context;
+	private readonly TimesheetContext _context;
 
-	public SigninController(UserContext context)
+	public SigninController(TimesheetContext context)
 	{
 		_context = context;
 	}
@@ -20,99 +20,118 @@ public class SigninController : Controller
 		return View();
 	}
 
-	public async Task<IActionResult> Register(int? studentId, string? firstName, string? lastName)
+	[HttpPost]
+	public async Task<IActionResult> Index(LabLoginViewModel model)
 	{
-		if (studentId == null && firstName == null && lastName == null)
+		if (model.StudentId == 0)
 		{
+			ViewData["loginError"] = "Invalid Student ID.";
 			return View();
 		}
 
-		RegisterInput input = new()
-		{
-			studentId = studentId,
-			firstName = firstName,
-			lastName = lastName
-		};
+		TimesheetUser? student = await _context.Users.FindAsync(model.StudentId);
 
-		RegisterErrors? errors = await IsValidUserToRegister(input);
-		if (errors.HasValue)
+		if (student == null)
 		{
-			ViewData["studentIdError"] = errors.Value.studentIdError;
-			ViewData["firstNameError"] = errors.Value.firstNameError;
-			ViewData["lastNameError"] = errors.Value.lastNameError;
-
-			return View();
+			LabRegisterModel registerModel = new()
+			{
+				StudentId = model.StudentId
+			};
+			return View("Register", registerModel);
 		}
 
-		await RegisterUser(input);
+		bool isClockedIn = await _context.TimeEntries.AnyAsync(e => e.StudentId == student.Id && e.ClockOut == null);
 
-		return View("Index");
+		if (isClockedIn)
+		{
+			return await ClockOut(student.Id);
+		}
+
+		return await ClockIn(student.Id);
 	}
 
-	private async Task<RegisterErrors?> IsValidUserToRegister(RegisterInput input)
+	[HttpPost]
+	public async Task<IActionResult> Register(LabRegisterModel model)
 	{
-		RegisterErrors errors = new();
-
 		bool valid = true;
-
-		if (input.studentId == null)
+		if (model.FirstName == null)
 		{
-			errors.studentIdError = "Required.";
+			ViewData["firstNameError"] = "Required.";
 			valid = false;
 		}
 
-		if (input.firstName == null)
+		if (model.LastName == null)
 		{
-			errors.firstNameError = "Required.";
+			ViewData["lastNameError"] = "Required.";
 			valid = false;
 		}
 
-		if (input.lastName == null)
+		if (model.StudentId == 0)
 		{
-			errors.lastNameError = "Required.";
+			ViewData["studentIdError"] = "Required.";
 			valid = false;
 		}
 
-		if (!valid) return null;
-
-		if (await _context.UserItems.FindAsync(input.studentId) != null)
+		if (!valid)
 		{
-			errors.studentIdError = "That Student ID is already registered.";
-			valid = false;
+			return View(model);
 		}
 
-		return valid ? null : errors;
-	}
-
-	private async Task RegisterUser(RegisterInput input)
-	{
-		if (input.studentId == null || input.lastName == null || input.firstName == null)
+		if (await _context.Users.FindAsync(model.StudentId) != null)
 		{
-			Console.WriteLine("Error: registration value was null after passing validation!");
-			return;
+			ViewData["studentIdError"] = "Student Id already registered.";
+			return View(model);
 		}
 
-		UserItem userItem = new()
+		TimesheetUser user = new()
 		{
-			Id = (int)input.studentId,
-			FirstName = input.firstName,
-			LastName = input.lastName,
+			Id = model.StudentId,
+			FirstName = model.FirstName,
+			LastName = model.LastName,
 		};
-		await _context.UserItems.AddAsync(userItem);
+		await _context.Users.AddAsync(user);
 		await _context.SaveChangesAsync();
+
+		Console.WriteLine($"Registered student {user.Id}");
+
+		return await ClockIn(model.StudentId);
 	}
 
-	struct RegisterInput
+	async Task<IActionResult> ClockIn(int studentId)
 	{
-		public int? studentId;
-		public string? firstName;
-		public string? lastName;
+		ViewData["clockMessage"] = $"Clocked in at {DateTime.Now:hh:mm tt}.";
+
+		TimeEntry entry = new()
+		{
+			StudentId = studentId,
+			ClockIn = DateTime.Now,
+			ClockOut = null,
+		};
+		await _context.TimeEntries.AddAsync(entry);
+		await _context.SaveChangesAsync();
+
+		return View("ClockInOut");
 	}
 
-	struct RegisterErrors
+	async Task<IActionResult> ClockOut(int studentId)
 	{
-		public string? studentIdError;
-		public string? firstNameError;
-		public string? lastNameError;
+		var activeEntry = await _context.TimeEntries
+				.Where(e => e.StudentId == studentId && e.ClockOut == null)
+				.OrderByDescending(e => e.ClockIn)
+				.FirstOrDefaultAsync();
+
+		if (activeEntry != null)
+		{
+			activeEntry.ClockOut = DateTime.UtcNow;
+			await _context.SaveChangesAsync();
+
+			ViewData["clockMessage"] = $"Clocked out at {DateTime.Now:hh:mm tt}.";
+		}
+		else
+		{
+			ViewData["clockMessage"] = $"Error clocking out.";
+		}
+
+		return View("ClockInOut");
 	}
 }
