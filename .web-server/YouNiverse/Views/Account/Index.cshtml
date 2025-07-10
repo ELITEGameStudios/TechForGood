@@ -1,11 +1,16 @@
-@* @model SigninModel *@
+@using YouNiverse.Models.Youniverse
+@model AccountViewModel;
 
 @{
-	ViewData["Title"] = "Signin";
+	ViewData["Title"] = "Account";
 }
 
 <link rel="stylesheet" href="css/site.css">
 
 <div class="text-center">
 	<h1>Account</h1>
+	<h2>Hello, @Model.FirstName @Model.LastName.</h2>
+	<form method="post" action="/Account/Signout">
+		<input type="submit" value="Signout" />
+	</form>
 </div>

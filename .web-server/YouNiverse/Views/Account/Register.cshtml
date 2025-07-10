@@ -1,7 +1,8 @@
-@model LabRegisterModel
+@using YouNiverse.Models.Youniverse
+@model UserRegisterModel
 
 @{
-	ViewData["Title"] = "Timesheet";
+	ViewData["Title"] = "Register";
 	string UserName = (@Model == null || @Model.StudentId == 0) ? "" : @Model.StudentId.ToString();
 	string autofocus = Convert.ToString(ViewData["autofocus"]) ?? "studentId";
 }
@@ -11,7 +12,7 @@
 <div class="text-center">
 	<h1>Register</h1>
 	<br>
-	<form method="post" action="/Signin/Register">
+	<form method="post" action="/Account/Register">
 		<label asp-for="StudentId">Student ID:</label><br>
 		@if (@autofocus == "studentId")
 		{
@@ -33,7 +34,7 @@
 		<label asp-for="FirstName">First Name:</label><br>
 		@if (@autofocus == "firstName")
 		{
-			<input type="text" asp-for="FirstName" value="@Model?.FirstName" autofocus />
+			<input type="text" asp-for="FirstName" value="@Model>.FirstName" autofocus />
 		}
 		else
 		{
@@ -69,5 +70,5 @@
 		<input type="submit" />
 	</form>
 	<br><br><br>
-	<a href="../">Cancel</a>
+	<a href="Signin">Cancel</a>
 </div>
