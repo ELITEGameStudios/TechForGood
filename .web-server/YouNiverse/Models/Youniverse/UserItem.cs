@@ -7,6 +7,4 @@ public class UserItem
 
 	public string? FirstName { get; set; }
 	public string? LastName { get; set; }
-
-	public bool HasYou { get; set; }
 }

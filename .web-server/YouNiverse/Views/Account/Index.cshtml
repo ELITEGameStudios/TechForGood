@@ -10,6 +10,8 @@
 <div class="text-center">
 	<h1>Account</h1>
 	<h2>Hello, @Model.FirstName @Model.LastName.</h2>
+	<a asp-action="Profile">Profile</a><br>
+	<a asp-action="DressRoom">Dress Room</a><br>
 	<form method="post" action="/Account/Signout">
 		<input type="submit" value="Signout" />
 	</form>

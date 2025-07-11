@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using YouNiverse.Models;
 using YouNiverse.Models.LabSignin;
 
 namespace YouNiverse.Controllers;

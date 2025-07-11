@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -22,33 +20,24 @@ public class AccountController : Controller
 	[Authorize]
 	public async Task<IActionResult> Index()
 	{
-		AuthenticateResult auth = await HttpContext.AuthenticateAsync();
-
-		if (auth == null || auth.Principal == null)
-		{
-			return RedirectToAction("Signin");
-		}
-
-		var claim = auth.Principal.Claims.First(e => e.Type == ClaimTypes.Name);
-		int studentId = int.Parse(claim.Value);
-
-		UserItem? user = await _context.UserItems.FindAsync(studentId);
-		if (user == null)
-		{
-			Console.WriteLine($"Error: Authenticated user {studentId} but the aren't in the database!?");
-			ViewData["loginError"] = "Your account isn't in the database! Get help!";
-			await HttpContext.SignOutAsync();
-			return View("Signin");
-		}
+		UserItem? user = await AuthenticateUser();
+		if (user == null) return View("Signin");
 
 		AccountViewModel model = new()
 		{
-			StudentId = studentId,
+			StudentId = user.Id,
 			FirstName = user.FirstName,
 			LastName = user.LastName
 		};
 
 		return View(model);
+	}
+
+	[Authorize]
+	public async Task<IActionResult> DressRoom()
+	{
+		UserItem? user = await AuthenticateUser();
+		return View();
 	}
 
 	public IActionResult Signin()
@@ -186,5 +175,29 @@ public class AccountController : Controller
 	async Task SignOutAsync()
 	{
 		await HttpContext.SignOutAsync();
+	}
+
+	async Task<UserItem?> AuthenticateUser()
+	{
+		AuthenticateResult auth = await HttpContext.AuthenticateAsync();
+
+		if (auth == null || auth.Principal == null)
+		{
+			return null;
+		}
+
+		var claim = auth.Principal.Claims.First(e => e.Type == ClaimTypes.Name);
+		int studentId = int.Parse(claim.Value);
+
+		UserItem? user = await _context.UserItems.FindAsync(studentId);
+		if (user == null)
+		{
+			Console.WriteLine($"Error: Authenticated user {studentId} but the aren't in the database!?");
+			ViewData["loginError"] = "Your account isn't in the database! Get help!";
+			await HttpContext.SignOutAsync();
+			return null;
+		}
+
+		return user;
 	}
 }

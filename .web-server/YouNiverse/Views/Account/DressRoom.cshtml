@@ -1,0 +1,13 @@
+@model DressRoomViewModel;
+
+@{
+	ViewData["Title"] = "Dress Room";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<h1>Dress Room</h1>
+<a asp-action="Index">Back</a>
+<form method="post" action="/Account/Signout">
+	<input type="submit" value="Signout" />
+</form>
