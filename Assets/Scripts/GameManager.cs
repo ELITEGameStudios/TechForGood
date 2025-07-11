@@ -1,18 +1,21 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using static You;
 
 public class GameManager : MonoBehaviour
 {
     
     public DataRetrieveState dataState;
-    public You[] yous;
+    public List<You> yous;
     public GameObject youPrefab;
+    public string websiteName;
 
 
 
     [Header("For SN Data Retrieval")]
-    [SerializeField] private List<string> studentNumbers;
+    [SerializeField] private string[] studentNumbers;
     public UnityWebRequest studentNumbersRequest;
 
 
@@ -35,76 +38,101 @@ public class GameManager : MonoBehaviour
         if(dataState != DataRetrieveState.IDLE){return;}
         dataState = DataRetrieveState.GETTING_STUDENT_NUMBERS;
         
+        yous = new();
+        studentNumbers = new string[0];
+
         // Start student number requests
-        studentNumbersRequest = UnityWebRequest.Get("");
+        InvokeRepeating(nameof(InitiateStudentNumberRetrieval), 0, 5f);
     }
 
-    void StudentNumberRetrieveUpdate(){
+    public async void InitiateStudentNumberRetrieval(){
 
-        if(studentNumbersRequest.isDone){
-            string studentNumbersString = studentNumbersRequest.result.ToString();
-            
-            studentNumbers = new();
-            string currentStudentNumber = "";
-            foreach (char character in studentNumbersString){
-                if(character == '|') { // '|' acts as a separator for each student number in the list
-                    studentNumbers.Add(currentStudentNumber);
-                    currentStudentNumber = "";
-                }
-                else{
-                    currentStudentNumber += character;
+        var url = websiteName +"/UserApi/LabList/GetLabUsers";
+
+        var http_client = new HttpClient(new JSONSerializationOption());
+        string[] newStudentNumbers = await http_client.Get<string[]>(url);
+        Debug.Log("Got info?");
+        
+        if (studentNumbers.Length > newStudentNumbers.Length){
+            studentNumbers = newStudentNumbers;
+            Debug.Log("Deleting you.");
+            DeleteYouProcess();
+        }
+        else if (studentNumbers.Length < newStudentNumbers.Length){
+            studentNumbers = newStudentNumbers;
+            InitiateYouDataRetrieval();        
+            Debug.Log("Adding yous");
+        }
+    }
+
+    void DeleteYouProcess(){
+        for (int i = yous.Count-1; i >= 0 ; i--)
+        {
+            foreach (string id in studentNumbers)
+            {
+                if(id == yous[i].studentNumber){
+                    continue;
                 }
             }
 
-
-            
-            InitiateYouDataRetrieval();
-
-        };
-        
+            yous[i].Retire();
+            yous.RemoveAt(i);
+        }
     }
 
     async void InitiateYouDataRetrieval(){
         dataState = DataRetrieveState.GETTING_YOU_DATA;
 
-        youDataRequests = new UnityWebRequest[studentNumbers.Count]; // Might need to be a jagged array if we need multiple requests per YOU.
+        youDataRequests = new UnityWebRequest[studentNumbers.Length]; // Might need to be a jagged array if we need multiple requests per YOU.
         finishedYouRetrievalProcess = new bool[youDataRequests.Length];
-        for (int i = 0; i < youDataRequests.Length; i++)
+
+        for (int i = 0; i < studentNumbers.Length; i++)
         {
-            var url = "https://jsonplaceholder.typicode.com/todos/1/ " + studentNumbers[i];
-            var http_client = new HttpClient(new JSONSerializationOption());
-            var result = await http_client.Get<You>(url);
-
-            if (result != null){
-                
+            bool exists = false;
+            foreach (You oldYou in yous)
+            {
+                if(oldYou.studentNumber == studentNumbers[i]){
+                    exists = true;
+                }
             }
+            if(exists) continue;
 
-            // youDataRequests[i] = UnityWebRequest.Get(""+studentNumbers[i]);
+
+            You you = Instantiate(youPrefab, transform).GetComponent<You>();
+
+            var url = websiteName +"/UserApi/GetAvatar?id="+studentNumbers[i].ToString();
+            var http_client = new HttpClient(new JSONSerializationOption());
+            YouWebClass youBaseData = await http_client.Get<YouWebClass>(url);
+
+            // Texture profileImage = await GetTextureFromWeb( "http://" + websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString());
+            // CosmeticBundleStruct cosmeticBundle = await GetCosmeticFromWeb(youBaseData.hatCosmetic);
+
+            you.SetData(youBaseData);
+            yous.Add(you);
+            // you.SetData(youBaseData, cosmeticBundle);
         }
 
     }
 
-    void YouRetrieveUpdate(){
-        for (int i = 0; i < youDataRequests.Length; i++)
-        {
-            
-            if(youDataRequests[i].isDone){
+    public async Task<CosmeticBundleStruct> GetCosmeticFromWeb(int itemId){
+        CosmeticBundleStruct cosmeticBundle;
+        
+        cosmeticBundle.front = await GetTextureFromWeb( websiteName +"/items/" + itemId.ToString() + "_front.png");
+        cosmeticBundle.side = await GetTextureFromWeb( websiteName +"/items/" + itemId.ToString() + "_side.png");
+        cosmeticBundle.back = await GetTextureFromWeb( websiteName +"/items/" + itemId.ToString() + "_back.png");
+        
+        return cosmeticBundle;
+    }
 
-                string returnedString = studentNumbersRequest.result.ToString();
-                You you = Instantiate(youPrefab, transform).GetComponent<You>();
-                
-                // Set you variables with returned request here
-                
-                
-                // foreach (char character in studentNumbersString){
-                
-                // }
+    public async Task<Texture> GetTextureFromWeb(string url){
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture( websiteName +"/items/" + "[ItemCode]".ToString() + "");
+        await www.SendWebRequest();
 
-                finishedYouRetrievalProcess[i] = true;
-            };
-                
-
-            // Go to next state here.
+        if (www.result != UnityWebRequest.Result.Success) {
+            return null;
+        }
+        else {
+            return DownloadHandlerTexture.GetContent(www);
         }
     }
     void FinishRetrieval(){
@@ -115,16 +143,17 @@ public class GameManager : MonoBehaviour
     }
 
     void Update(){
-        switch (dataState)
-        {
-            case DataRetrieveState.GETTING_STUDENT_NUMBERS:
-                StudentNumberRetrieveUpdate();
-                break;
+
+        // switch (dataState)
+        // {
+            // case DataRetrieveState.GETTING_STUDENT_NUMBERS:
+            //     InitiateStudentNumberRetrieval();
+            //     break;
                 
-            case DataRetrieveState.GETTING_YOU_DATA:
-                StudentNumberRetrieveUpdate();
-                break;
-        }
+            // case DataRetrieveState.GETTING_YOU_DATA:
+            //     InitiateStudentNumberRetrieval();
+            //     break;
+        // }
     }
 
 

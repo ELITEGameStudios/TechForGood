@@ -3,7 +3,7 @@ using TMPro;
 
 public class MainUIManager : MonoBehaviour
 {
-    public TMP_Text nameText, hoursText;
+    public TMP_Text nameText, hoursText, yearText, descriptionText;
     public UIState state;
     public static MainUIManager instance {get; private set;}
 
@@ -21,6 +21,8 @@ public class MainUIManager : MonoBehaviour
     public void InspectYou(You you){
         state = UIState.INSPECTING;
         nameText.text = you.name;
-        hoursText.text = ((int)you.hoursPlayed).ToString();
+        yearText.text = "Year " + you.year;
+        hoursText.text = ((int)you.hoursPlayed).ToString() + " Hours";
+        descriptionText.text = you.bio;
     }
 }
