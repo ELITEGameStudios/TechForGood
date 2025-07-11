@@ -678,12 +678,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe43c1a5f48f5154da634f781a0e004f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraDirectionInverted: {x: 0, y: 0, z: 0}
   defaultPos: {x: 0, y: 0, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   lastPos: {x: 0, y: 0, z: 0}
   time: 0
   currentTimer: 0
+  targetZoom: 0
+  lastZoom: 0
+  defaultZoom: 0
   defaultCurve:
     serializedVersion: 2
     m_Curve:
@@ -3379,6 +3381,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   studentNumber: 100982633
   name: Noah Simmons
+  year: 0
+  nameTag: 
+  bio: 
   secondsPlayed: 0
 --- !u!65 &1880611044
 BoxCollider:
@@ -3494,6 +3499,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: -7918335002988649766, guid: 79b7b69f0dda2894b8e6f03180516747,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d592107a270c31146a6282594276200f, type: 2}
     - target: {fileID: -7640558969779515294, guid: 79b7b69f0dda2894b8e6f03180516747,
         type: 3}
       propertyPath: m_StaticEditorFlags
