@@ -1,0 +1,32 @@
+@model GiveItemModel
+
+@{
+	ViewData["Title"] = "Unlock Item";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Admin Page</h1>
+	<h2>Give Item</h2>
+	<form method="post">
+		<label asp-for="StudentId">Student Id</label><br>
+		<input type="text" asp-for="StudentId" /><br><br>
+
+		<label asp-for="ItemName">Item Name</label><br>
+		<input list="nameSuggestions" name="ItemName" id="ItemName" asp-for="ItemName" />
+		<datalist id="nameSuggestions">
+			@foreach (var name in Model.AllItems)
+			{
+				<option value="@name"></option>
+			}
+		</datalist>
+
+		<input type="submit" />
+	</form>
+
+	<p>@ViewData["itemMessage"]</p>
+
+	<br><br><br>
+	<a asp-action="Index">Back</a>
+</div>

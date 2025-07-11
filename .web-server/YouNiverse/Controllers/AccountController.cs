@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using YouNiverse.Models;
+using Microsoft.EntityFrameworkCore;
 using YouNiverse.Models.Youniverse;
 
 namespace YouNiverse.Controllers;
@@ -37,7 +37,35 @@ public class AccountController : Controller
 	public async Task<IActionResult> DressRoom()
 	{
 		UserItem? user = await AuthenticateUser();
-		return View();
+		if (user == null) return View("Signin");
+
+		List<UnlockEntry> unlocks = await _context.Unlocks
+			.Include(u => u.Item)
+			.Where(i => i.UserId == user.Id)
+			.ToListAsync();
+
+		int nCategories = Enum.GetValues(typeof(EItemSlot)).Length;
+
+		DressRoomViewModel model = new()
+		{
+			Categories = new DressRoomViewModel.CategoryData[nCategories]
+		};
+
+		for (int i = 0; i < nCategories; ++i)
+		{
+			var slot = (EItemSlot)i;
+
+			CosmeticItem[] catItems = [.. unlocks
+				.Where(u => u.Item.ItemSlot == slot)
+				.Select(u => u.Item)];
+
+			model.Categories[i] = new DressRoomViewModel.CategoryData
+			{
+				UnlockedItems = catItems
+			};
+		}
+
+		return View(model);
 	}
 
 	public IActionResult Signin()
@@ -121,8 +149,9 @@ public class AccountController : Controller
 		UserItem newUser = new()
 		{
 			Id = model.StudentId,
-			FirstName = model.FirstName,
-			LastName = model.LastName
+			FirstName = model.FirstName!,
+			LastName = model.LastName!,
+			EquippedItems = "",
 		};
 		await _context.UserItems.AddAsync(newUser);
 		await _context.SaveChangesAsync();

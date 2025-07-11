@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using YouNiverse.Models.LabSignin;
 
 namespace YouNiverse.Models.LabSignin;
 

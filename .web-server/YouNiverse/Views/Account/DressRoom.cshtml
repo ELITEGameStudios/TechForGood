@@ -24,7 +24,11 @@
 				<label for="@slot.ToString()">@EnumHelpers.GetDisplayName(@slot)</label>
 
 				<div class="content">
-					stuff
+					@foreach (var unlockedItem in Model.Categories[(int)slot].UnlockedItems)
+					{
+						<input type="radio" name="@slot.ToString()-items" class="item-button">
+						<img src="/items/@(unlockedItem.Id + "_side.png")">
+					}
 				</div>
 			</div>
 		}
@@ -92,5 +96,24 @@
 
 	.parent {
 		display: flex;
+	}
+
+	.item-button[type="radio"] {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.item-button[type="radio"]+img {
+		cursor: pointer;
+		border: 2px solid transparent;
+		transition: border 0.3s ease;
+	}
+
+	.item-button[type="radio"]:checked+img {
+		border: 2px solid #0078D7;
+		/* Highlight selected image */
+		border-radius: 8px;
 	}
 </style>
