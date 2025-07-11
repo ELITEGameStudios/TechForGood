@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public List<You> yous;
     public GameObject youPrefab;
     public string websiteName;
+    public bool local;
 
 
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public async void InitiateStudentNumberRetrieval(){
 
-        var url = websiteName +"/UserApi/LabList/GetLabUsers";
+        var url = websiteName +"/UserApi/GetLabUsers";
         Debug.Log("Getting infor?");
 
         var http_client = new HttpClient(new JSONSerializationOption());
@@ -54,16 +55,17 @@ public class GameManager : MonoBehaviour
         if (studentNumbers.Length > newStudentNumbers.Length){
             studentNumbers = newStudentNumbers;
             Debug.Log("Deleting you.");
-            DeleteYouProcess();
+            if (!local) DeleteYouProcess();
         }
         else if (studentNumbers.Length < newStudentNumbers.Length){
             studentNumbers = newStudentNumbers;
-            InitiateYouDataRetrieval();        
+            if (!local) InitiateYouDataRetrieval();
             Debug.Log("Adding yous");
         }
     }
 
     void DeleteYouProcess(){
+
         for (int i = yous.Count-1; i >= 0 ; i--)
         {
             foreach (string id in studentNumbers)
@@ -107,6 +109,33 @@ public class GameManager : MonoBehaviour
             yous.Add(you);
             // you.SetData(youBaseData, cosmeticBundle);
         }
+
+    }
+
+    void AddLocalYou(){
+        // dataState = DataRetrieveState.GETTING_YOU_DATA;
+        
+
+        // for (int i = 0; i < studentNumbers.Length; i++)
+        // {
+            // bool exists = false;
+            // foreach (You oldYou in yous)
+            // {
+            //     if(oldYou.studentNumber == studentNumbers[i]){
+            //         exists = true;
+            //     }
+            // }
+            // if(exists) continue;
+
+
+            You you = Instantiate(youPrefab, transform).GetComponent<You>();
+            yous.Add(you);
+            
+
+            // Texture profileImage = await GetTextureFromWeb( "http://" + websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString());
+            // CosmeticBundleStruct cosmeticBundle = await GetCosmeticFromWeb(youBaseData.hatCosmetic);
+            // you.SetData(youBaseData, cosmeticBundle);
+        // }
 
     }
 
