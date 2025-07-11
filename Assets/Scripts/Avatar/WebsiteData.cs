@@ -8,19 +8,17 @@ public class WebsiteData : MonoBehaviour
 {
     [ContextMenu("Test Get")]
     public async void TestGet(){
+
+
         var url = "https://jsonplaceholder.typicode.com/todos/1";
-
         var http_client = new HttpClient(new JSONSerializationOption());
-
         var result = await http_client.Get<User>(url);
 
         Debug.Log(result.UserId);
         Debug.Log(result.Title);
 
         // using var www = UnityWebRequest.Get(url);
-
         // www.SetRequestHeader("Content-Type", "application/json");
-
         // var operation = www.SendWebRequest();
 
         // while(!operation.isDone){

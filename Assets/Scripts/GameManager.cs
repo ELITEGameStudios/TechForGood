@@ -64,17 +64,24 @@ public class GameManager : MonoBehaviour
         
     }
 
-    void InitiateYouDataRetrieval(){
+    async void InitiateYouDataRetrieval(){
         dataState = DataRetrieveState.GETTING_YOU_DATA;
 
         youDataRequests = new UnityWebRequest[studentNumbers.Count]; // Might need to be a jagged array if we need multiple requests per YOU.
         finishedYouRetrievalProcess = new bool[youDataRequests.Length];
         for (int i = 0; i < youDataRequests.Length; i++)
         {
-            youDataRequests[i] = UnityWebRequest.Get(""+studentNumbers[i]);
+            var url = "https://jsonplaceholder.typicode.com/todos/1/ " + studentNumbers[i];
+            var http_client = new HttpClient(new JSONSerializationOption());
+            var result = await http_client.Get<You>(url);
+
+            if (result != null){
+                
+            }
+
+            // youDataRequests[i] = UnityWebRequest.Get(""+studentNumbers[i]);
         }
 
-        
     }
 
     void YouRetrieveUpdate(){
