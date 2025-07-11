@@ -39,94 +39,110 @@
 			margin-top: 50px;
 		}
 	</style>
-
-	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-	<a href="home.html">
-		<h1>YOUniverse</h1>
-	</a>
+	<header>
+		<a href="home.html">YOUniverse</a>
+		<a href="SignOut" class="text-right">Sign Out</a>
+	</header>
 	<h2>Dress Room</h2>
 
-	<div id="panel-parent">
-		<div id="panel-left">
-			<button onclick="activate('char-body-legs')">Body and Legs</button>
-			<button onclick="activate('char-head')">Head</button>
-			<button onclick="activate('char-hair')">Hair</button>
-			<button onclick="activate('char-accessories')">Accessories</button>
+	<div class="parent">
+		<div class="tabs">
 
-			<br>
+			<div class="tab">
+				<input type="radio" id="tab-1" name="tab-group-1" checked>
+				<label for="tab-1">Tab One</label>
 
-			<div id="char-body-legs" class="char-options-hidden">
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
+				<div class="content">
+					stuff
+				</div>
 			</div>
 
-			<div id="char-head" class="char-options-hidden">
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
+			<div class="tab">
+				<input type="radio" id="tab-2" name="tab-group-1">
+				<label for="tab-2">Tab Two</label>
+
+				<div class="content">
+					stuff2
+				</div>
 			</div>
 
-			<div id="char-hair" class="char-options-hidden">
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
+			<div class="tab">
+				<input type="radio" id="tab-3" name="tab-group-1">
+				<label for="tab-3">Tab Three</label>
+
+				<div class="content">
+					stuff
+				</div>
 			</div>
 
-			<div id="char-accessories" class="char-options-hidden">
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-				<button class="char-button"> <img src="hair.png" width="64px"> </button>
-			</div>
 		</div>
 
-		<div id="panel-right">
-			<img src="guy.gif" width="128px">
-			<br>
-			<button id="char-submit" onclick="charSubmit()">Done</button>
+		<div class="character">
+
 		</div>
 	</div>
 
-	<script>
-		var currentElem;
-
-		function activate(activeId) {
-			if (currentElem) {
-				currentElem.classList.remove("char-options");
-				currentElem.classList.add("char-options-hidden");
-			}
-
-			const newElem = document.getElementById(activeId);
-
-			newElem.classList.remove("char-options-hidden");
-			newElem.classList.add("char-options");
-
-			currentElem = newElem;
+	<style>
+		.text-right {
+			text-align: right;
+			float: right;
 		}
 
-		function charSubmit() {
-			window.location.href = "home.html";
+		.tabs {
+			position: relative;
+			min-height: 200px;
+			/* This part sucks */
+			clear: both;
+			margin: 25px 0;
+
+			width: 600px;
 		}
 
-		activate("char-body-legs");
-	</script>
+		.tab {
+			float: left;
+		}
+
+		.tab label {
+			background: #eee;
+			padding: 10px;
+			border: 1px solid #ccc;
+			margin-left: -1px;
+			position: relative;
+			left: 1px;
+		}
+
+		.tab [type=radio] {
+			display: none;
+		}
+
+		.content {
+			position: absolute;
+			top: 28px;
+			left: 0;
+			background: white;
+			right: 0;
+			bottom: 0;
+			padding: 20px;
+			border: 1px solid #ccc;
+		}
+
+		[type=radio]:checked~label {
+			background: white;
+			border-bottom: 1px solid white;
+			z-index: 2;
+		}
+
+		[type=radio]:checked~label~.content {
+			z-index: 1;
+		}
+
+		.parent {
+			display: flex;
+		}
+	</style>
 </body>
 
 </html>
