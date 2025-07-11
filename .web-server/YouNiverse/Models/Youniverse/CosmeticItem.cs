@@ -5,16 +5,18 @@ namespace YouNiverse.Models.Youniverse;
 
 public enum EItemSlot
 {
-	[Display(Name = "Hats")]
-	Hat,
-	[Display(Name = "Pets")]
-	Pet,
-	[Display(Name = "Shoes")]
-	Shoes,
-	[Display(Name = "Shirts")]
+	[Display(Name = "Head")]
+	Head,
+	[Display(Name = "Face")]
+	Face,
+	[Display(Name = "Shirt")]
 	Shirt,
 	[Display(Name = "Pants")]
 	Pants,
+	[Display(Name = "Shoes")]
+	Shoes,
+	[Display(Name = "Pets")]
+	Pets,
 }
 
 public static class EnumHelpers

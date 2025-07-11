@@ -29,23 +29,17 @@ public class UserApiController : Controller
 
 			if (user != null)
 			{
-				Dictionary<string, int> userItems = [];
-				foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
-				{
-					userItems.Add(Enum.GetName(slot)!, 0);
-				}
-
 				request = new()
 				{
-					result = "success",
-					equippedItems = userItems,
+					Result = "success",
+					Loadout = user.Loadout
 				};
 			}
 			else
 			{
 				request = new()
 				{
-					result = "no-user",
+					Result = "no-user",
 				};
 			}
 		}
@@ -53,7 +47,7 @@ public class UserApiController : Controller
 		{
 			request = new()
 			{
-				result = "bad-id",
+				Result = "bad-id",
 			};
 		}
 
@@ -85,7 +79,7 @@ public class UserApiController : Controller
 
 	struct AvatarRequest
 	{
-		public string result;
-		public Dictionary<string, int> equippedItems;
+		public string Result { get; set; }
+		public ItemLoadout Loadout { get; set; }
 	}
 }

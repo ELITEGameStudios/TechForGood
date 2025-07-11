@@ -10,5 +10,15 @@ public class UserItem
 
 	public ICollection<UnlockEntry> Unlocks { get; set; } = [];
 
-	public string EquippedItems { get; set; } = "";
+	public ItemLoadout Loadout { get; set; } = new ItemLoadout();
+}
+
+public class ItemLoadout
+{
+	public int HeadItemId { get; set; } = -1;
+	public int FaceItemId { get; set; } = -1;
+	public int ShirtItemId { get; set; } = -1;
+	public int PantsItemId { get; set; } = -1;
+	public int ShoesItemId { get; set; } = -1;
+	public int PetItemId { get; set; } = -1;
 }

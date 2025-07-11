@@ -151,7 +151,7 @@ public class AccountController : Controller
 			Id = model.StudentId,
 			FirstName = model.FirstName!,
 			LastName = model.LastName!,
-			EquippedItems = "",
+			Loadout = new ItemLoadout(),
 		};
 		await _context.UserItems.AddAsync(newUser);
 		await _context.SaveChangesAsync();
