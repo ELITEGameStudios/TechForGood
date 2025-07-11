@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 15689325}
   - component: {fileID: 15689324}
   - component: {fileID: 15689323}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,8 +239,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 15689322}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -251,7 +251,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &15689324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,11 +267,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &15689325
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -285,11 +285,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -752,7 +752,7 @@ GameObject:
   - component: {fileID: 102286466}
   - component: {fileID: 102286465}
   - component: {fileID: 102286464}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,8 +768,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 102286463}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -780,7 +780,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &102286465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,11 +796,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &102286466
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -814,11 +814,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 104225965}
   - component: {fileID: 104225964}
   - component: {fileID: 104225963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -922,8 +922,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 104225962}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -934,7 +934,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &104225964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,11 +950,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &104225965
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -968,11 +968,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -1860,7 +1860,7 @@ GameObject:
   - component: {fileID: 242437644}
   - component: {fileID: 242437643}
   - component: {fileID: 242437642}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1876,8 +1876,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 242437641}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1888,7 +1888,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &242437643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1904,11 +1904,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &242437644
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1922,11 +1922,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -2015,7 +2015,7 @@ GameObject:
   - component: {fileID: 273133674}
   - component: {fileID: 273133673}
   - component: {fileID: 273133672}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2031,8 +2031,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 273133671}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -2043,7 +2043,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &273133673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,11 +2059,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &273133674
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2077,11 +2077,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -6797,7 +6797,7 @@ GameObject:
   - component: {fileID: 1012916923}
   - component: {fileID: 1012916922}
   - component: {fileID: 1012916921}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6813,8 +6813,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1012916920}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -6825,7 +6825,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1012916922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6841,11 +6841,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1012916923
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6859,11 +6859,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -6948,7 +6948,7 @@ GameObject:
   - component: {fileID: 1019028750}
   - component: {fileID: 1019028749}
   - component: {fileID: 1019028748}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7979,7 +7979,7 @@ GameObject:
   - component: {fileID: 1139150576}
   - component: {fileID: 1139150575}
   - component: {fileID: 1139150574}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7995,8 +7995,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1139150573}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -8007,7 +8007,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1139150575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8023,11 +8023,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1139150576
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8041,11 +8041,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -8317,7 +8317,7 @@ GameObject:
   - component: {fileID: 1165074446}
   - component: {fileID: 1165074445}
   - component: {fileID: 1165074444}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8333,8 +8333,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1165074443}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -8345,7 +8345,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1165074445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8361,11 +8361,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1165074446
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8379,11 +8379,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -9582,7 +9582,7 @@ GameObject:
   - component: {fileID: 1342006839}
   - component: {fileID: 1342006838}
   - component: {fileID: 1342006837}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9598,8 +9598,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1342006836}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -9610,7 +9610,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1342006838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9626,11 +9626,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1342006839
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9644,11 +9644,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -10128,7 +10128,7 @@ GameObject:
   - component: {fileID: 1430272024}
   - component: {fileID: 1430272029}
   - component: {fileID: 1430272028}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10148,11 +10148,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -10235,8 +10235,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1430272023}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -10247,7 +10247,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1430272029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10263,11 +10263,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!1 &1430496808
 GameObject:
   m_ObjectHideFlags: 0
@@ -10487,7 +10487,7 @@ GameObject:
   - component: {fileID: 1481436055}
   - component: {fileID: 1481436054}
   - component: {fileID: 1481436053}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10503,8 +10503,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1481436052}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -10515,7 +10515,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1481436054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10531,11 +10531,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1481436055
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10549,11 +10549,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -10930,7 +10930,7 @@ GameObject:
   - component: {fileID: 1531119874}
   - component: {fileID: 1531119873}
   - component: {fileID: 1531119872}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10946,8 +10946,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1531119871}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -10958,7 +10958,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1531119873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10974,11 +10974,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1531119874
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10992,11 +10992,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -11404,7 +11404,7 @@ GameObject:
   - component: {fileID: 1684823984}
   - component: {fileID: 1684823983}
   - component: {fileID: 1684823982}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11420,8 +11420,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1684823981}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -11432,7 +11432,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1684823983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11448,11 +11448,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1684823984
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11466,11 +11466,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -14660,7 +14660,7 @@ GameObject:
   - component: {fileID: 1965406690}
   - component: {fileID: 1965406689}
   - component: {fileID: 1965406688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14676,8 +14676,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1965406687}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -14688,7 +14688,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1965406689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14704,11 +14704,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &1965406690
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14722,11 +14722,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -15417,7 +15417,7 @@ GameObject:
   - component: {fileID: 2013007075}
   - component: {fileID: 2013007074}
   - component: {fileID: 2013007073}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15433,8 +15433,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 2013007072}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -15445,7 +15445,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &2013007074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15461,11 +15461,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &2013007075
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15479,11 +15479,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -15981,7 +15981,7 @@ GameObject:
   - component: {fileID: 2069856192}
   - component: {fileID: 2069856191}
   - component: {fileID: 2069856190}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15997,8 +15997,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 2069856189}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -16009,7 +16009,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &2069856191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16025,11 +16025,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &2069856192
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16043,11 +16043,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -16243,7 +16243,7 @@ GameObject:
   - component: {fileID: 2091182706}
   - component: {fileID: 2091182705}
   - component: {fileID: 2091182704}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16259,8 +16259,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 2091182703}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -16271,7 +16271,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &2091182705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16287,11 +16287,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &2091182706
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16305,11 +16305,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -16397,7 +16397,7 @@ GameObject:
   - component: {fileID: 2106701363}
   - component: {fileID: 2106701362}
   - component: {fileID: 2106701361}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16413,8 +16413,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 2106701360}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -16425,7 +16425,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &2106701362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16441,11 +16441,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &2106701363
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16459,11 +16459,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -16676,7 +16676,7 @@ GameObject:
   - component: {fileID: 2126665802}
   - component: {fileID: 2126665801}
   - component: {fileID: 2126665800}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16692,8 +16692,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 2126665799}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.1
+  m_Speed: 20
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -16704,7 +16704,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &2126665801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16720,11 +16720,11 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
-  range: 10
+  range: 50
   min_roam_time: 5
   max_roam_time: 15
   min_stand_time: 5
-  max_stand_time: 15
+  max_stand_time: 100
 --- !u!136 &2126665802
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16738,11 +16738,11 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
