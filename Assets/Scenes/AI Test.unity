@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 80560073}
   - component: {fileID: 80560072}
   - component: {fileID: 80560071}
-  - component: {fileID: 80560070}
+  - component: {fileID: 80560076}
   m_Layer: 6
   m_Name: TestAvatar
   m_TagString: Untagged
@@ -237,25 +237,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &80560070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80560069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 188ee18eb4d9f4dd396ed69d5ce2dead, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ground_layer:
-    serializedVersion: 2
-    m_Bits: 64
-  player_layer:
-    serializedVersion: 2
-    m_Bits: 0
-  range: 50
 --- !u!195 &80560071
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -363,12 +344,32 @@ Transform:
   m_GameObject: {fileID: 80560069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.293283, y: -8.457903, z: -19.075424}
+  m_LocalPosition: {x: 4.244, y: -8.354, z: -19.907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &80560076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80560069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89abcefbae5d2494e8a6035d76531d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ground_layer:
+    serializedVersion: 2
+    m_Bits: 128
+  range: 0
+  min_roam_time: 5
+  max_roam_time: 15
+  min_stand_time: 5
+  max_stand_time: 15
 --- !u!1 &209649914
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +520,7 @@ GameObject:
   - component: {fileID: 583001827}
   - component: {fileID: 583001826}
   - component: {fileID: 583001825}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
