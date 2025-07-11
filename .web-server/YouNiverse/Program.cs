@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using YouNiverse.Models;
+using YouNiverse.Models.LabSignin;
 
 var builder = WebApplication.CreateBuilder(args);
 
