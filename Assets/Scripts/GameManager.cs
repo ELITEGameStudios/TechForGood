@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using static You;
@@ -18,11 +19,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string[] studentNumbers;
     public UnityWebRequest studentNumbersRequest;
 
-
-    [Header("For YOU Data Retrieval")]
-    [SerializeField] private UnityWebRequest[] youDataRequests;
-    [SerializeField] private bool[] finishedYouRetrievalProcess;
-
     public enum DataRetrieveState{
         IDLE,
         GETTING_STUDENT_NUMBERS,
@@ -35,6 +31,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         if(dataState != DataRetrieveState.IDLE){return;}
         dataState = DataRetrieveState.GETTING_STUDENT_NUMBERS;
         
@@ -48,6 +45,7 @@ public class GameManager : MonoBehaviour
     public async void InitiateStudentNumberRetrieval(){
 
         var url = websiteName +"/UserApi/LabList/GetLabUsers";
+        Debug.Log("Getting infor?");
 
         var http_client = new HttpClient(new JSONSerializationOption());
         string[] newStudentNumbers = await http_client.Get<string[]>(url);
@@ -82,9 +80,7 @@ public class GameManager : MonoBehaviour
 
     async void InitiateYouDataRetrieval(){
         dataState = DataRetrieveState.GETTING_YOU_DATA;
-
-        youDataRequests = new UnityWebRequest[studentNumbers.Length]; // Might need to be a jagged array if we need multiple requests per YOU.
-        finishedYouRetrievalProcess = new bool[youDataRequests.Length];
+        
 
         for (int i = 0; i < studentNumbers.Length; i++)
         {

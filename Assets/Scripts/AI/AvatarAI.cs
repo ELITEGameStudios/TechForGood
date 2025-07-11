@@ -31,7 +31,7 @@ public class AvatarAI : MonoBehaviour
     {
         Patrol();
         roam_timer += Time.deltaTime;
-        Debug.Log(roam_timer);
+        // Debug.Log(roam_timer);
     }
 
     void Patrol(){
