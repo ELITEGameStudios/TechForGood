@@ -1,4 +1,6 @@
-namespace YouNiverse.Models;
+using YouNiverse.Models.LabSignin;
+
+namespace YouNiverse.Models.LabSignin;
 
 public class TimeEntry
 {

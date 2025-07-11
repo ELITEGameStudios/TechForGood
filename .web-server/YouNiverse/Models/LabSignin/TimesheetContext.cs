@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using YouNiverse.Models.LabSignin;
 
-namespace YouNiverse.Models;
+namespace YouNiverse.Models.LabSignin;
 
 public class TimesheetContext : DbContext
 {

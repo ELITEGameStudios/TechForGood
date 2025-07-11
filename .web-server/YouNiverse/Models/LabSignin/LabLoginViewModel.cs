@@ -1,4 +1,4 @@
-namespace YouNiverse.Models;
+namespace YouNiverse.Models.LabSignin;
 
 public class LabLoginViewModel
 {
