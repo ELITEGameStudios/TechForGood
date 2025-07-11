@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YouNiverse.Models.LabSignin;
@@ -20,47 +19,34 @@ public class UserApiController : Controller
 
 	// todo: require sign in
 	[HttpGet]
-	public async Task<string> GetAvatar(string id)
+	public async Task<IActionResult> GetAvatar(string id)
 	{
 		AvatarRequest request;
-		if (int.TryParse(id, out int nId))
-		{
-			UserItem? user = await _context.UserItems.FindAsync(nId);
+		if (!int.TryParse(id, out int nId))
+			return StatusCode(StatusCodes.Status500InternalServerError, "Bad student id.");
 
-			if (user != null)
-			{
-				request = new()
-				{
-					Result = "success",
-					Loadout = user.Loadout
-				};
-			}
-			else
-			{
-				request = new()
-				{
-					Result = "no-user",
-				};
-			}
-		}
-		else
+		UserItem? user = await _context.UserItems.FindAsync(nId);
+
+		if (user == null)
+			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
+
+		request = new()
 		{
-			request = new()
-			{
-				Result = "bad-id",
-			};
-		}
+			Result = "success",
+			Loadout = user.Loadout
+		};
 
 		using var stream = new MemoryStream();
 		await JsonSerializer.SerializeAsync(stream, request);
 
 		stream.Position = 0;
 		using var reader = new StreamReader(stream);
-		return await reader.ReadToEndAsync();
+		return Content(await reader.ReadToEndAsync(), "application/json");
 	}
 
+	// todo: require sign in
 	[HttpGet]
-	public async Task<string> GetLabUsers()
+	public async Task<IActionResult> GetLabUsers()
 	{
 		TimeEntry[] entries_all = await _timeSheet.TimeEntries
 			.Where(e => e.ClockOut == null)
@@ -74,7 +60,7 @@ public class UserApiController : Controller
 		stream.Position = 0;
 		using var reader = new StreamReader(stream);
 
-		return await reader.ReadToEndAsync();
+		return Content(await reader.ReadToEndAsync(), "application/json");
 	}
 
 	struct AvatarRequest
