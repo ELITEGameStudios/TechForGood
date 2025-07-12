@@ -68,15 +68,19 @@ public class GameManager : MonoBehaviour
 
         for (int i = yous.Count-1; i >= 0 ; i--)
         {
+            bool retire = false;
             foreach (string id in studentNumbers)
             {
                 if(id == yous[i].studentNumber){
-                    continue;
+                    retire = true;
+                    break;
                 }
             }
-
-            yous[i].Retire();
-            yous.RemoveAt(i);
+            if(retire){
+                yous[i].Retire();
+                yous.RemoveAt(i);
+            }
+            
         }
     }
 
