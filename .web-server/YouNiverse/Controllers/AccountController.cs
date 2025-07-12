@@ -20,8 +20,8 @@ public class AccountController : Controller
 	[Authorize]
 	public async Task<IActionResult> Index()
 	{
-		UserItem? user = await AuthenticateUser();
-		if (user == null) return View("Signin");
+		int userId = int.Parse(User.Identity!.Name!);
+		UserItem user = (await _context.UserItems.FindAsync(userId))!;
 
 		AccountViewModel model = new()
 		{
@@ -36,8 +36,8 @@ public class AccountController : Controller
 	[Authorize]
 	public async Task<IActionResult> DressRoom()
 	{
-		UserItem? user = await AuthenticateUser();
-		if (user == null) return View("Signin");
+		int userId = int.Parse(User.Identity!.Name!);
+		UserItem user = (await _context.UserItems.FindAsync(userId))!;
 
 		List<UnlockEntry> unlocks = await _context.Unlocks
 			.Include(u => u.Item)
@@ -72,10 +72,11 @@ public class AccountController : Controller
 	}
 
 	[HttpPost]
+	[Authorize]
 	public async Task<IActionResult> DressRoom(DressRoomViewModel model)
 	{
-		UserItem? user = await AuthenticateUser();
-		if (user == null) return View("Signin");
+		int userId = int.Parse(User.Identity!.Name!);
+		UserItem user = (await _context.UserItems.FindAsync(userId))!;
 
 		int nCategories = Enum.GetValues(typeof(EItemSlot)).Length;
 
@@ -102,6 +103,36 @@ public class AccountController : Controller
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction("DressRoom");
+	}
+
+	[Authorize]
+	public async Task<IActionResult> Profile()
+	{
+		int userId = int.Parse(User.Identity!.Name!);
+		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+
+		ProfileViewModel model = new()
+		{
+			Catchphrase = user.Catchphrase,
+			Role = user.Role,
+		};
+
+		return View(model);
+	}
+
+	[Authorize]
+	[HttpPost]
+	public async Task<IActionResult> Profile(ProfileViewModel model)
+	{
+		int userId = int.Parse(User.Identity!.Name!);
+		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+
+		user.Catchphrase = model.Catchphrase;
+		user.Role = model.Role;
+
+		await _context.SaveChangesAsync();
+
+		return View(model);
 	}
 
 	public IActionResult Signin()
@@ -137,8 +168,7 @@ public class AccountController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Signout()
 	{
-		await SignOutAsync();
-
+		await HttpContext.SignOutAsync();
 		return RedirectToAction("Index");
 	}
 
@@ -199,6 +229,8 @@ public class AccountController : Controller
 
 	async Task SignInAsync(int studentId)
 	{
+		// todo:  verify password here!
+
 		var claims = new List<Claim>
 		{
 			new(ClaimTypes.Name, studentId.ToString()),
@@ -208,6 +240,7 @@ public class AccountController : Controller
 		var claimsIdentity = new ClaimsIdentity(
 			claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+		// todo: look at
 		var authProperties = new AuthenticationProperties
 		{
 			//AllowRefresh = <bool>,
@@ -235,34 +268,5 @@ public class AccountController : Controller
 		await HttpContext.SignInAsync(
 			new ClaimsPrincipal(claimsIdentity),
 			authProperties);
-	}
-
-	async Task SignOutAsync()
-	{
-		await HttpContext.SignOutAsync();
-	}
-
-	async Task<UserItem?> AuthenticateUser()
-	{
-		AuthenticateResult auth = await HttpContext.AuthenticateAsync();
-
-		if (auth == null || auth.Principal == null)
-		{
-			return null;
-		}
-
-		var claim = auth.Principal.Claims.First(e => e.Type == ClaimTypes.Name);
-		int studentId = int.Parse(claim.Value);
-
-		UserItem? user = await _context.UserItems.FindAsync(studentId);
-		if (user == null)
-		{
-			Console.WriteLine($"Error: Authenticated user {studentId} but the aren't in the database!?");
-			ViewData["loginError"] = "Your account isn't in the database! Get help!";
-			await HttpContext.SignOutAsync();
-			return null;
-		}
-
-		return user;
 	}
 }

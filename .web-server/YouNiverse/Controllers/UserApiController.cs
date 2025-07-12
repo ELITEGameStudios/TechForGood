@@ -21,7 +21,6 @@ public class UserApiController : Controller
 	[HttpGet]
 	public async Task<IActionResult> GetAvatar(string id)
 	{
-		AvatarRequest request;
 		if (!int.TryParse(id, out int nId))
 			return StatusCode(StatusCodes.Status500InternalServerError, "Bad student id.");
 
@@ -30,9 +29,8 @@ public class UserApiController : Controller
 		if (user == null)
 			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
 
-		request = new()
+		AvatarRequest request = new()
 		{
-			Result = "success",
 			Loadout = user.Loadout
 		};
 
@@ -63,9 +61,44 @@ public class UserApiController : Controller
 		return Content(await reader.ReadToEndAsync(), "application/json");
 	}
 
+	// todo: require sign in
+	[HttpGet]
+	public async Task<IActionResult> GetProfile(string id)
+	{
+		if (!int.TryParse(id, out int nId))
+			return StatusCode(StatusCodes.Status500InternalServerError, "Bad student id.");
+
+		UserItem? user = await _context.UserItems.FindAsync(nId);
+		if (user == null)
+			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
+
+		BioRequest request = new()
+		{
+			FirstName = user.FirstName,
+			LastName = user.LastName,
+			Catchphrase = user.Catchphrase,
+			Role = user.Role,
+		};
+
+		using MemoryStream stream = new();
+		await JsonSerializer.SerializeAsync(stream, request);
+
+		stream.Position = 0;
+		using var reader = new StreamReader(stream);
+
+		return Content(await reader.ReadToEndAsync(), "application/json");
+	}
+
 	struct AvatarRequest
 	{
-		public string Result { get; set; }
 		public ItemLoadout Loadout { get; set; }
+	}
+
+	struct BioRequest
+	{
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string? Catchphrase { get; set; }
+		public EGameRole Role { get; set; }
 	}
 }

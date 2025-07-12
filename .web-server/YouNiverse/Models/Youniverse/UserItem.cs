@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace YouNiverse.Models.Youniverse;
 
 public class UserItem
@@ -11,6 +13,25 @@ public class UserItem
 	public ICollection<UnlockEntry> Unlocks { get; set; } = [];
 
 	public ItemLoadout Loadout { get; set; } = new ItemLoadout();
+
+	public string? Catchphrase { get; set; }
+	public EGameRole Role { get; set; } = EGameRole.Other;
+}
+
+public enum EGameRole
+{
+	[Display(Name = "Programmer")]
+	Programmer,
+	[Display(Name = "2D Artist")]
+	Artist2D,
+	[Display(Name = "3D Artist")]
+	Artist3D,
+	[Display(Name = "Designer")]
+	Designer,
+	[Display(Name = "Sound Designer")]
+	SoundDesigner,
+	[Display(Name = "Other")]
+	Other,
 }
 
 public class ItemLoadout

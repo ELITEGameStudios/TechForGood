@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using YouNiverse.Models.Youniverse;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace YouNiverse.Controllers;
