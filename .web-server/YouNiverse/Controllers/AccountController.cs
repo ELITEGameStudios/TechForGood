@@ -48,7 +48,8 @@ public class AccountController : Controller
 
 		DressRoomViewModel model = new()
 		{
-			Categories = new DressRoomViewModel.CategoryData[nCategories]
+			UnlockedCategories = new DressRoomViewModel.CategoryData[nCategories],
+			SelectedItems = new int[nCategories],
 		};
 
 		for (int i = 0; i < nCategories; ++i)
@@ -59,13 +60,48 @@ public class AccountController : Controller
 				.Where(u => u.Item.ItemSlot == slot)
 				.Select(u => u.Item)];
 
-			model.Categories[i] = new DressRoomViewModel.CategoryData
+			model.UnlockedCategories[i] = new DressRoomViewModel.CategoryData
 			{
-				UnlockedItems = catItems
+				UnlockedItems = catItems,
 			};
+
+			model.SelectedItems[i] = user.Loadout.FromSlotIndex(i);
 		}
 
 		return View(model);
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> DressRoom(DressRoomViewModel model)
+	{
+		UserItem? user = await AuthenticateUser();
+		if (user == null) return View("Signin");
+
+		int nCategories = Enum.GetValues(typeof(EItemSlot)).Length;
+
+		for (int i = 0; i < nCategories; ++i)
+		{
+			if (i >= model.SelectedItems.Length)
+			{
+				Console.WriteLine("ERROR: Trying to set more categories than sent in request.");
+				break;
+			}
+
+			int item = model.SelectedItems[i];
+			bool ownsItem = _context.UserItems
+				.Include(u => u.Unlocks)
+				.Where(u => u.Unlocks.Any(u => u.ItemId == item))
+				.Any();
+
+			if (ownsItem)
+			{
+				user.Loadout.SetWithSlotIndex(item, (EItemSlot)i);
+			}
+		}
+
+		await _context.SaveChangesAsync();
+
+		return RedirectToAction("DressRoom");
 	}
 
 	public IActionResult Signin()

@@ -2,7 +2,8 @@ namespace YouNiverse.Models.Youniverse;
 
 public class DressRoomViewModel
 {
-	public CategoryData[] Categories { get; set; } = [];
+	public CategoryData[] UnlockedCategories { get; set; } = [];
+	public int[] SelectedItems { get; set; } = [];
 
 	public struct CategoryData
 	{

@@ -14,7 +14,7 @@
 		<input type="text" asp-for="StudentId" /><br><br>
 
 		<label asp-for="ItemName">Item Name</label><br>
-		<input list="nameSuggestions" name="ItemName" id="ItemName" asp-for="ItemName" />
+		<input list="nameSuggestions" asp-for="ItemName" />
 		<datalist id="nameSuggestions">
 			@foreach (var name in Model.AllItems)
 			{

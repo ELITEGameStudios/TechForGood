@@ -39,6 +39,7 @@ public class AdminController : Controller
 		CosmeticItem item = new()
 		{
 			Name = model.ItemName,
+			ItemSlot = model.ItemSlot
 		};
 		await _context.Cosmetics.AddAsync(item);
 		await _context.SaveChangesAsync();
@@ -47,7 +48,7 @@ public class AdminController : Controller
 		{
 			// Front image
 			string frontPath = $"wwwroot/items/{item.Id}_front.png";
-			using (var fs = new FileStream(frontPath, FileMode.CreateNew))
+			using (var fs = new FileStream(frontPath, FileMode.Create))
 			{
 				using var rs = model.FrontImage.OpenReadStream();
 				await rs.CopyToAsync(fs);
@@ -55,7 +56,7 @@ public class AdminController : Controller
 
 			// Side image
 			string sidePath = $"wwwroot/items/{item.Id}_side.png";
-			using (var fs = new FileStream(sidePath, FileMode.CreateNew))
+			using (var fs = new FileStream(sidePath, FileMode.Create))
 			{
 				using var rs = model.SideImage.OpenReadStream();
 				await rs.CopyToAsync(fs);
@@ -63,7 +64,7 @@ public class AdminController : Controller
 
 			// Back image
 			string backPath = $"wwwroot/items/{item.Id}_back.png";
-			using (var fs = new FileStream(backPath, FileMode.CreateNew))
+			using (var fs = new FileStream(backPath, FileMode.Create))
 			{
 				using var rs = model.BackImage.OpenReadStream();
 				await rs.CopyToAsync(fs);
@@ -71,8 +72,12 @@ public class AdminController : Controller
 		}
 		catch (Exception e)
 		{
-			_context.Cosmetics.Remove(item);
-			await _context.SaveChangesAsync();
+			CosmeticItem? found = await _context.Cosmetics.FindAsync(item.Id);
+			if (found != null)
+			{
+				_context.Cosmetics.Remove(found);
+				await _context.SaveChangesAsync();
+			}
 			ViewData["itemMessage"] = $"Failed to add item #{item.Id}. {e.Message}";
 			return View(model);
 		}

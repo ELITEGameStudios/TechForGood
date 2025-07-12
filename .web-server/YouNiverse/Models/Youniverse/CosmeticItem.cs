@@ -16,7 +16,7 @@ public enum EItemSlot
 	[Display(Name = "Shoes")]
 	Shoes,
 	[Display(Name = "Pets")]
-	Pets,
+	Pet,
 }
 
 public static class EnumHelpers

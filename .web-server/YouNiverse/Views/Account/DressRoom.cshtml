@@ -16,23 +16,44 @@
 
 <div class="parent">
 	<div class="tabs">
-
-		@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
-		{
-			<div class="tab">
-				<input type="radio" id="@slot.ToString()" name="item-tabs" checked>
-				<label for="@slot.ToString()">@EnumHelpers.GetDisplayName(@slot)</label>
-
-				<div class="content">
-					@foreach (var unlockedItem in Model.Categories[(int)slot].UnlockedItems)
+		<form method="post">
+			@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
+			{
+				<div class="tab">
+					@if ((int)slot == 0)
 					{
-						<input type="radio" name="@slot.ToString()-items" class="item-button">
-						<img src="/items/@(unlockedItem.Id + "_side.png")">
+						<input type="radio" id="@slot.ToString()" name="item-tabs" checked>
 					}
-				</div>
-			</div>
-		}
+					else
+					{
+						<input type="radio" id="@slot.ToString()" name="item-tabs">
+					}
+					<label class="tab-label" for="@slot.ToString()">@EnumHelpers.GetDisplayName(@slot)</label>
 
+					<div class="content">
+						@foreach (var unlockedItem in Model.UnlockedCategories[(int)slot].UnlockedItems)
+						{
+							<label>
+								@if (Model.SelectedItems.Length > (int)slot && Model.SelectedItems[(int)slot] ==
+														unlockedItem.Id)
+								{
+									<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
+										value="@unlockedItem.Id" checked>
+								}
+								else
+								{
+									<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
+										value="@unlockedItem.Id">
+								}
+								<img src="/items/@(unlockedItem.Id + "_side.png")">
+							</label>
+						}
+					</div>
+				</div>
+			}
+
+			<input type="submit">
+		</form>
 	</div>
 
 	<div class="character">
@@ -60,7 +81,7 @@
 		float: left;
 	}
 
-	.tab label {
+	.tab>label {
 		background: #eee;
 		padding: 10px;
 		border: 1px solid #ccc;
@@ -96,6 +117,9 @@
 
 	.parent {
 		display: flex;
+		flex-direction: row;
+		height: calc(100% - 150px);
+		position: absolute;
 	}
 
 	.item-button[type="radio"] {
@@ -109,11 +133,12 @@
 		cursor: pointer;
 		border: 2px solid transparent;
 		transition: border 0.3s ease;
+		border-radius: 8px;
+		width: 64px;
+		height: 64px;
 	}
 
 	.item-button[type="radio"]:checked+img {
 		border: 2px solid #0078D7;
-		/* Highlight selected image */
-		border-radius: 8px;
 	}
 </style>
