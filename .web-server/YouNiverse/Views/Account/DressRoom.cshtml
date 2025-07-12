@@ -48,6 +48,12 @@
 								<img src="/items/@(unlockedItem.Id + "_side.png")">
 							</label>
 						}
+
+						@if (Model.UnlockedCategories[(int)slot].UnlockedItems.Length == 0)
+						{
+							// Default item for slot with none
+							<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]" value="-1" checked>
+						}
 					</div>
 				</div>
 			}
