@@ -222,6 +222,19 @@ public class AccountController : Controller
 		await _context.UserItems.AddAsync(newUser);
 		await _context.SaveChangesAsync();
 
+		// Give default items
+		await _context.Cosmetics.Where(c => c.IsDefault).ForEachAsync(async c =>
+		{
+			UnlockEntry unlock = new()
+			{
+				UserId = newUser.Id,
+				ItemId = c.Id,
+				UnlockDate = DateTime.Now
+			};
+			await _context.Unlocks.AddAsync(unlock);
+		});
+		await _context.SaveChangesAsync();
+
 		await SignInAsync(model.StudentId);
 
 		return RedirectToAction("Index");

@@ -37,7 +37,9 @@ public class AdminController : Controller
 		CosmeticItem item = new()
 		{
 			Name = model.ItemName,
-			ItemSlot = model.ItemSlot
+			ItemSlot = model.ItemSlot,
+			IsDefault = model.IsDefault,
+			AddDate = DateTime.Now,
 		};
 		await _context.Cosmetics.AddAsync(item);
 		await _context.SaveChangesAsync();
@@ -79,6 +81,22 @@ public class AdminController : Controller
 			ViewData["itemMessage"] = $"Failed to add item #{item.Id}. {e.Message}";
 			return View(model);
 		}
+
+		// Unlock for all users
+		if (model.IsDefault)
+		{
+			await _context.UserItems.ForEachAsync(async u =>
+			{
+				UnlockEntry unlock = new()
+				{
+					UserId = u.Id,
+					ItemId = item.Id,
+					UnlockDate = DateTime.Now
+				};
+				await _context.Unlocks.AddAsync(unlock);
+			});
+		}
+		await _context.SaveChangesAsync();
 
 		ViewData["itemMessage"] = $"Successfully added item #{item.Id}";
 		return View();

@@ -37,4 +37,7 @@ public class CosmeticItem
 
 	public string Name { get; set; } = default!;
 	public EItemSlot ItemSlot { get; set; }
+	public bool IsDefault { get; set; }
+
+	public DateTime AddDate { get; set; }
 }
