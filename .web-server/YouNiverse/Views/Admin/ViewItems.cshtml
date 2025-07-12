@@ -1,0 +1,143 @@
+@model ViewItemsModel
+
+@{
+	ViewData["Title"] = "Items";
+}
+
+<link rel="stylesheet" href="/css/site.css">
+
+<div class="text-center">
+	<h1>Admin Page</h1>
+	<h2>View Items</h2>
+	<a asp-action="Index">Back</a><br>
+	<form asp-action="ViewItems" method="get">
+		<input type="text" name="Search">
+		<input type="submit" value="Search">
+	</form>
+</div>
+<br>
+<div class="item-list">
+	<div class="item-entry">
+		<div class="item-image"></div>
+		<span> | </span>
+		<form action="EditItem" method="post">
+			<div class="item-id">
+				<span>ID</span>
+			</div>
+			<span> | </span>
+			<div class="item-name">
+				<span>Name</span>
+			</div>
+			<span> | </span>
+			<div class="item-default">
+				<span>Default</span>
+			</div>
+			<span> | </span>
+			<div class="item-slot">
+				<span>Slot</span>
+			</div>
+			<span> | </span>
+		</form>
+	</div>
+	@foreach (CosmeticItem entry in Model.Items)
+	{
+		<div class="item-entry">
+			<div class="item-image">
+				<img src="/items/@(entry.Id)_side.png" width="32px" height="32px">
+			</div>
+			<span> | </span>
+			<form action="EditItem" method="post">
+				<input type="hidden" value="@entry.Id" name="Id">
+				<div class="item-id">
+					<span>@(entry.Id)</span>
+				</div>
+				<span> | </span>
+				<div class="item-name">
+					<input type="text" value="@entry.Name" name="Name">
+				</div>
+				<span> | </span>
+				<div class="item-default">
+					<input type="checkbox" name="IsDefault" value="true" @(entry.IsDefault ? "checked" : "")>
+				</div>
+				<span> | </span>
+				<div class="item-slot">
+					<select name="ItemSlot">
+						@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
+						{
+							@if (entry.ItemSlot == slot)
+							{
+								<option value="@slot" selected>@EnumHelpers.GetDisplayName(slot)</option>
+							}
+							else
+							{
+								<option value="@slot">@EnumHelpers.GetDisplayName(slot)</option>
+							}
+						}
+					</select>
+				</div>
+				<span> | </span>
+				<div class="item-save">
+					<input type="submit" value="Save">
+				</div>
+			</form>
+			<span> | </span>
+			<div class="item-delete">
+				<form action="DeleteItem" method="post">
+					<input type="hidden" name="Id" value="@entry.Id">
+					<input type="submit" value="Delete">
+				</form>
+			</div>
+			<span> | </span>
+			<div class="item-edit">
+				<a asp-action="Edit?id=@entry.Id">Edit</a>
+			</div>
+		</div>
+	}
+</div>
+
+<style>
+	.item-list {
+		margin-left: auto;
+		margin-right: auto;
+		display: flex;
+		flex-direction: column;
+		justify-self: center;
+		max-width: 800px;
+	}
+
+	.item-entry {
+		border-color: grey;
+		border-width: 1px;
+		border-style: solid;
+		align-items: center;
+		display: flex;
+	}
+
+	.item-entry div {
+		display: inline-block;
+	}
+
+	.item-image {
+		width: 48px;
+	}
+
+	.item-id {
+		width: 48px;
+	}
+
+	.item-name {
+		width: 200px;
+	}
+
+	.item-name input {
+		width: 100%;
+	}
+
+	.item-default {
+		width: 75px;
+	}
+
+	.item-slot {
+		width: 128px;
+	}
+</style>

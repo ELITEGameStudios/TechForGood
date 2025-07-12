@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using YouNiverse.Models.Youniverse;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace YouNiverse.Controllers;
 
@@ -143,5 +144,71 @@ public class AdminController : Controller
 		ViewData["itemMessage"] = $"Gave item {model.ItemName} to {user.FirstName} {user.LastName}";
 		model.AllItems = await _context.Cosmetics.Select(i => i.Name!).ToArrayAsync();
 		return View(model);
+	}
+
+	public async Task<IActionResult> ViewItems(ViewItemsModel model)
+	{
+		CosmeticItem[] arr;
+		if (model.Search == null)
+		{
+			arr = await _context.Cosmetics.ToArrayAsync();
+		}
+		else
+		{
+			arr = await _context.Cosmetics.Where(c => c.Name.Contains(model.Search)).ToArrayAsync();
+		}
+
+		model.Items = arr;
+		return View(model);
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> EditItem(CosmeticItem model)
+	{
+		CosmeticItem? itemFound = await _context.Cosmetics.FindAsync(model.Id);
+		if (itemFound == null)
+		{
+			return RedirectToAction("ViewItems");
+		}
+
+		itemFound.Name = model.Name;
+		itemFound.IsDefault = model.IsDefault;
+		itemFound.ItemSlot = model.ItemSlot;
+
+		if (model.IsDefault)
+		{
+			// Give default item to all users
+			await _context.UserItems.ForEachAsync(async u =>
+			{
+				UnlockEntry unlock = new()
+				{
+					ItemId = itemFound.Id,
+					UserId = u.Id,
+					UnlockDate = DateTime.Now,
+				};
+				await _context.Unlocks.AddAsync(unlock);
+			});
+		}
+
+		await _context.SaveChangesAsync();
+
+		return RedirectToAction("ViewItems");
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> DeleteItem(int Id)
+	{
+		CosmeticItem? itemFound = await _context.Cosmetics.FindAsync(Id);
+		if (itemFound == null)
+		{
+			return RedirectToAction("ViewItems");
+		}
+
+		_context.Cosmetics.Remove(itemFound);
+		await _context.Unlocks.Where(u => u.ItemId == itemFound.Id).ForEachAsync(u => _context.Remove(u));
+
+		await _context.SaveChangesAsync();
+
+		return RedirectToAction("ViewItems");
 	}
 }
