@@ -2,16 +2,19 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YouNiverse.Models.LabSignin;
+using YouNiverse.Models.Youniverse;
 
 namespace YouNiverse.Controllers;
 
 public class SigninController : Controller
 {
 	private readonly TimesheetContext _context;
+	private readonly UserContext _userCtx;
 
-	public SigninController(TimesheetContext context)
+	public SigninController(TimesheetContext context, UserContext userContext)
 	{
 		_context = context;
+		_userCtx = userContext;
 	}
 
 	public async Task<IActionResult> Index()
@@ -129,6 +132,15 @@ public class SigninController : Controller
 		{
 			activeEntry.ClockOut = DateTime.UtcNow;
 			await _context.SaveChangesAsync();
+
+			UserItem? user = await _userCtx.UserItems.FindAsync(activeEntry.StudentId);
+			if (user != null)
+			{
+				float hourDiff = (float)(activeEntry.ClockOut - activeEntry.ClockIn).Value.TotalHours;
+				user.Hours += hourDiff;
+
+				await _context.SaveChangesAsync();
+			}
 
 			ViewData["clockMessage"] = $"Clocked out at {DateTime.Now:hh:mm tt}.";
 		}

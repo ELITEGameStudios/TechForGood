@@ -72,12 +72,21 @@ public class UserApiController : Controller
 		if (user == null)
 			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
 
+		if (user.PrimaryColor == "")
+			user.PrimaryColor = UserItem.k_DefaultPrimaryColor;
+
+		if (user.SecondaryColor == "")
+			user.SecondaryColor = UserItem.k_DefaultSecondaryColor;
+
 		BioRequest request = new()
 		{
 			FirstName = user.FirstName,
 			LastName = user.LastName,
 			Catchphrase = user.Catchphrase,
-			Role = user.Role,
+			Role = EnumHelpers.GetDisplayName(user.Role),
+			PrimaryColor = user.PrimaryColor,
+			SecondaryColor = user.SecondaryColor,
+			Hours = user.Hours,
 		};
 
 		using MemoryStream stream = new();
@@ -99,6 +108,9 @@ public class UserApiController : Controller
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string? Catchphrase { get; set; }
-		public EGameRole Role { get; set; }
+		public string Role { get; set; }
+		public string PrimaryColor { get; set; }
+		public string SecondaryColor { get; set; }
+		public float Hours { get; set; }
 	}
 }

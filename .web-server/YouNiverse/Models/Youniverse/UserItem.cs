@@ -4,6 +4,9 @@ namespace YouNiverse.Models.Youniverse;
 
 public class UserItem
 {
+	public const string k_DefaultPrimaryColor = "#79bac9";
+	public const string k_DefaultSecondaryColor = "#eaaf5a";
+
 	// Required
 	public int Id { get; set; }
 
@@ -16,6 +19,11 @@ public class UserItem
 
 	public string? Catchphrase { get; set; }
 	public EGameRole Role { get; set; } = EGameRole.Other;
+
+	public string PrimaryColor { get; set; } = k_DefaultPrimaryColor;
+	public string SecondaryColor { get; set; } = k_DefaultSecondaryColor;
+
+	public float Hours { get; set; }
 }
 
 public enum EGameRole

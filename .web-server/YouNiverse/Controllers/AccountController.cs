@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -115,6 +116,8 @@ public class AccountController : Controller
 		{
 			Catchphrase = user.Catchphrase,
 			Role = user.Role,
+			PrimaryColor = user.PrimaryColor,
+			SecondaryColor = user.SecondaryColor,
 		};
 
 		return View(model);
@@ -129,6 +132,12 @@ public class AccountController : Controller
 
 		user.Catchphrase = model.Catchphrase;
 		user.Role = model.Role;
+
+		Color primary = ColorTranslator.FromHtml(model.PrimaryColor);
+		user.PrimaryColor = $"#{primary.R:X2}{primary.G:X2}{primary.B:X2}";
+
+		Color secondary = ColorTranslator.FromHtml(model.SecondaryColor);
+		user.SecondaryColor = $"#{secondary.R:X2}{secondary.G:X2}{secondary.B:X2}";
 
 		await _context.SaveChangesAsync();
 
