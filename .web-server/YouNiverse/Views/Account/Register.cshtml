@@ -1,0 +1,74 @@
+@using YouNiverse.Models.Youniverse
+@model UserRegisterModel
+
+@{
+	ViewData["Title"] = "Register";
+	string UserName = (@Model == null || @Model.StudentId == 0) ? "" : @Model.StudentId.ToString();
+	string autofocus = Convert.ToString(ViewData["autofocus"]) ?? "studentId";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Register</h1>
+	<br>
+	<form method="post" action="/Account/Register">
+		<label asp-for="StudentId">Student ID:</label><br>
+		@if (@autofocus == "studentId")
+		{
+			<input type="text" asp-for="StudentId" autocomplete="username" value="@UserName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="StudentId" autocomplete="username" value="@UserName" />
+		}
+		@if (ViewData["studentIdError"] != null)
+		{
+			<p class="signin-error">@ViewData["studentIdError"]</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<label asp-for="FirstName">First Name:</label><br>
+		@if (@autofocus == "firstName")
+		{
+			<input type="text" asp-for="FirstName" value="@Model>.FirstName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="FirstName" value="@Model?.FirstName" />
+		}
+		@if (ViewData["firstNameError"] != null)
+		{
+			<p class="signin-error">@ViewData["firstNameError"]</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<label asp-for="LastName">Last Name:</label><br>
+		@if (@autofocus == "lastName")
+		{
+			<input type="text" asp-for="LastName" value="@Model?.LastName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="LastName" value="@Model?.LastName" />
+		}
+		@if (ViewData["lastNameError"] != null)
+		{
+			<p class="signin-error">@ViewData["lastNameError"]</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<input type="submit" />
+	</form>
+	<br><br><br>
+	<a href="Signin">Cancel</a>
+</div>

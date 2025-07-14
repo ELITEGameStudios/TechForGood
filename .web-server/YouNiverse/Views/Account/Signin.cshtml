@@ -1,0 +1,28 @@
+@using YouNiverse.Models.Youniverse
+@model SigninViewModel
+
+@{
+	ViewData["Title"] = "Signin";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Sign-In</h1>
+	<form method="post">
+		<label asp-for="StudentId">Student ID:</label><br>
+		<input type="text" asp-for="StudentId" autofocus />
+		@if (@ViewData["loginError"] != null)
+		{
+			<p class="signin-error">@ViewData["loginError"]</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<input type="submit" />
+	</form>
+	<br><br>
+	<a href="../">Cancel</a>
+</div>

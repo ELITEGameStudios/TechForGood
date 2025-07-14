@@ -5,7 +5,8 @@
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
-/[Oo]bj/
+[Oo]bj/
+[Bb]in/
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
@@ -15,6 +16,10 @@
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
 *.blend1.meta
+
+# Ignore temp sql files
+*.db-shm
+*.db-wal
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -54,6 +59,10 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+
+# Include webserver csproj
+!.web-server/**/*.csproj
+!.web-server/**/*.sln
 
 # Unity3D generated meta files
 *.pidb.meta

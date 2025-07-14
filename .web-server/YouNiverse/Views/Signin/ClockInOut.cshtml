@@ -1,0 +1,19 @@
+@{
+	ViewData["Title"] = "Timesheet";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>@ViewData["clockMessage"]</h1>
+	<br><br><br>
+	<a href="../" autofocus>Back</a>
+</div>
+
+<script>
+	window.onload(() => {
+		setTimeout(() => {
+			window.location.href = "../";
+		}, 4000);
+	})
+</script>

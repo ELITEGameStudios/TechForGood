@@ -1,0 +1,41 @@
+@model ProfileViewModel;
+
+@{
+	ViewData["Title"] = "Account";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Profile</h1>
+	<form method="post">
+		<label asp-for="Catchphrase">Catchphrase</label><br>
+		<input type="text" asp-for="Catchphrase">
+		<br><br>
+		<label asp-for="Role">Role</label><br>
+		<select asp-for="Role" />
+		@foreach (EGameRole role in Enum.GetValues(typeof(EGameRole)))
+		{
+			@if (Model.Role == role)
+			{
+				<option value="@role" selected>@EnumHelpers.GetDisplayName(role)</option>
+			}
+			else
+			{
+				<option value="@role">@EnumHelpers.GetDisplayName(role)</option>
+			}
+		}
+		</select>
+		<br><br>
+		<label asp-for="PrimaryColor">Primary Colour:</label>
+		<input asp-for="PrimaryColor" type="color">
+		<br>
+		<label asp-for="SecondaryColor">Secondary Colour:</label>
+		<input asp-for="SecondaryColor" type="color">
+		<br><br>
+
+		<input type="submit" value="Save">
+	</form>
+	<br>
+	<a asp-action="Index">Back</a>
+</div>

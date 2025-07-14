@@ -1,0 +1,150 @@
+@model DressRoomViewModel;
+
+@{
+	ViewData["Title"] = "Dress Room";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<header>
+	<a asp-action="Index">YOUniverse</a>
+	<form method="post" action="/Account/Signout">
+		<input type="submit" value="Signout" />
+	</form>
+</header>
+<h1>Dress Room</h1>
+
+<div class="parent">
+	<div class="tabs">
+		<form method="post">
+			@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
+			{
+				<div class="tab">
+					@if ((int)slot == 0)
+					{
+						<input type="radio" id="@slot.ToString()" name="item-tabs" checked>
+					}
+					else
+					{
+						<input type="radio" id="@slot.ToString()" name="item-tabs">
+					}
+					<label class="tab-label" for="@slot.ToString()">@EnumHelpers.GetDisplayName(@slot)</label>
+
+					<div class="content">
+						@foreach (var unlockedItem in Model.UnlockedCategories[(int)slot].UnlockedItems)
+						{
+							<label>
+								@if (Model.SelectedItems.Length > (int)slot && Model.SelectedItems[(int)slot] ==
+														unlockedItem.Id)
+								{
+									<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
+										value="@unlockedItem.Id" checked>
+								}
+								else
+								{
+									<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
+										value="@unlockedItem.Id">
+								}
+								<img src="/items/@(unlockedItem.Id + "_side.png")">
+							</label>
+						}
+
+						@if (Model.UnlockedCategories[(int)slot].UnlockedItems.Length == 0)
+						{
+							// Default item for slot with none
+							<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]" value="-1" checked>
+						}
+					</div>
+				</div>
+			}
+
+			<input type="submit">
+		</form>
+	</div>
+
+	<div class="character">
+
+	</div>
+</div>
+
+<style>
+	.text-right {
+		text-align: right;
+		float: right;
+	}
+
+	.tabs {
+		position: relative;
+		min-height: 200px;
+		/* This part sucks */
+		clear: both;
+		margin: 25px 0;
+
+		width: 600px;
+	}
+
+	.tab {
+		float: left;
+	}
+
+	.tab>label {
+		background: #eee;
+		padding: 10px;
+		border: 1px solid #ccc;
+		margin-left: -1px;
+		position: relative;
+		left: 1px;
+	}
+
+	.tab [type=radio] {
+		display: none;
+	}
+
+	.content {
+		position: absolute;
+		top: 28px;
+		left: 0;
+		background: white;
+		right: 0;
+		bottom: 0;
+		padding: 20px;
+		border: 1px solid #ccc;
+	}
+
+	[type=radio]:checked~label {
+		background: white;
+		border-bottom: 1px solid white;
+		z-index: 2;
+	}
+
+	[type=radio]:checked~label~.content {
+		z-index: 1;
+	}
+
+	.parent {
+		display: flex;
+		flex-direction: row;
+		height: calc(100% - 150px);
+		position: absolute;
+	}
+
+	.item-button[type="radio"] {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.item-button[type="radio"]+img {
+		cursor: pointer;
+		border: 2px solid transparent;
+		transition: border 0.3s ease;
+		border-radius: 8px;
+		width: 64px;
+		height: 64px;
+	}
+
+	.item-button[type="radio"]:checked+img {
+		border: 2px solid #0078D7;
+	}
+</style>
