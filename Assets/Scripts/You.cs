@@ -54,7 +54,10 @@ public class You : MonoBehaviour
         // this.profileImage = profileImage;
     }
 
-    public void Retire(){}
+    public void Retire()
+    {
+        Destroy(gameObject);
+    }
 
 
 

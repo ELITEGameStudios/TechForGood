@@ -14,7 +14,7 @@ public class YouSelector : MonoBehaviour
             point = Camera.main.ScreenToWorldPoint(
                 new Vector3(mousePos.x, mousePos.y, Camera.main.nearClipPlane)
             );
-            Debug.Log(point);
+            // Debug.Log(point);
 
             RaycastHit hit;
             if( Physics.Raycast(new Ray(point, Camera.main.transform.forward), out hit, Mathf.Infinity, LayerMask.GetMask("YOU"))){
