@@ -11,7 +11,7 @@ using YouNiverse.Models;
 namespace YouNiverse.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20250715152921_InitialData")]
+    [Migration("20250715193629_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />

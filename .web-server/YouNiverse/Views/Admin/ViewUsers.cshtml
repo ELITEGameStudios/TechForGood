@@ -11,20 +11,21 @@
 	<h2>View Youniverse Accounts</h2>
 	<a asp-action="Index">Back</a><br>
 	<form method="get">
-		<input type="text" name="Search">
+		<input type="text" asp-for="Search">
 		<label asp-for="OnlyClockedIn">Clocked In</label>
-		<input type="checkbox" asp-for="OnlyClockedIn" value="true">
+		<input type="checkbox" name="OnlyClockedIn" value="true" @(Model.OnlyClockedIn ? "checked" : "") />
 		<label asp-for="YouAccounts">You Accounts</label>
-		<input type="checkbox" asp-for="YouAccounts" value="true">
+		<input type="checkbox" name="YouAccounts" value="true" @(Model.YouAccounts ? "checked" : "") />
 		<input type="submit" value="Search">
+
 	</form>
 </div>
 <br>
 <div class="item-list">
 	<div class="item-entry">
-		<form action="EditYouUser" method="post">
+		<form action="EditUser" method="post">
 			<div class="item-id">
-				<span>ID</span>
+				<span>Student ID</span>
 			</div>
 			<span> | </span>
 			<div class="item-name">
@@ -40,19 +41,19 @@
 	@foreach (ViewUsersModel.UserData entry in Model.Users)
 	{
 		<div class="item-entry">
-			<form action="EditUser" method="post">
-				<input type="hidden" value="@entry.Id" name="Id">
-				<input type="hidden" value="@Model.YouAccounts" name="YouAccounts">
+			<form method="post">
+				<input type="hidden" value="@entry.Id" name="EditId">
 				<div class="item-id">
-					<span>@(entry.Id)</span>
+					<span>@(entry.StudentId?.ToString())</span>
 				</div>
 				<span> | </span>
 				<div class="item-name">
-					<input type="text" value="@entry.Name" name="Name">
+					<input type="text" value="@entry.Name" name="EditName">
 				</div>
 				<span> | </span>
 				<div class="item-clocked">
-					<input type="checkbox" name="ClockedIn" value="true" @(entry.ClockedIn ? "checked" : "")>
+					<input type="checkbox" name="EditClockedIn" value="true" @(entry.ClockedIn ? "checked" : "") />
+					<input type="hidden" name="EditClockedIn" value="false" />
 				</div>
 				<span> | </span>
 				<div class="item-save">
@@ -61,8 +62,8 @@
 			</form>
 			<span> | </span>
 			<div class="item-delete">
-				<form action="DeleteYouUser" method="post">
-					<input type="hidden" name="Id" value="@entry.Id">
+				<form action="DeleteUser" method="post">
+					<input type="hidden" name="EditId" value="@entry.Id">
 					<input type="submit" value="Delete">
 				</form>
 			</div>

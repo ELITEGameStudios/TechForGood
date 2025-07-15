@@ -3,6 +3,7 @@ using YouNiverse.Models.Youniverse;
 using Microsoft.EntityFrameworkCore;
 using YouNiverse.Models.LabSignin;
 using YouNiverse.Models;
+using System.Threading.Tasks;
 
 namespace YouNiverse.Controllers;
 
@@ -30,7 +31,7 @@ public class AdminController : Controller
 	[HttpPost]
 	public async Task<IActionResult> AddItem(AddItemModel model)
 	{
-		if (model.FrontImage == null || model.SideImage == null || model.BackImage == null || model.ItemName == null)
+		if (model.SpriteSheet == null || model.ItemName == null)
 		{
 			ViewData["itemMessage"] = "Failed to add item. An input is null.";
 			return View(model);
@@ -49,28 +50,10 @@ public class AdminController : Controller
 		try
 		{
 			// Front image
-			string frontPath = $"wwwroot/items/{item.Id}_front.png";
-			using (var fs = new FileStream(frontPath, FileMode.Create))
-			{
-				using var rs = model.FrontImage.OpenReadStream();
-				await rs.CopyToAsync(fs);
-			}
-
-			// Side image
-			string sidePath = $"wwwroot/items/{item.Id}_side.png";
-			using (var fs = new FileStream(sidePath, FileMode.Create))
-			{
-				using var rs = model.SideImage.OpenReadStream();
-				await rs.CopyToAsync(fs);
-			}
-
-			// Back image
-			string backPath = $"wwwroot/items/{item.Id}_back.png";
-			using (var fs = new FileStream(backPath, FileMode.Create))
-			{
-				using var rs = model.BackImage.OpenReadStream();
-				await rs.CopyToAsync(fs);
-			}
+			string frontPath = $"wwwroot/items/{item.Id}.png";
+			using var fs = new FileStream(frontPath, FileMode.Create);
+			using var rs = model.SpriteSheet.OpenReadStream();
+			await rs.CopyToAsync(fs);
 		}
 		catch (Exception e)
 		{
@@ -218,7 +201,7 @@ public class AdminController : Controller
 	{
 		IQueryable<LabAccount> query = _context.LabUsers;
 
-		if (model.YouAccounts)
+		if (model.YouAccounts == true)
 		{
 			query = query.Where(u => u.AccountType == EAccountType.LabAndYouniverse);
 		}
@@ -229,7 +212,7 @@ public class AdminController : Controller
 		}
 
 		query = query.Include(u => u.TimeEntries);
-		if (model.OnlyClockedIn)
+		if (model.OnlyClockedIn == true)
 		{
 			query = query.Include(u => u.TimeEntries).Where(u => u.TimeEntries.Any(u => u.ClockOut == null));
 		}
@@ -237,7 +220,7 @@ public class AdminController : Controller
 		model.Users = await query.Select(u => new ViewUsersModel.UserData()
 		{
 			Id = u.Id,
-			StudentId = u.StudentId!.Value,
+			StudentId = u.StudentId,
 			ClockedIn = u.TimeEntries.Any(e => e.ClockOut == null),
 			Name = u.FirstName + " " + u.LastName,
 			AccountType = u.AccountType,
@@ -246,4 +229,96 @@ public class AdminController : Controller
 		return View(model);
 	}
 
+	[HttpPost]
+	public async Task<IActionResult> ViewUsers(ViewUsersModel model, string? dummy)
+	{
+		if (!model.EditId.HasValue)
+		{
+			model.EditId = null;
+			model.EditName = null;
+			model.EditClockedIn = null;
+
+			return RedirectToAction("ViewUsers", model);
+		}
+
+		LabAccount? lab = await _context.LabUsers.FindAsync(model.EditId);
+
+		if (lab == null)
+		{
+			model.EditId = null;
+			model.EditName = null;
+			model.EditClockedIn = null;
+
+			return RedirectToAction("ViewUsers", model);
+		}
+
+		if (model.EditClockedIn.HasValue)
+		{
+			TimeEntry? activeEntry = await _context.TimeEntries.FirstOrDefaultAsync(t => t.ClockOut == null && t.UserId == lab.Id);
+
+			if (activeEntry == null &&
+				model.EditClockedIn == true)
+			{
+				activeEntry = new()
+				{
+					ClockIn = DateTime.Now,
+					UserId = lab.Id
+				};
+				await _context.TimeEntries.AddAsync(activeEntry);
+			}
+			else if (activeEntry != null &&
+				model.EditClockedIn == false)
+			{
+				activeEntry.ClockOut = DateTime.Now;
+			}
+		}
+
+		if (model.EditName != null)
+		{
+			// todo: separate first and last name
+		}
+
+		await _context.SaveChangesAsync();
+
+		model.EditId = null;
+		model.EditName = null;
+		model.EditClockedIn = null;
+
+		return RedirectToAction("ViewUsers", model);
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> DeleteUser(ViewUsersModel model, string? dummy)
+	{
+		if (!model.EditId.HasValue)
+		{
+			model.EditId = null;
+			model.EditName = null;
+			model.EditClockedIn = null;
+
+			return RedirectToAction("ViewUsers", model);
+		}
+
+		LabAccount? lab = await _context.LabUsers.FindAsync(model.EditId);
+		YouAccount? you = await _context.Users.FindAsync(model.EditId);
+
+		if (lab != null)
+		{
+			_context.LabUsers.Remove(lab);
+			_context.TimeEntries.RemoveRange(_context.TimeEntries.Where(t => t.UserId == model.EditId));
+		}
+
+		if (you != null)
+		{
+			_context.Users.Remove(you);
+		}
+
+		await _context.SaveChangesAsync();
+
+		model.EditId = null;
+		model.EditName = null;
+		model.EditClockedIn = null;
+
+		return RedirectToAction("ViewUsers", model);
+	}
 }
