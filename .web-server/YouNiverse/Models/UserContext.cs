@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using YouNiverse.Models.LabSignin;
+using YouNiverse.Models.Youniverse;
 
-namespace YouNiverse.Models.Youniverse;
+namespace YouNiverse.Models;
 
 public class UserContext : DbContext
 {
@@ -9,13 +11,16 @@ public class UserContext : DbContext
 	{
 	}
 
-	public DbSet<UserItem> UserItems { get; set; } = default!;
+	public DbSet<YouAccount> Users { get; set; } = default!;
 	public DbSet<CosmeticItem> Cosmetics { get; set; } = default!;
 	public DbSet<UnlockEntry> Unlocks { get; set; } = default!;
 
+	public DbSet<LabAccount> LabUsers { get; set; } = default!;
+	public DbSet<TimeEntry> TimeEntries { get; set; } = default!;
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<UserItem>()
+		modelBuilder.Entity<YouAccount>()
 			.OwnsOne(u => u.Loadout);
 
 		base.OnModelCreating(modelBuilder);

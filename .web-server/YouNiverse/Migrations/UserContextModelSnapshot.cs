@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using YouNiverse.Models.Youniverse;
+using YouNiverse.Models;
 
 #nullable disable
 
@@ -16,6 +16,56 @@ namespace YouNiverse.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.18");
+
+            modelBuilder.Entity("YouNiverse.Models.LabSignin.LabAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AccountType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Hours")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LabUsers");
+                });
+
+            modelBuilder.Entity("YouNiverse.Models.LabSignin.TimeEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ClockIn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ClockOut")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TimeEntries");
+                });
 
             modelBuilder.Entity("YouNiverse.Models.Youniverse.CosmeticItem", b =>
                 {
@@ -65,24 +115,13 @@ namespace YouNiverse.Migrations
                     b.ToTable("Unlocks");
                 });
 
-            modelBuilder.Entity("YouNiverse.Models.Youniverse.UserItem", b =>
+            modelBuilder.Entity("YouNiverse.Models.Youniverse.YouAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Catchphrase")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<float>("Hours")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PrimaryColor")
@@ -98,7 +137,18 @@ namespace YouNiverse.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserItems");
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("YouNiverse.Models.LabSignin.TimeEntry", b =>
+                {
+                    b.HasOne("YouNiverse.Models.LabSignin.LabAccount", "User")
+                        .WithMany("TimeEntries")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("YouNiverse.Models.Youniverse.UnlockEntry", b =>
@@ -109,7 +159,7 @@ namespace YouNiverse.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YouNiverse.Models.Youniverse.UserItem", "User")
+                    b.HasOne("YouNiverse.Models.Youniverse.YouAccount", "User")
                         .WithMany("Unlocks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -120,11 +170,11 @@ namespace YouNiverse.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YouNiverse.Models.Youniverse.UserItem", b =>
+            modelBuilder.Entity("YouNiverse.Models.Youniverse.YouAccount", b =>
                 {
                     b.OwnsOne("YouNiverse.Models.Youniverse.ItemLoadout", "Loadout", b1 =>
                         {
-                            b1.Property<int>("UserItemId")
+                            b1.Property<int>("YouAccountId")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<int>("FaceItemId")
@@ -145,19 +195,24 @@ namespace YouNiverse.Migrations
                             b1.Property<int>("ShoesItemId")
                                 .HasColumnType("INTEGER");
 
-                            b1.HasKey("UserItemId");
+                            b1.HasKey("YouAccountId");
 
-                            b1.ToTable("UserItems");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
-                                .HasForeignKey("UserItemId");
+                                .HasForeignKey("YouAccountId");
                         });
 
                     b.Navigation("Loadout")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("YouNiverse.Models.Youniverse.UserItem", b =>
+            modelBuilder.Entity("YouNiverse.Models.LabSignin.LabAccount", b =>
+                {
+                    b.Navigation("TimeEntries");
+                });
+
+            modelBuilder.Entity("YouNiverse.Models.Youniverse.YouAccount", b =>
                 {
                     b.Navigation("Unlocks");
                 });

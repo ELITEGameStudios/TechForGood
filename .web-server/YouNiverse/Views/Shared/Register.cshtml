@@ -1,0 +1,65 @@
+@using YouNiverse.Models.Youniverse
+@model UserRegisterGetModel
+
+@{
+	ViewData["Title"] = "Register";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Register</h1>
+	<br>
+	<form method="post">
+		<label asp-for="StudentId">Student ID:</label><br>
+		@if (!Model.StudentId.HasValue)
+		{
+			<input type="text" asp-for="StudentId" autocomplete="username" value="@Model?.StudentId.ToString()" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="StudentId" autocomplete="username" value="@Model?.StudentId.ToString()" />
+		}
+		@if (Model?.StudentIdError != null)
+		{
+			<p class="signin-error">@Model.StudentIdError</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<label asp-for="FirstName">First Name:</label><br>
+		@if (Model?.FirstName == null)
+		{
+			<input type="text" asp-for="FirstName" value="@Model?.FirstName" autofocus />
+		}
+		else
+		{
+			<input type="text" asp-for="FirstName" value="@Model?.FirstName" />
+		}
+		@if (Model?.FirstNameError != null)
+		{
+			<p class="signin-error">@Model.FirstNameError</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<label asp-for="LastName">Last Name:</label><br>
+		<input type="text" asp-for="LastName" value="@Model?.LastName" />
+		@if (Model?.LastNameError != null)
+		{
+			<p class="signin-error">@Model.LastNameError</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+		<input type="submit" />
+	</form>
+	<br><br><br>
+	<a asp-action="Index">Cancel</a>
+</div>

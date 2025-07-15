@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YouNiverse.Models.Youniverse;
 
-public class UserItem
+public class YouAccount
 {
 	public const string k_DefaultPrimaryColor = "#79bac9";
 	public const string k_DefaultSecondaryColor = "#eaaf5a";
@@ -10,20 +10,15 @@ public class UserItem
 	// Required
 	public int Id { get; set; }
 
-	public string FirstName { get; set; } = default!;
-	public string LastName { get; set; } = default!;
-
 	public ICollection<UnlockEntry> Unlocks { get; set; } = [];
 
 	public ItemLoadout Loadout { get; set; } = new ItemLoadout();
 
-	public string? Catchphrase { get; set; }
+	public string? Catchphrase { get; set; } = "I'm too lazy to set a catchphrase!";
 	public EGameRole Role { get; set; } = EGameRole.Other;
 
 	public string PrimaryColor { get; set; } = k_DefaultPrimaryColor;
 	public string SecondaryColor { get; set; } = k_DefaultSecondaryColor;
-
-	public float Hours { get; set; }
 }
 
 public enum EGameRole

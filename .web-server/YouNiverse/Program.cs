@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using YouNiverse.Models.LabSignin;
-using YouNiverse.Models.Youniverse;
+using YouNiverse.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,17 +8,11 @@ if (builder.Environment.IsDevelopment())
 {
 	builder.Services.AddDbContext<UserContext>(options =>
 		options.UseSqlite(builder.Configuration.GetConnectionString("UserContext")));
-
-	builder.Services.AddDbContext<TimesheetContext>(options =>
-		options.UseSqlite(builder.Configuration.GetConnectionString("TimesheetContext")));
 }
 else
 {
 	builder.Services.AddDbContext<UserContext>(options =>
 		options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionUserContext")));
-
-	builder.Services.AddDbContext<TimesheetContext>(options =>
-		options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionTimesheetContext")));
 }
 
 // Add services to the container.
@@ -63,6 +56,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Signin}/{action=Index}/{id?}");
+	pattern: "{controller=Lab}/{action=Index}/{id?}");
 
 app.Run();

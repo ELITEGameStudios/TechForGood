@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using YouNiverse.Models.Youniverse;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using YouNiverse.Models.LabSignin;
+using YouNiverse.Models;
 
 namespace YouNiverse.Controllers;
 
@@ -86,7 +87,7 @@ public class AdminController : Controller
 		// Unlock for all users
 		if (model.IsDefault)
 		{
-			await _context.UserItems.ForEachAsync(async u =>
+			await _context.Users.ForEachAsync(async u =>
 			{
 				UnlockEntry unlock = new()
 				{
@@ -116,8 +117,9 @@ public class AdminController : Controller
 	[HttpPost]
 	public async Task<IActionResult> UnlockItem(GiveItemModel model)
 	{
-		UserItem? user = await _context.UserItems.FindAsync(model.StudentId);
-		if (user == null)
+		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
+			u => u.StudentId == model.StudentId && u.AccountType == EAccountType.LabAndYouniverse);
+		if (lab == null)
 		{
 			ViewData["itemMessage"] = "User does not exist";
 			return View(model);
@@ -130,18 +132,18 @@ public class AdminController : Controller
 			return View(model);
 		}
 
-		_context.Unlocks.Include(u => u.Item).Where(u => u.UserId == user.Id && u.Item.Name == model.ItemName);
+		_context.Unlocks.Include(u => u.Item).Where(u => u.UserId == lab.Id && u.Item.Name == model.ItemName);
 
 		UnlockEntry unlock = new()
 		{
-			UserId = user.Id,
+			UserId = lab.Id,
 			ItemId = item.Id,
 			UnlockDate = DateTime.Now,
 		};
 		await _context.Unlocks.AddAsync(unlock);
 		await _context.SaveChangesAsync();
 
-		ViewData["itemMessage"] = $"Gave item {model.ItemName} to {user.FirstName} {user.LastName}";
+		ViewData["itemMessage"] = $"Gave item {model.ItemName} to {lab.FirstName} {lab.LastName}";
 		model.AllItems = await _context.Cosmetics.Select(i => i.Name!).ToArrayAsync();
 		return View(model);
 	}
@@ -178,7 +180,7 @@ public class AdminController : Controller
 		if (model.IsDefault)
 		{
 			// Give default item to all users
-			await _context.UserItems.ForEachAsync(async u =>
+			await _context.Users.ForEachAsync(async u =>
 			{
 				UnlockEntry unlock = new()
 				{
@@ -211,4 +213,37 @@ public class AdminController : Controller
 
 		return RedirectToAction("ViewItems");
 	}
+
+	public async Task<IActionResult> ViewUsers(ViewUsersModel model)
+	{
+		IQueryable<LabAccount> query = _context.LabUsers;
+
+		if (model.YouAccounts)
+		{
+			query = query.Where(u => u.AccountType == EAccountType.LabAndYouniverse);
+		}
+
+		if (!string.IsNullOrWhiteSpace(model.Search))
+		{
+			query = query.Where(u => (u.FirstName + " " + u.LastName).Contains(model.Search));
+		}
+
+		query = query.Include(u => u.TimeEntries);
+		if (model.OnlyClockedIn)
+		{
+			query = query.Include(u => u.TimeEntries).Where(u => u.TimeEntries.Any(u => u.ClockOut == null));
+		}
+
+		model.Users = await query.Select(u => new ViewUsersModel.UserData()
+		{
+			Id = u.Id,
+			StudentId = u.StudentId!.Value,
+			ClockedIn = u.TimeEntries.Any(e => e.ClockOut == null),
+			Name = u.FirstName + " " + u.LastName,
+			AccountType = u.AccountType,
+		}).ToArrayAsync();
+
+		return View(model);
+	}
+
 }

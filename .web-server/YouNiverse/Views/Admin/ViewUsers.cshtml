@@ -1,26 +1,28 @@
-@model ViewItemsModel
+@model ViewUsersModel
 
 @{
-	ViewData["Title"] = "Items";
+	ViewData["Title"] = "Users";
 }
 
 <link rel="stylesheet" href="/css/site.css">
 
 <div class="text-center">
 	<h1>Admin Page</h1>
-	<h2>View Items</h2>
+	<h2>View Youniverse Accounts</h2>
 	<a asp-action="Index">Back</a><br>
 	<form method="get">
 		<input type="text" name="Search">
+		<label asp-for="OnlyClockedIn">Clocked In</label>
+		<input type="checkbox" asp-for="OnlyClockedIn" value="true">
+		<label asp-for="YouAccounts">You Accounts</label>
+		<input type="checkbox" asp-for="YouAccounts" value="true">
 		<input type="submit" value="Search">
 	</form>
 </div>
 <br>
 <div class="item-list">
 	<div class="item-entry">
-		<div class="item-image"></div>
-		<span> | </span>
-		<form action="EditItem" method="post">
+		<form action="EditYouUser" method="post">
 			<div class="item-id">
 				<span>ID</span>
 			</div>
@@ -29,25 +31,18 @@
 				<span>Name</span>
 			</div>
 			<span> | </span>
-			<div class="item-default">
-				<span>Default</span>
-			</div>
-			<span> | </span>
-			<div class="item-slot">
-				<span>Slot</span>
+			<div class="item-clocked">
+				<span>In Lab</span>
 			</div>
 			<span> | </span>
 		</form>
 	</div>
-	@foreach (CosmeticItem entry in Model.Items)
+	@foreach (ViewUsersModel.UserData entry in Model.Users)
 	{
 		<div class="item-entry">
-			<div class="item-image">
-				<img src="/items/@(entry.Id)_side.png" width="32px" height="32px">
-			</div>
-			<span> | </span>
-			<form action="EditItem" method="post">
+			<form action="EditUser" method="post">
 				<input type="hidden" value="@entry.Id" name="Id">
+				<input type="hidden" value="@Model.YouAccounts" name="YouAccounts">
 				<div class="item-id">
 					<span>@(entry.Id)</span>
 				</div>
@@ -56,24 +51,8 @@
 					<input type="text" value="@entry.Name" name="Name">
 				</div>
 				<span> | </span>
-				<div class="item-default">
-					<input type="checkbox" name="IsDefault" value="true" @(entry.IsDefault ? "checked" : "")>
-				</div>
-				<span> | </span>
-				<div class="item-slot">
-					<select name="ItemSlot">
-						@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
-						{
-							@if (entry.ItemSlot == slot)
-							{
-								<option value="@slot" selected>@EnumHelpers.GetDisplayName(slot)</option>
-							}
-							else
-							{
-								<option value="@slot">@EnumHelpers.GetDisplayName(slot)</option>
-							}
-						}
-					</select>
+				<div class="item-clocked">
+					<input type="checkbox" name="ClockedIn" value="true" @(entry.ClockedIn ? "checked" : "")>
 				</div>
 				<span> | </span>
 				<div class="item-save">
@@ -82,7 +61,7 @@
 			</form>
 			<span> | </span>
 			<div class="item-delete">
-				<form action="DeleteItem" method="post">
+				<form action="DeleteYouUser" method="post">
 					<input type="hidden" name="Id" value="@entry.Id">
 					<input type="submit" value="Delete">
 				</form>
@@ -117,12 +96,8 @@
 		display: inline-block;
 	}
 
-	.item-image {
-		width: 48px;
-	}
-
 	.item-id {
-		width: 48px;
+		width: 96px;
 	}
 
 	.item-name {
@@ -133,11 +108,7 @@
 		width: 100%;
 	}
 
-	.item-default {
+	.item-clocked {
 		width: 75px;
-	}
-
-	.item-slot {
-		width: 128px;
 	}
 </style>

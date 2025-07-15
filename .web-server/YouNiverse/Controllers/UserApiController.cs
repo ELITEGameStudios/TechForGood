@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using YouNiverse.Models;
 using YouNiverse.Models.LabSignin;
 using YouNiverse.Models.Youniverse;
 
@@ -9,12 +10,10 @@ namespace YouNiverse.Controllers;
 public class UserApiController : Controller
 {
 	private readonly UserContext _context;
-	private readonly TimesheetContext _timeSheet;
 
-	public UserApiController(UserContext context, TimesheetContext timeSheet)
+	public UserApiController(UserContext context)
 	{
 		_context = context;
-		_timeSheet = timeSheet;
 	}
 
 	// todo: require sign in
@@ -24,7 +23,7 @@ public class UserApiController : Controller
 		if (!int.TryParse(id, out int nId))
 			return StatusCode(StatusCodes.Status500InternalServerError, "Bad student id.");
 
-		UserItem? user = await _context.UserItems.FindAsync(nId);
+		YouAccount? user = await _context.Users.FindAsync(nId);
 
 		if (user == null)
 			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
@@ -46,14 +45,14 @@ public class UserApiController : Controller
 	[HttpGet]
 	public async Task<IActionResult> GetLabUsers()
 	{
-		TimeEntry[] entries_all = await _timeSheet.TimeEntries
-			.Where(e => e.ClockOut == null)
+		TimeEntry[] entries = await _context.TimeEntries.Include(e => e.User)
+			.Where(e => e.ClockOut == null &&
+				e.User != null &&
+				e.User!.AccountType == EAccountType.LabAndYouniverse)
 			.ToArrayAsync();
 
-		TimeEntry[] entries = [.. entries_all.Where(e => _context.UserItems.Find(e.StudentId) != null)];
-
 		using MemoryStream stream = new();
-		await JsonSerializer.SerializeAsync(stream, entries.Select(e => e.StudentId).ToArray());
+		await JsonSerializer.SerializeAsync(stream, entries.Select(e => e.UserId).ToArray());
 
 		stream.Position = 0;
 		using var reader = new StreamReader(stream);
@@ -63,30 +62,28 @@ public class UserApiController : Controller
 
 	// todo: require sign in
 	[HttpGet]
-	public async Task<IActionResult> GetProfile(string id)
+	public async Task<IActionResult> GetProfile(int id)
 	{
-		if (!int.TryParse(id, out int nId))
-			return StatusCode(StatusCodes.Status500InternalServerError, "Bad student id.");
-
-		UserItem? user = await _context.UserItems.FindAsync(nId);
-		if (user == null)
+		YouAccount? user = await _context.Users.FindAsync(id);
+		LabAccount? lab = await _context.LabUsers.FindAsync(id);
+		if (user == null || lab == null)
 			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
 
 		if (user.PrimaryColor == "")
-			user.PrimaryColor = UserItem.k_DefaultPrimaryColor;
+			user.PrimaryColor = YouAccount.k_DefaultPrimaryColor;
 
 		if (user.SecondaryColor == "")
-			user.SecondaryColor = UserItem.k_DefaultSecondaryColor;
+			user.SecondaryColor = YouAccount.k_DefaultSecondaryColor;
 
 		BioRequest request = new()
 		{
-			FirstName = user.FirstName,
-			LastName = user.LastName,
+			FirstName = lab.FirstName,
+			LastName = lab.LastName,
 			Catchphrase = user.Catchphrase,
 			Role = EnumHelpers.GetDisplayName(user.Role),
 			PrimaryColor = user.PrimaryColor,
 			SecondaryColor = user.SecondaryColor,
-			Hours = user.Hours,
+			Hours = lab.Hours,
 		};
 
 		using MemoryStream stream = new();
