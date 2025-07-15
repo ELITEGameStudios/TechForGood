@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject youPrefab;
     public string websiteName;
     public bool local;
+    public List<Sprite> sprit;
 
 
 
@@ -101,19 +102,32 @@ public class GameManager : MonoBehaviour
 
             You you = Instantiate(youPrefab, transform).GetComponent<You>();
 
-            var url = websiteName +"/UserApi/GetAvatar?id="+studentNumbers[i].ToString();
+            // Profile Data
+            var url = websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString();
             var http_client = new HttpClient(new JSONSerializationOption());
             YouWebClass youBaseData = await http_client.Get<YouWebClass>(url);
 
+            // Cosmetic Data
+            url = websiteName +"/UserApi/GetAvatar?id="+studentNumbers[i].ToString();
+            YouCosmeticData youCosmeticData = await http_client.Get<YouCosmeticData>(url);
+            await RetrieveCosmeticData(youCosmeticData);
             // Texture profileImage = await GetTextureFromWeb( "http://" + websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString());
-            // CosmeticBundleStruct cosmeticBundle = await GetCosmeticFromWeb(youBaseData.hatCosmetic);
 
-            you.SetData(youBaseData);
-            you.studentNumber = studentNumbers[i];
+            you.SetData(youBaseData, youCosmeticData, studentNumbers[i]);
             yous.Add(you);
             // you.SetData(youBaseData, cosmeticBundle);
         }
 
+    }
+
+    public async Task<YouCosmeticData> RetrieveCosmeticData(YouCosmeticData youCosmeticData)
+    {
+        for (int i = 0; i < youCosmeticData.IdList.Length; i++)
+        {
+            youCosmeticData.bundleStruct[i] = await GetCosmeticFromWeb(youCosmeticData.IdList[i]);
+        }
+
+        return youCosmeticData;
     }
 
     void AddLocalYou(){
@@ -143,18 +157,14 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public async Task<CosmeticBundleStruct> GetCosmeticFromWeb(int itemId){
-        CosmeticBundleStruct cosmeticBundle;
-        
-        cosmeticBundle.front = await GetTextureFromWeb( websiteName +"/items/" + itemId.ToString() + "_front.png");
-        cosmeticBundle.side = await GetTextureFromWeb( websiteName +"/items/" + itemId.ToString() + "_side.png");
-        cosmeticBundle.back = await GetTextureFromWeb( websiteName +"/items/" + itemId.ToString() + "_back.png");
-        
-        return cosmeticBundle;
+    public async Task<CosmeticBundleClass> GetCosmeticFromWeb(int itemId){
+        Texture texture = await GetTextureFromWeb(websiteName + "/items/" + itemId.ToString()+".png");
+        if(texture == null){ return null; }
+        return new CosmeticBundleClass(texture);
     }
 
     public async Task<Texture> GetTextureFromWeb(string url){
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture( websiteName +"/items/" + "[ItemCode]".ToString() + "");
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture( url );
         await www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success) {
@@ -163,12 +173,6 @@ public class GameManager : MonoBehaviour
         else {
             return DownloadHandlerTexture.GetContent(www);
         }
-    }
-    void FinishRetrieval(){
-        // Initiate intros and any startupp sequences for the program
-        dataState = DataRetrieveState.FINISHED;
-
-
     }
 
     void Update(){
@@ -184,6 +188,4 @@ public class GameManager : MonoBehaviour
             //     break;
         // }
     }
-
-
 }
