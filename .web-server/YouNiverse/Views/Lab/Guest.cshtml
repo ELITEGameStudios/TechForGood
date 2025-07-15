@@ -1,0 +1,31 @@
+@model GuestSigninGetModel
+
+@{
+	ViewData["Title"] = "Timesheet";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Welcome to the Game Lab</h1><br>
+	<h2>Guest Sign-In</h2><br>
+	<form method="post">
+		<label asp-for="FirstName">First Name:</label><br>
+		<input placeholder="First Name" asp-for="FirstName" type="text" autofocus />
+		<br><br>
+		<label asp-for="LastName">Last Name:</label><br>
+		<input placeholder="First Name" asp-for="LastName" type="text" autofocus />
+		<br><br>
+		<input type="submit" />
+		@if (Model.Error != null)
+		{
+			<p class="signin-error">@Model.Error</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+	</form>
+	<a asp-action="Index">Back</a>
+</div>

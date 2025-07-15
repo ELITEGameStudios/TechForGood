@@ -16,14 +16,8 @@
 		<label asp-for="ItemSlot">Item Slot</label><br>
 		<select asp-for="ItemSlot" asp-items="Html.GetEnumSelectList<EItemSlot>()"></select><br><br>
 
-		<label asp-for="FrontImage">Front Image</label><br>
-		<input asp-for="FrontImage" type="file" accept=".png" /><br><br>
-
-		<label asp-for="SideImage">Side Image (right)</label><br>
-		<input asp-for="SideImage" type="file" accept=".png" /><br><br>
-
-		<label asp-for="BackImage">Back Image</label><br>
-		<input asp-for="BackImage" type="file" accept=".png" /><br><br>
+		<label asp-for="SpriteSheet">Sprite Sheet</label><br>
+		<input asp-for="SpriteSheet" type="file" accept=".png" /><br><br>
 
 		<label asp-for="IsDefault">Owned by everyone</label>
 		<input asp-for="IsDefault" type="checkbox"><br><br>

@@ -1,0 +1,27 @@
+@model LabLoginViewModel
+
+@{
+	ViewData["Title"] = "Timesheet";
+}
+
+<link rel="stylesheet" href="css/site.css">
+
+<div class="text-center">
+	<h1>Welcome to the Game Lab</h1><br>
+	<form method="post">
+		<label asp-for="StudentId">Sign In/Out:</label><br>
+		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" autofocus />
+		<input type="submit" />
+		@if (ViewData["loginError"] != null)
+		{
+			<p class="signin-error">@ViewData["loginError"]</p>
+		}
+		else
+		{
+			<br>
+			<br>
+		}
+	</form>
+	<a asp-action="Guest">Guest Signin</a><br><br>
+	<a href="Account/Signin">YOUniverse Profile</a><br>
+</div>

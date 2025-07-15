@@ -1,8 +1,7 @@
-namespace YouNiverse.Models.LabSignin;
+namespace YouNiverse.Models.Youniverse;
 
-public class LabRegisterModel
+public class GuestSigninPostModel
 {
-	public int? StudentId { get; set; }
 	public string FirstName { get; set; } = default!;
 	public string LastName { get; set; } = default!;
 }

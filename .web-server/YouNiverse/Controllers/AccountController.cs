@@ -1,10 +1,14 @@
 using System.Drawing;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using YouNiverse.Models;
+using YouNiverse.Models.LabSignin;
 using YouNiverse.Models.Youniverse;
 
 namespace YouNiverse.Controllers;
@@ -22,13 +26,14 @@ public class AccountController : Controller
 	public async Task<IActionResult> Index()
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+		YouAccount user = (await _context.Users.FindAsync(userId))!;
+		LabAccount lab = (await _context.LabUsers.FindAsync(userId))!;
 
 		AccountViewModel model = new()
 		{
 			StudentId = user.Id,
-			FirstName = user.FirstName,
-			LastName = user.LastName
+			FirstName = lab.FirstName,
+			LastName = lab.LastName
 		};
 
 		return View(model);
@@ -38,7 +43,7 @@ public class AccountController : Controller
 	public async Task<IActionResult> DressRoom()
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+		YouAccount user = (await _context.Users.FindAsync(userId))!;
 
 		List<UnlockEntry> unlocks = await _context.Unlocks
 			.Include(u => u.Item)
@@ -77,7 +82,7 @@ public class AccountController : Controller
 	public async Task<IActionResult> DressRoom(DressRoomViewModel model)
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+		YouAccount user = (await _context.Users.FindAsync(userId))!;
 
 		int nCategories = Enum.GetValues(typeof(EItemSlot)).Length;
 
@@ -90,10 +95,10 @@ public class AccountController : Controller
 			}
 
 			int item = model.SelectedItems[i];
-			bool ownsItem = _context.UserItems
+			bool ownsItem = await _context.Users
 				.Include(u => u.Unlocks)
 				.Where(u => u.Unlocks.Any(u => u.ItemId == item))
-				.Any();
+				.AnyAsync();
 
 			if (ownsItem)
 			{
@@ -110,7 +115,7 @@ public class AccountController : Controller
 	public async Task<IActionResult> Profile()
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+		YouAccount user = (await _context.Users.FindAsync(userId))!;
 
 		ProfileViewModel model = new()
 		{
@@ -128,7 +133,7 @@ public class AccountController : Controller
 	public async Task<IActionResult> Profile(ProfileViewModel model)
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		UserItem user = (await _context.UserItems.FindAsync(userId))!;
+		YouAccount user = (await _context.Users.FindAsync(userId))!;
 
 		user.Catchphrase = model.Catchphrase;
 		user.Role = model.Role;
@@ -154,14 +159,15 @@ public class AccountController : Controller
 	{
 		Console.WriteLine($"Signin request for {model.StudentId}");
 
-		UserItem? user = await _context.UserItems.FindAsync(model.StudentId);
-		if (user == null)
+		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
+			u => u.AccountType == EAccountType.LabAndYouniverse && u.StudentId == model.StudentId);
+		if (lab == null)
 		{
-			UserRegisterModel registerModel = new()
+			UserRegisterGetModel registerModel = new()
 			{
 				StudentId = model.StudentId,
 			};
-			return View("Register", registerModel);
+			return RedirectToAction("Register", registerModel);
 		}
 
 		// todo: verify password
@@ -181,62 +187,99 @@ public class AccountController : Controller
 		return RedirectToAction("Index");
 	}
 
-	public IActionResult Register()
+	public IActionResult Register(UserRegisterGetModel model)
 	{
-		return View();
+		return View(model);
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Register(UserRegisterModel model)
+	public async Task<IActionResult> Register(UserRegisterPostModel model)
+	{
+		UserRegisterGetModel? errors = await RegisterAsync(model, _context);
+
+		if (errors != null)
+		{
+			return View(errors);
+		}
+
+		await SignInAsync(model.StudentId);
+
+		return RedirectToAction("Index");
+	}
+
+	public static async Task<UserRegisterGetModel?> RegisterAsync(UserRegisterPostModel model, UserContext _context)
 	{
 		bool valid = true;
 
-		UserItem? user = await _context.UserItems.FindAsync(model.StudentId);
-		if (user != null)
+		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
+			u => u.StudentId == model.StudentId);
+
+		UserRegisterGetModel errors = new()
 		{
-			ViewData["studentIdError"] ??= "Student ID already registered.";
+			StudentId = model.StudentId,
+			FirstName = model.FirstName,
+			LastName = model.LastName,
+		};
+
+		if (lab != null && lab.AccountType == EAccountType.LabAndYouniverse)
+		{
+			errors.StudentIdError ??= "Student ID already registered.";
 			valid = false;
 		}
 
 		if (model.StudentId <= 0)
 		{
-			ViewData["studentIdError"] ??= "Invalid Student ID.";
+			errors.StudentIdError ??= "Invalid Student ID.";
 			valid = false;
 		}
 
 		if (model.FirstName == null)
 		{
-			ViewData["firstNameError"] = "Required.";
+			errors.FirstNameError = "Required.";
 			valid = false;
 		}
 
 		if (model.LastName == null)
 		{
-			ViewData["lastNameError"] = "Required.";
+			errors.LastNameError = "Required.";
 			valid = false;
 		}
 
 		if (!valid)
 		{
-			return View(model);
+			return errors;
 		}
 
-		UserItem newUser = new()
+		if (lab == null)
 		{
-			Id = model.StudentId,
-			FirstName = model.FirstName!,
-			LastName = model.LastName!,
-			Loadout = new ItemLoadout(),
+			lab = new()
+			{
+				AccountType = EAccountType.LabAndYouniverse,
+				StudentId = model.StudentId,
+				FirstName = model.FirstName!,
+				LastName = model.LastName!,
+				Hours = 0,
+			};
+			await _context.LabUsers.AddAsync(lab);
+			await _context.SaveChangesAsync();
+		}
+		else
+		{
+			lab.AccountType = EAccountType.LabAndYouniverse;
+		}
+
+		YouAccount newUser = new()
+		{
+			Id = lab.Id,
 		};
-		await _context.UserItems.AddAsync(newUser);
-		await _context.SaveChangesAsync();
+		await _context.Users.AddAsync(newUser);
 
 		// Give default items
 		await _context.Cosmetics.Where(c => c.IsDefault).ForEachAsync(async c =>
 		{
 			UnlockEntry unlock = new()
 			{
-				UserId = newUser.Id,
+				UserId = lab.Id,
 				ItemId = c.Id,
 				UnlockDate = DateTime.Now
 			};
@@ -244,18 +287,23 @@ public class AccountController : Controller
 		});
 		await _context.SaveChangesAsync();
 
-		await SignInAsync(model.StudentId);
-
-		return RedirectToAction("Index");
+		return null;
 	}
 
 	async Task SignInAsync(int studentId)
 	{
 		// todo:  verify password here!
 
+		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
+			u => u.StudentId == studentId && u.AccountType == EAccountType.LabAndYouniverse);
+		if (lab == null)
+		{
+			return;
+		}
+
 		var claims = new List<Claim>
 		{
-			new(ClaimTypes.Name, studentId.ToString()),
+			new(ClaimTypes.Name, lab.Id.ToString()),
 			new(ClaimTypes.Role, "Student"),
 		};
 
