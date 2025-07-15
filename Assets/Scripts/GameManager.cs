@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         var http_client = new HttpClient(new JSONSerializationOption());
         string[] newStudentNumbers = await http_client.Get<string[]>(url);
-        Debug.Log("Got info?");
+        Debug.Log("Got info? " + newStudentNumbers);
         
         if (studentNumbers.Length > newStudentNumbers.Length){
             studentNumbers = newStudentNumbers;
@@ -68,15 +68,18 @@ public class GameManager : MonoBehaviour
 
         for (int i = yous.Count-1; i >= 0 ; i--)
         {
+            bool retire = true;
             foreach (string id in studentNumbers)
             {
                 if(id == yous[i].studentNumber){
-                    continue;
+                    retire = false;
+                    break;
                 }
             }
-
-            yous[i].Retire();
-            yous.RemoveAt(i);
+            if(retire){
+                yous[i].Retire();
+                yous.RemoveAt(i);
+            }
         }
     }
 
@@ -91,10 +94,10 @@ public class GameManager : MonoBehaviour
             {
                 if(oldYou.studentNumber == studentNumbers[i]){
                     exists = true;
+                    Debug.Log("You exist");
                 }
             }
             if(exists) continue;
-
 
             You you = Instantiate(youPrefab, transform).GetComponent<You>();
 
@@ -106,6 +109,7 @@ public class GameManager : MonoBehaviour
             // CosmeticBundleStruct cosmeticBundle = await GetCosmeticFromWeb(youBaseData.hatCosmetic);
 
             you.SetData(youBaseData);
+            you.studentNumber = studentNumbers[i];
             yous.Add(you);
             // you.SetData(youBaseData, cosmeticBundle);
         }

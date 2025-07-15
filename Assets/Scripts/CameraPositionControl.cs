@@ -16,20 +16,20 @@ public class CameraPositionControl : MonoBehaviour
         else if(instance != this){Destroy(this);}
 
         defaultPos = transform.position;
-        defaultZoom = Camera.main.orthographicSize;
+        defaultZoom = Camera.main.fieldOfView;
     }
 
     void Update()
     {
         if(active){
             transform.position = Vector3.Lerp(lastPos, targetPosition, currentCurve.Evaluate(1 - currentTimer/time));
-            Camera.main.orthographicSize = Mathf.Lerp(lastZoom, targetZoom, currentCurve.Evaluate(1 - currentTimer/time));
+            Camera.main.fieldOfView = Mathf.Lerp(lastZoom, targetZoom, currentCurve.Evaluate(1 - currentTimer/time));
 
             currentTimer -= Time.deltaTime;
         
             if(!active){
                 transform.position = targetPosition;
-                Camera.main.orthographicSize = targetZoom;
+                Camera.main.fieldOfView = targetZoom;
             }
         }
     }
@@ -50,6 +50,6 @@ public class CameraPositionControl : MonoBehaviour
         currentCurve = curve == null ? defaultCurve : curve;
 
         targetZoom = zoom == -1 ? defaultZoom : zoom;
-        lastZoom = Camera.main.orthographicSize;
+        lastZoom = Camera.main.fieldOfView;
     }
 }
