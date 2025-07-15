@@ -5,6 +5,8 @@ namespace YouNiverse.Models.Youniverse;
 
 public enum EItemSlot
 {
+	[Display(Name = "Base")]
+	Base,
 	[Display(Name = "Head")]
 	Head,
 	[Display(Name = "Face")]

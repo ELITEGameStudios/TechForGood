@@ -39,6 +39,7 @@ public enum EGameRole
 
 public class ItemLoadout
 {
+	public int BaseItemId { get; set; } = -1;
 	public int HeadItemId { get; set; } = -1;
 	public int FaceItemId { get; set; } = -1;
 	public int ShirtItemId { get; set; } = -1;
@@ -51,6 +52,7 @@ public class ItemLoadout
 		EItemSlot slot = (EItemSlot)i;
 		return slot switch
 		{
+			EItemSlot.Base => BaseItemId,
 			EItemSlot.Head => HeadItemId,
 			EItemSlot.Face => FaceItemId,
 			EItemSlot.Shirt => ShirtItemId,
@@ -65,6 +67,9 @@ public class ItemLoadout
 	{
 		switch (slot)
 		{
+			case EItemSlot.Base:
+				BaseItemId = item;
+				break;
 			case EItemSlot.Head:
 				HeadItemId = item;
 				break;
