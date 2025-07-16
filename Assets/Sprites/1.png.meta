@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5d2be9caaa99c42e5a9f6f9d4f7ef503
+guid: 17ec4aee00626a947a3049e969dae2b2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: REDSHIRT Avatar_0
+      name: 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 240
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -112,19 +112,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e208be230b7844c28d50097ecd23d0b
-      internalID: -1373000374
+      spriteID: 9d7eaff5c7d8e054798bec535b866374
+      internalID: -1823001409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_1
+      name: 1_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 240
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -134,41 +134,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec9a072a1bff04ae0b5be38789e02e5d
-      internalID: 1746480695
+      spriteID: 2f0a68261a30ff64988040eadb4830fb
+      internalID: 1710258195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 240
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a55fbc83baa244b9cae66263c6e2c7d8
-      internalID: -484834855
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_3
+      name: 1_2
       rect:
         serializedVersion: 2
         x: 96
         y: 240
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -178,19 +156,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a95149014ad1549f9b8b2c49cb091978
-      internalID: -1485879641
+      spriteID: ecb56b7c08047c54eb4150b104fd283f
+      internalID: 529795968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_4
+      name: 1_3
       rect:
         serializedVersion: 2
-        x: 128
+        x: 144
         y: 240
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,85 +178,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48ae34214b1bb40d7a16ca8df51a6622
-      internalID: -1177522780
+      spriteID: 764a740e123ceeb459294fc773c6e084
+      internalID: 930653740
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 240
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: be47c22e0f29b4cccb74939e2def8343
-      internalID: 677416241
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_6
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 240
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f3df74921e13490eac554fbb312cbaa
-      internalID: 86779199
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 240
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a2dece39b04f4137a7efd39bd91166c
-      internalID: -1279996275
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_8
+      name: 1_4
       rect:
         serializedVersion: 2
         x: 0
         y: 192
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -288,19 +200,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 554b4f7649e7b48dda7020f843a35c8f
-      internalID: -1130418296
+      spriteID: c0d69e50c7c4a634c92c2a7218d3cbf3
+      internalID: -988281011
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_9
+      name: 1_5
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 192
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -310,41 +222,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0afa7c55a176e4ac7807efa6b30a5141
-      internalID: 62187082
+      spriteID: cd1d9feb72e46e644b065feb2ca2cbc5
+      internalID: 1868746813
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_10
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 192
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b2a668a897cb04034a9ea75f440a466b
-      internalID: 1971568502
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_11
+      name: 1_6
       rect:
         serializedVersion: 2
         x: 96
         y: 192
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -354,19 +244,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bfe9204dee0c04625a32cede79cb6f35
-      internalID: -988696113
+      spriteID: 180311b882060c64d86dd1b3efa3e18b
+      internalID: -1986784766
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_12
+      name: 1_7
       rect:
         serializedVersion: 2
-        x: 128
+        x: 144
         y: 192
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -376,85 +266,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d709b2a5ab9e40959b8fc344443d30b
-      internalID: -1682768979
+      spriteID: b9bebb106a2b80049805b2f554b0971c
+      internalID: -1004723463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_13
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 192
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fc26fce69f5f8472496ce7ff16c33ad1
-      internalID: -483339889
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_14
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 192
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 70f8124edbd46426d88d520740b7b795
-      internalID: 1081700803
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_15
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 192
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e791f674988a445beb27b7b493dfa2c1
-      internalID: 2060841408
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_16
+      name: 1_8
       rect:
         serializedVersion: 2
         x: 0
         y: 144
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -464,19 +288,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04963559b57ab4ffc9b1bbae61e3d356
-      internalID: -1141482255
+      spriteID: fcb33ca8274eeda43a40ab3ae2bbb0bb
+      internalID: 527100712
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_17
+      name: 1_9
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 144
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -486,41 +310,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bd12dfc517304d878b4811cdfbe7482
-      internalID: -104266498
+      spriteID: 5d0eb01464ca1954cb9a70107b395b09
+      internalID: -126973924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_18
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 144
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4264b8871fccf417c94a6d2719f45891
-      internalID: -1662073400
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_19
+      name: 1_10
       rect:
         serializedVersion: 2
         x: 96
         y: 144
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -530,19 +332,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8837313cc7f05477091444fdf376d7a3
-      internalID: -2075529669
+      spriteID: f97e2f6e4c593e84e8651a95abeb5b0a
+      internalID: -117766629
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_20
+      name: 1_11
       rect:
         serializedVersion: 2
-        x: 128
+        x: 144
         y: 144
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -552,85 +354,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c09079ed5539e4e62a86faeb1a025997
-      internalID: -552044022
+      spriteID: 62acd3596514d164babc243ff0f32937
+      internalID: -1108250920
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_21
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 144
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c3fb38061801e4c4eab8ce675e530148
-      internalID: -1500769730
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_22
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 144
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 718b6999047fa4ca8abd69b2e5fd2114
-      internalID: -1071893307
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_23
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 144
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f1c89e05cecb7494ca4d11c2d893c9b6
-      internalID: -749714082
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_24
+      name: 1_12
       rect:
         serializedVersion: 2
         x: 0
         y: 96
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -640,19 +376,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b51546c48a8e48dbbe430aa597ee815
-      internalID: -1440785462
+      spriteID: 8821ac08eef066647ae996254b94a3c5
+      internalID: -651180319
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_25
+      name: 1_13
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 96
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -662,41 +398,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e641623662e44d6084443eff12bc1c9
-      internalID: -168231709
+      spriteID: 23e315b24bbe65346b585b1d94bf3475
+      internalID: -1920359655
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_26
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f9764eac86f714564ba3c1f9e5e149c0
-      internalID: -169788719
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_27
+      name: 1_14
       rect:
         serializedVersion: 2
         x: 96
         y: 96
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -706,19 +420,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39bf61b509ebd495d919161650d651fc
-      internalID: -1945902613
+      spriteID: c8b77dc17bce91a42bb583fd91ba9790
+      internalID: -1869899168
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_28
+      name: 1_15
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 96
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c61bad901ca275f41a8ac02e003ebdf6
+      internalID: 745838424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_16
       rect:
         serializedVersion: 2
         x: 0
         y: 48
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -728,19 +464,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 590c4fc20716943119fcff8e3d31d725
-      internalID: -338074081
+      spriteID: 99ec91cbfc8392241816a431756732fa
+      internalID: 1177434480
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_29
+      name: 1_17
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 48
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -750,41 +486,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f4fd616a42cb4e93819aa311aaa95c8
-      internalID: 1302462337
+      spriteID: ad27191f63a12834aa5ba018299e824f
+      internalID: -955524364
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_30
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 48
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dd2b2208b22014d8ca85afae972cd493
-      internalID: 775693687
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_31
+      name: 1_18
       rect:
         serializedVersion: 2
         x: 96
         y: 48
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -794,19 +508,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f7ef95bc25a54602801add6437f2114
-      internalID: 1466638865
+      spriteID: f2b480762befcff42b27030032634c82
+      internalID: 743235264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_32
+      name: 1_19
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 48
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85dcc1c7f0adcd747bc09483220cfb3f
+      internalID: -1025700818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_20
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -816,19 +552,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b0875881e01b423db06bb36afb03768
-      internalID: -203028838
+      spriteID: 7d0594e1e5255ae42ad8c1c0adcc0bc0
+      internalID: -2133010643
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_33
+      name: 1_21
       rect:
         serializedVersion: 2
-        x: 32
+        x: 48
         y: 0
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -838,41 +574,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73a5ac8d853c341f48ce7afb0928a08d
-      internalID: 1484452679
+      spriteID: bb0b9b31b542d4549acbdcef60b581b1
+      internalID: 961881183
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: REDSHIRT Avatar_34
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19dfced3dba63452bb3f22999800c0f6
-      internalID: -1049959018
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: REDSHIRT Avatar_35
+      name: 1_22
       rect:
         serializedVersion: 2
         x: 96
         y: 0
-        width: 32
+        width: 48
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -882,8 +596,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b5533e0a91c34a9fa837d80d77a43f4
-      internalID: 202849715
+      spriteID: dabeed473ee44bc4cb97e7f24a49a539
+      internalID: -1540460766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1_23
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44c000a6bcb3e9a4797e7e0348389a85
+      internalID: -13004592
       vertices: []
       indices: 
       edges: []
@@ -892,7 +628,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: aed24138fdad84a4999ebb434ccdc97e
+    spriteID: d8c38d69c98ab344b95fab32c627b899
     internalID: 0
     vertices: []
     indices: 
@@ -902,42 +638,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      REDSHIRT Avatar_0: -1373000374
-      REDSHIRT Avatar_1: 1746480695
-      REDSHIRT Avatar_10: 1971568502
-      REDSHIRT Avatar_11: -988696113
-      REDSHIRT Avatar_12: -1682768979
-      REDSHIRT Avatar_13: -483339889
-      REDSHIRT Avatar_14: 1081700803
-      REDSHIRT Avatar_15: 2060841408
-      REDSHIRT Avatar_16: -1141482255
-      REDSHIRT Avatar_17: -104266498
-      REDSHIRT Avatar_18: -1662073400
-      REDSHIRT Avatar_19: -2075529669
-      REDSHIRT Avatar_2: -484834855
-      REDSHIRT Avatar_20: -552044022
-      REDSHIRT Avatar_21: -1500769730
-      REDSHIRT Avatar_22: -1071893307
-      REDSHIRT Avatar_23: -749714082
-      REDSHIRT Avatar_24: -1440785462
-      REDSHIRT Avatar_25: -168231709
-      REDSHIRT Avatar_26: -169788719
-      REDSHIRT Avatar_27: -1945902613
-      REDSHIRT Avatar_28: -338074081
-      REDSHIRT Avatar_29: 1302462337
-      REDSHIRT Avatar_3: -1485879641
-      REDSHIRT Avatar_30: 775693687
-      REDSHIRT Avatar_31: 1466638865
-      REDSHIRT Avatar_32: -203028838
-      REDSHIRT Avatar_33: 1484452679
-      REDSHIRT Avatar_34: -1049959018
-      REDSHIRT Avatar_35: 202849715
-      REDSHIRT Avatar_4: -1177522780
-      REDSHIRT Avatar_5: 677416241
-      REDSHIRT Avatar_6: 86779199
-      REDSHIRT Avatar_7: -1279996275
-      REDSHIRT Avatar_8: -1130418296
-      REDSHIRT Avatar_9: 62187082
+      1_0: -1823001409
+      1_1: 1710258195
+      1_10: -117766629
+      1_11: -1108250920
+      1_12: -651180319
+      1_13: -1920359655
+      1_14: -1869899168
+      1_15: 745838424
+      1_16: 1177434480
+      1_17: -955524364
+      1_18: 743235264
+      1_19: -1025700818
+      1_2: 529795968
+      1_20: -2133010643
+      1_21: 961881183
+      1_22: -1540460766
+      1_23: -13004592
+      1_3: 930653740
+      1_4: -988281011
+      1_5: 1868746813
+      1_6: -1986784766
+      1_7: -1004723463
+      1_8: 527100712
+      1_9: -126973924
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

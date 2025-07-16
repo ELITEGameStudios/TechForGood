@@ -3439,6 +3439,8 @@ MonoBehaviour:
   timer: 0
   duration: 2
   speed: 3.5
+  enter_sound: {fileID: 0}
+  exit_sound: {fileID: 0}
 --- !u!1 &450785261
 GameObject:
   m_ObjectHideFlags: 0
@@ -6052,18 +6054,10 @@ MonoBehaviour:
   ai: {fileID: 0}
   velocityAnimThreshold: 0.33
   walkAnimThreshold: 0.25
-  renderers: []
-  cosmeticBundle:
-    spriteSheet: {fileID: 0}
-    walkFront: []
-    walkSide: []
-    walkBack: []
-    idleFront: []
-    idleSide: []
-    idleBack: []
+  baseRenderer: {fileID: 0}
+  headRenderer: {fileID: 0}
   profileImage: {fileID: 0}
   anim: 0
-  bundleClasses: []
   secondsPlayed: 0
 --- !u!1 &748232437
 GameObject:
@@ -14954,12 +14948,14 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 0
@@ -16953,12 +16949,14 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
