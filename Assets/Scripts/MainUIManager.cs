@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class MainUIManager : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class MainUIManager : MonoBehaviour
     public AudioClip enter_sound;
     public AudioClip exit_sound;
     public AudioSource SFX_player;
+    [SerializeField] private Volume DOFVolume;
 
-    public enum UIState{
+    public enum UIState
+    {
         DEFAULT,
         INSPECTING
     }
@@ -37,16 +40,18 @@ public class MainUIManager : MonoBehaviour
     void Update()
     {
         if (timer <= duration){
-            timer = timer + Time.deltaTime;
+            timer += Time.deltaTime;
 
             float percentage = timer/duration;
 
             if (state == UIState.INSPECTING){
                 UI_panel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(original_position, active_position, Mathf.SmoothStep(0, 1, percentage * speed));
+                DOFVolume.weight = percentage * speed;
             }
 
             else{
                 UI_panel.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(active_position, original_position, Mathf.SmoothStep(0, 1, percentage * speed));
+                DOFVolume.weight = 1 - (percentage * speed);
             }
         }
 
