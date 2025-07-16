@@ -14,15 +14,22 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			border-bottom: 1px solid #b5b5b5;
+			height: 40px;
+			padding-left: 8px;
+			padding-right: 8px;
 		}
 	</style>
 
-	<header>
-		<a asp-action="Index">YOUniverse</a>
-		<form method="post" action="/Account/Signout" class="text-right">
-			<input type="submit" value="Signout" />
-		</form>
-	</header>
+	@if (ViewData["useHeader"] == null || ViewData["useHeader"]!.Equals(true))
+	{
+		<header>
+			<a asp-action="Index">YOUniverse</a>
+			<form method="post" action="/Account/Signout" class="text-right">
+				<input type="submit" value="Signout" />
+			</form>
+		</header>
+	}
 
 	<div class="container">
 		@RenderBody()

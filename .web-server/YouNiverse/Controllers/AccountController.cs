@@ -149,11 +149,6 @@ public class AccountController : Controller
 		return RedirectToAction("Index");
 	}
 
-	public IActionResult Signin()
-	{
-		return View();
-	}
-
 	[HttpPost]
 	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
 	{
@@ -305,6 +300,13 @@ public class AccountController : Controller
 		if (lab == null)
 		{
 			return;
+		}
+
+		TimeEntry? activeEntry = await _context.TimeEntries.FirstOrDefaultAsync(e => e.ClockOut == null && e.UserId == lab.Id);
+		if (activeEntry != null)
+		{
+			activeEntry.ClockOut = DateTime.Now;
+			await _context.SaveChangesAsync();
 		}
 
 		var claims = new List<Claim>
