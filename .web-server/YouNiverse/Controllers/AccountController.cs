@@ -108,7 +108,7 @@ public class AccountController : Controller
 
 		await _context.SaveChangesAsync();
 
-		return RedirectToAction("DressRoom");
+		return RedirectToAction("Index");
 	}
 
 	[Authorize]
@@ -146,37 +146,6 @@ public class AccountController : Controller
 
 		await _context.SaveChangesAsync();
 
-		return View(model);
-	}
-
-	public IActionResult Signin()
-	{
-		return View();
-	}
-
-	[HttpPost]
-	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
-	{
-		Console.WriteLine($"Signin request for {model.StudentId}");
-
-		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
-			u => u.AccountType == EAccountType.LabAndYouniverse && u.StudentId == model.StudentId);
-		if (lab == null)
-		{
-			UserRegisterGetModel registerModel = new()
-			{
-				StudentId = model.StudentId,
-			};
-			return RedirectToAction("Register", registerModel);
-		}
-
-		// todo: verify password
-
-		await SignInAsync(model.StudentId);
-
-		if (ReturnUrl != null)
-			return Redirect(ReturnUrl);
-
 		return RedirectToAction("Index");
 	}
 
@@ -184,7 +153,7 @@ public class AccountController : Controller
 	public async Task<IActionResult> Signout()
 	{
 		await HttpContext.SignOutAsync();
-		return RedirectToAction("Index");
+		return RedirectToAction("Index", "Lab");
 	}
 
 	public IActionResult Register(UserRegisterGetModel model)
@@ -202,7 +171,7 @@ public class AccountController : Controller
 			return View(errors);
 		}
 
-		await SignInAsync(model.StudentId);
+		await SignInAsync(model.StudentId, _context, HttpContext);
 
 		return RedirectToAction("Index");
 	}
@@ -227,7 +196,7 @@ public class AccountController : Controller
 			valid = false;
 		}
 
-		if (model.StudentId <= 0)
+		if (model.StudentId.ToString().Length != 9)
 		{
 			errors.StudentIdError ??= "Invalid Student ID.";
 			valid = false;
@@ -290,7 +259,7 @@ public class AccountController : Controller
 		return null;
 	}
 
-	async Task SignInAsync(int studentId)
+	public static async Task SignInAsync(int studentId, UserContext _context, HttpContext HttpContext)
 	{
 		// todo:  verify password here!
 
@@ -300,6 +269,18 @@ public class AccountController : Controller
 		{
 			return;
 		}
+
+		// bool clockedIn = await _context.TimeEntries.AnyAsync(e => e.ClockOut == null && e.UserId == lab.Id);
+		// if (!clockedIn)
+		// {
+		// 	TimeEntry entry = new()
+		// 	{
+		// 		UserId = lab.Id,
+		// 		ClockIn = DateTime.Now
+		// 	};
+		// 	await _context.AddAsync(entry);
+		// 	await _context.SaveChangesAsync();
+		// }
 
 		var claims = new List<Claim>
 		{
