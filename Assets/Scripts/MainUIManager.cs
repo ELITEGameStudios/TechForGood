@@ -16,6 +16,7 @@ public class MainUIManager : MonoBehaviour
     public float speed = 3.5f;
     public AudioClip enter_sound;
     public AudioClip exit_sound;
+    public AudioSource SFX_player;
 
     public enum UIState{
         DEFAULT,
@@ -53,6 +54,8 @@ public class MainUIManager : MonoBehaviour
 
     public void InspectYou(You you){
         // UI_panel.SetActive(true);
+        SFX_player.clip = enter_sound;
+        SFX_player.Play();
         state = UIState.INSPECTING;
         nameText.text = you.name;
         yearText.text = "Year " + you.year;
@@ -63,6 +66,8 @@ public class MainUIManager : MonoBehaviour
     }
 
     public void UnInspect(){
+        SFX_player.clip = exit_sound;
+        SFX_player.Play();
         state = UIState.DEFAULT;
         timer = 0.0f;
         // UI_panel.SetActive(false);

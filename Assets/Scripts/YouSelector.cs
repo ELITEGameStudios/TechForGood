@@ -7,7 +7,7 @@ public class YouSelector : MonoBehaviour
         if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
             Debug.Log(gameObject.name);
             You targetYou = gameObject.GetComponent<You>();
-            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x + 3.5f, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 15.0f);
+            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 20.0f);
             MainUIManager.instance.InspectYou(targetYou);
         }
 
