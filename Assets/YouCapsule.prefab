@@ -294,6 +294,7 @@ GameObject:
   - component: {fileID: 2305669797757470735}
   - component: {fileID: 9103673619261798919}
   - component: {fileID: 6708151555777072263}
+  - component: {fileID: -2496793255561950405}
   m_Layer: 0
   m_Name: YouCapsule
   m_TagString: Untagged
@@ -412,6 +413,15 @@ MonoBehaviour:
   bio: 
   currentFrame: 0
   renderers: []
+  cosmeticBundle:
+    spriteSheet: {fileID: 0}
+    walkFront: []
+    walkSide: []
+    walkBack: []
+    idleFront: []
+    idleSide: []
+    idleBack: []
+    bundleClasses: []
   profileImage: {fileID: 0}
   secondsPlayed: 0
 --- !u!114 &8683716975034167632
@@ -490,6 +500,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2496793255561950405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798583813922436335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a912df47b1f3e458520dcc56c949d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5869126657000977640
 GameObject:
   m_ObjectHideFlags: 0

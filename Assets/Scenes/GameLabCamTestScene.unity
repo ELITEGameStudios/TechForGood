@@ -872,6 +872,17 @@ MonoBehaviour:
   year: of Cambodia
   nameTag: McGee
   bio: mmmm bacon
+  currentFrame: 0
+  renderers: []
+  cosmeticBundle:
+    spriteSheet: {fileID: 0}
+    walkFront: []
+    walkSide: []
+    walkBack: []
+    idleFront: []
+    idleSide: []
+    idleBack: []
+    bundleClasses: []
   profileImage: {fileID: 2800000, guid: 6edb59524b5174e49b8efdab441dbcc1, type: 3}
   secondsPlayed: 90
 --- !u!1 &107490510 stripped
@@ -897,6 +908,17 @@ MonoBehaviour:
   year: 233
   nameTag: EpikGamer
   bio: I like KillBox
+  currentFrame: 0
+  renderers: []
+  cosmeticBundle:
+    spriteSheet: {fileID: 0}
+    walkFront: []
+    walkSide: []
+    walkBack: []
+    idleFront: []
+    idleSide: []
+    idleBack: []
+    bundleClasses: []
   profileImage: {fileID: 21300000, guid: fb6d072bcf2de46bc83352166bedc149, type: 3}
   secondsPlayed: 3454
 --- !u!114 &107490515
@@ -3445,6 +3467,7 @@ MonoBehaviour:
     type: 3}
   websiteName: http://localhost
   local: 1
+  sprit: []
   studentNumbers: []
 --- !u!4 &427080041
 Transform:
@@ -6092,6 +6115,17 @@ MonoBehaviour:
   year: 0
   nameTag: 
   bio: 
+  currentFrame: 0
+  renderers: []
+  cosmeticBundle:
+    spriteSheet: {fileID: 0}
+    walkFront: []
+    walkSide: []
+    walkBack: []
+    idleFront: []
+    idleSide: []
+    idleBack: []
+    bundleClasses: []
   profileImage: {fileID: 0}
   secondsPlayed: 0
 --- !u!1 &748232437
@@ -13908,6 +13942,17 @@ MonoBehaviour:
   year: 0
   nameTag: 
   bio: 
+  currentFrame: 0
+  renderers: []
+  cosmeticBundle:
+    spriteSheet: {fileID: 0}
+    walkFront: []
+    walkSide: []
+    walkBack: []
+    idleFront: []
+    idleSide: []
+    idleBack: []
+    bundleClasses: []
   profileImage: {fileID: 0}
   secondsPlayed: 0
 --- !u!65 &1880611044
