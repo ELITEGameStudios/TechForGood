@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MainUIManager : MonoBehaviour
 {
     public TMP_Text nameText, hoursText, yearText, descriptionText;
-    public UIState state;
+    public GameObject image_photo;
+    public static UIState state;
     public static MainUIManager instance {get; private set;}
     public GameObject UI_panel;
     public Vector2 original_position;
@@ -54,6 +56,7 @@ public class MainUIManager : MonoBehaviour
         yearText.text = "Year " + you.year;
         hoursText.text = ((int)you.hoursPlayed).ToString() + " Hours";
         descriptionText.text = you.bio;
+        image_photo.GetComponent<Image>().sprite = you.profileImage;
         timer = 0.0f;
     }
 
