@@ -6,12 +6,12 @@ public class AvatarAI : MonoBehaviour
     [SerializeField]
     NavMeshAgent agent;
     public NavMeshAgent GetAgent() {return agent;}
-    [SerializeField] LayerMask ground_layer;
+    public LayerMask ground_layer;
 
     //Patrolling Variables
     Vector3 destination_point;
     bool walking_point_set;
-    [SerializeField] float range;
+    public float range;
     float roaming_count = 0.0f;
     float not_roaming_count = 0.0f;
     float roam_timer = 0.0f;
