@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,19 +15,21 @@ public class You : MonoBehaviour
 	public AvatarAI ai;
 	[SerializeField] float velocityAnimThreshold = 0.33f;
 	[SerializeField] float walkAnimThreshold = 0.25f;
-	[SerializeField] SpriteRenderer baseRenderer;
-	[SerializeField] SpriteRenderer shirtRenderer;
+	[SerializeField] SlotData[] cosmeticSlots;
 
 	// Visual Data
 
 	public Sprite profileImage;
 	public AnimationTypeEnum anim;
-	public YouCosmeticData cosmeticData;
+	public AvatarData cosmeticData;
+
+	public SlotData[] Slots => cosmeticSlots;
 
 	bool Walk { get { return ai.GetAgent().velocity.magnitude <= walkAnimThreshold; } }
 	bool Side { get { return Mathf.Abs(ai.GetAgent().velocity.x) > Mathf.Abs(ai.GetAgent().velocity.z); } }
 	bool Front { get { return ai.GetAgent().velocity.z < 0; } }
 	bool Mirror { get { return ai.GetAgent().velocity.x < 0; } }
+
 
 	public struct GameDisplay
 	{
@@ -37,17 +40,6 @@ public class You : MonoBehaviour
 		public bool showGameInYouniverse;
 	}
 
-	public enum ItemSlot
-	{
-		BASE,
-		HEAD,
-		FACE,
-		SHIRT,
-		PANTS,
-		SHOES,
-		PET
-	}
-
 	public enum AnimationTypeEnum
 	{
 		WALK_FRONT,
@@ -56,6 +48,13 @@ public class You : MonoBehaviour
 		IDLE_FRONT,
 		IDLE_SIDE,
 		IDLE_BACK
+	}
+
+	[System.Serializable]
+	public struct SlotData
+	{
+		public CosmeticSlot slot;
+		public SpriteRenderer renderer;
 	}
 
 	[System.Serializable]
@@ -125,7 +124,15 @@ public class You : MonoBehaviour
 	public float minutesPlayed { get { return secondsPlayed / 60; } }
 	public float hoursPlayed { get { return minutesPlayed / 60; } }
 
-	public void SetData(YouWebClass youWebClass, YouCosmeticData cosmeticData, int studentNumber)
+	public void SetRenderersEnabled(bool enabled)
+	{
+		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
+		{
+			renderer.enabled = enabled;
+		}
+	}
+
+	public void SetData(ProfileData youWebClass, AvatarData cosmeticData, int studentNumber)
 	{ // , CosmeticBundleStruct cosmetics){
 		Debug.Log(youWebClass.FirstName + " " + youWebClass.LastName + " " + studentNumber);
 
@@ -154,9 +161,10 @@ public class You : MonoBehaviour
 		secondsPlayed = secondsPlayed + Time.deltaTime;
 
 		AnimationTypeEnum currentType = anim;
-		baseRenderer.flipX = Mirror;
-		shirtRenderer.flipX = Mirror;
-
+		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
+		{
+			renderer.flipX = Mirror;
+		}
 
 		if (Side)
 		{
@@ -175,8 +183,10 @@ public class You : MonoBehaviour
 	{
 		if (cosmeticData != null)
 		{
-			baseRenderer.sprite = cosmeticData.baseData.spriteLists[(int)anim][animFrame];
-			shirtRenderer.sprite = cosmeticData.shirtData.spriteLists[(int)anim][animFrame];
+			foreach (var slot in cosmeticSlots)
+			{
+				slot.renderer.sprite = cosmeticData.cosmeticBundles[(int)slot.slot].spriteLists[(int)anim][animFrame];
+			}
 		}
 
 		currentFrame = animFrame;

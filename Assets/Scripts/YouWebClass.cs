@@ -1,7 +1,7 @@
 using UnityEngine;
 using static You;
 
-public class YouWebClass
+public class ProfileData
 {
 
 	// General Information
@@ -23,15 +23,25 @@ public class YouWebClass
 	// public int hatCosmetic;
 }
 
-public class YouCosmeticData
+public class AvatarData
 {
-	public CosmeticLoadout Loadout { get; set; } = default;
+	public Loadout Loadout { get; set; } = default;
 
-	public CosmeticBundleClass baseData;
-	public CosmeticBundleClass shirtData;
+	public CosmeticBundleClass[] cosmeticBundles;
 }
 
-public class CosmeticLoadout
+public enum CosmeticSlot
+{
+	BASE,
+	HEAD,
+	FACE,
+	SHIRT,
+	PANTS,
+	SHOES,
+	PET
+}
+
+public class Loadout
 {
 	public int BaseItemId { get; set; } = -1;
 	public int HeadItemId { get; set; } = -1;
@@ -40,4 +50,18 @@ public class CosmeticLoadout
 	public int PantsItemId { get; set; } = -1;
 	public int ShoesItemId { get; set; } = -1;
 	public int PetItemId { get; set; } = -1;
+
+	public int GetIdForSlot(CosmeticSlot slot)
+	{
+		return slot switch
+		{
+			CosmeticSlot.BASE => BaseItemId,
+			CosmeticSlot.HEAD => HeadItemId,
+			CosmeticSlot.FACE => FaceItemId,
+			CosmeticSlot.SHIRT => ShirtItemId,
+			CosmeticSlot.PANTS => PantsItemId,
+			CosmeticSlot.SHOES => ShoesItemId,
+			_ => -1,
+		};
+	}
 }

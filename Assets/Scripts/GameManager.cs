@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -107,35 +108,38 @@ public class GameManager : MonoBehaviour
 
 		var http_client = new HttpClient(new JSONSerializationOption());
 
+		You you = Instantiate(youPrefab, youSpawnPoint).GetComponent<You>();
+		yousInLab.Add(userId, you);
+
+		you.transform.localPosition = Vector3.zero;
+		you.SetRenderersEnabled(false);
+
 		// Profile Data
 		var url = websiteName + $"/UserApi/GetProfile?id={userId}";
-		YouWebClass youBaseData = await http_client.Get<YouWebClass>(url);
+		ProfileData youBaseData = await http_client.Get<ProfileData>(url);
 
 		// Cosmetic Data
 		url = websiteName + $"/UserApi/GetAvatar?id={userId}";
-		YouCosmeticData youCosmeticData = await http_client.Get<YouCosmeticData>(url);
-		await RetrieveCosmeticData(youCosmeticData);
-
-		You you = Instantiate(youPrefab, youSpawnPoint).GetComponent<You>();
-		you.transform.localPosition = Vector3.zero;
-
-		yousInLab.Add(userId, you);
+		AvatarData youCosmeticData = await http_client.Get<AvatarData>(url);
+		await RetrieveCosmeticData(youCosmeticData, you.Slots);
 
 		you.SetData(youBaseData, youCosmeticData, userId);
+
+		// Hide until images have loaded
+		you.SetRenderersEnabled(true);
 	}
 
-	public async Task<YouCosmeticData> RetrieveCosmeticData(YouCosmeticData youCosmeticData)
+	public async Task<AvatarData> RetrieveCosmeticData(AvatarData youCosmeticData, SlotData[] slots)
 	{
-		List<Task> allTasks = new()
-		{
-			// Base
-			GetCosmeticFromWeb(youCosmeticData.Loadout.BaseItemId)
-				.ContinueWith(u => youCosmeticData.baseData = u.Result),
+		List<Task> allTasks = new();
 
-			// Shirt
-			GetCosmeticFromWeb(youCosmeticData.Loadout.ShirtItemId)
-				.ContinueWith(u => youCosmeticData.shirtData = u.Result),
-		};
+		youCosmeticData.cosmeticBundles = new CosmeticBundleClass[Enum.GetValues(typeof(CosmeticSlot)).Length];
+
+		foreach (var slot in slots)
+		{
+			allTasks.Add(GetCosmeticFromWeb(youCosmeticData.Loadout.GetIdForSlot(slot.slot))
+				.ContinueWith(u => youCosmeticData.cosmeticBundles[(int)slot.slot] = u.Result));
+		}
 
 		// Wait for all tasks asynchronously
 		await Task.WhenAll(allTasks);

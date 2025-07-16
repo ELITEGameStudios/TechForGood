@@ -192,8 +192,11 @@ MonoBehaviour:
   ai: {fileID: 8683716975034167632}
   velocityAnimThreshold: 1
   walkAnimThreshold: 1
-  baseRenderer: {fileID: 7492457150869172559}
-  shirtRenderer: {fileID: 5165822121132668211}
+  cosmeticSlots:
+  - slot: 0
+    renderer: {fileID: 7492457150869172559}
+  - slot: 3
+    renderer: {fileID: 5165822121132668211}
   profileImage: {fileID: 0}
   anim: 0
   secondsPlayed: 0
