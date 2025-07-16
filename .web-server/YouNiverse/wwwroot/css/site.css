@@ -6,6 +6,10 @@
 	color: red;
 }
 
+.text-right {
+	text-align: end;
+}
+
 img {
 	image-rendering: pixelated;
 }

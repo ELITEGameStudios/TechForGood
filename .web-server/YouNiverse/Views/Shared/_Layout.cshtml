@@ -9,6 +9,21 @@
 </head>
 
 <body>
+	<style>
+		header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+	</style>
+
+	<header>
+		<a asp-action="Index">YOUniverse</a>
+		<form method="post" action="/Account/Signout" class="text-right">
+			<input type="submit" value="Signout" />
+		</form>
+	</header>
+
 	<div class="container">
 		@RenderBody()
 	</div>

@@ -108,7 +108,7 @@ public class AccountController : Controller
 
 		await _context.SaveChangesAsync();
 
-		return RedirectToAction("DressRoom");
+		return RedirectToAction("Index");
 	}
 
 	[Authorize]
@@ -146,7 +146,7 @@ public class AccountController : Controller
 
 		await _context.SaveChangesAsync();
 
-		return View(model);
+		return RedirectToAction("Index");
 	}
 
 	public IActionResult Signin()
@@ -157,6 +157,12 @@ public class AccountController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
 	{
+		if (model.StudentId.ToString().Length != 9)
+		{
+			ViewData["loginError"] = "Invalid student ID.";
+			return Redirect("/");
+		}
+
 		Console.WriteLine($"Signin request for {model.StudentId}");
 
 		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
@@ -184,7 +190,7 @@ public class AccountController : Controller
 	public async Task<IActionResult> Signout()
 	{
 		await HttpContext.SignOutAsync();
-		return RedirectToAction("Index");
+		return RedirectToAction("Index", "Lab");
 	}
 
 	public IActionResult Register(UserRegisterGetModel model)
@@ -227,7 +233,7 @@ public class AccountController : Controller
 			valid = false;
 		}
 
-		if (model.StudentId <= 0)
+		if (model.StudentId.ToString().Length != 9)
 		{
 			errors.StudentIdError ??= "Invalid Student ID.";
 			valid = false;

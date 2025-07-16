@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +25,7 @@ public class LabController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Index(LabLoginViewModel model)
 	{
-		if (model.StudentId <= 0)
+		if (model.StudentId.ToString().Length != 9)
 		{
 			ViewData["loginError"] = "Invalid Student ID.";
 			return View();
@@ -121,7 +120,22 @@ public class LabController : Controller
 
 	async Task<IActionResult> ClockIn(int userid)
 	{
-		ViewData["clockMessage"] = $"Clocked in at {DateTime.Now:hh:mm tt}.";
+		LabAccount? lab = await _context.LabUsers.FindAsync(userid);
+
+		if (lab == null)
+		{
+			ViewData["loginError"] = "Error clocking out (couldn't find user).";
+			return View();
+		}
+
+		ViewData["clockMessage"] = $"Signed in at {DateTime.Now:hh:mm tt}.";
+
+		if (lab.AccountType == EAccountType.LabAndYouniverse && lab.StudentId.HasValue)
+		{
+			ViewData["clockMessage"] += $"\n\nStudent ID: {lab.StudentId.Value}";
+		}
+
+		ViewData["clockMessage"] += $"\n\nName: {lab.FirstName} {lab.LastName}";
 
 		TimeEntry entry = new()
 		{
@@ -154,7 +168,14 @@ public class LabController : Controller
 
 			await _context.SaveChangesAsync();
 
-			ViewData["clockMessage"] = $"Clocked out at {DateTime.Now:hh:mm tt}.";
+			ViewData["clockMessage"] = $"Signed out at {DateTime.Now:hh:mm tt}.";
+
+			if (user.AccountType == EAccountType.LabAndYouniverse && user.StudentId.HasValue)
+			{
+				ViewData["clockMessage"] += $"\n\nStudent ID: {user.StudentId.Value}";
+			}
+
+			ViewData["clockMessage"] += $"\n\nName: {user.FirstName} {user.LastName}";
 		}
 		else
 		{

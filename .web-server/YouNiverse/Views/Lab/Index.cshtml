@@ -2,18 +2,20 @@
 
 @{
 	ViewData["Title"] = "Timesheet";
+	Layout = null;
 }
 
 <link rel="stylesheet" href="css/site.css">
 
 <div class="text-center">
+	<br><br>
 	<h1>Welcome to the Game Lab</h1>
 	<br>
 	<form method="post" id="sign-in-form">
-		<label asp-for="StudentId">Sign In/Out:</label><br>
+		<label asp-for="StudentId">Sign-In/Out:</label><br>
 		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" autofocus />
 		<br><br>
-		<input type="submit" value="Quick Lab Sign-In" />
+		<input type="submit" value="Quick Lab Sign-In/Out" />
 		<input onclick="signInToAction('/Account/Signin')" type="submit" value="Sign-In and Edit Profile" />
 		@if (ViewData["loginError"] != null)
 		{
@@ -26,12 +28,13 @@
 		}
 	</form>
 	<br>
-	<a asp-action="Guest">Guest Sign-In</a>
+	<a asp-action="Guest">Guest Sign-In/Out</a>
 </div>
 
 <script>
 	function signInToAction(action) {
 		let form = document.getElementById("sign-in-form");
-		form.action = action;
+
+		form.action = action + window.location.search;
 	}
 </script>
