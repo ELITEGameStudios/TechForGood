@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class YouSelector : MonoBehaviour
 {
@@ -7,11 +8,15 @@ public class YouSelector : MonoBehaviour
         if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
             Debug.Log(gameObject.name);
             You targetYou = gameObject.GetComponent<You>();
-            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 20.0f);
+            gameObject.GetComponent<NavMeshAgent>().acceleration = 1000;
+            gameObject.GetComponent<NavMeshAgent>().speed = 0;
+            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 10.0f);
             MainUIManager.instance.InspectYou(targetYou);
         }
 
         else{
+            gameObject.GetComponent<NavMeshAgent>().acceleration = 8;
+            gameObject.GetComponent<NavMeshAgent>().speed = 3.5f;
             CameraPositionControl.instance.MoveCamToPos(CameraPositionControl.instance.defaultPos, 0.5f);
             MainUIManager.instance.UnInspect();
         }
