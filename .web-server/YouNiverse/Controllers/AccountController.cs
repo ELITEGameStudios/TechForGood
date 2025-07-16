@@ -150,38 +150,6 @@ public class AccountController : Controller
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
-	{
-		if (model.StudentId.ToString().Length != 9)
-		{
-			ViewData["loginError"] = "Invalid student ID.";
-			return Redirect("/");
-		}
-
-		Console.WriteLine($"Signin request for {model.StudentId}");
-
-		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
-			u => u.AccountType == EAccountType.LabAndYouniverse && u.StudentId == model.StudentId);
-		if (lab == null)
-		{
-			UserRegisterGetModel registerModel = new()
-			{
-				StudentId = model.StudentId,
-			};
-			return RedirectToAction("Register", registerModel);
-		}
-
-		// todo: verify password
-
-		await SignInAsync(model.StudentId);
-
-		if (ReturnUrl != null)
-			return Redirect(ReturnUrl);
-
-		return RedirectToAction("Index");
-	}
-
-	[HttpPost]
 	public async Task<IActionResult> Signout()
 	{
 		await HttpContext.SignOutAsync();
@@ -203,7 +171,7 @@ public class AccountController : Controller
 			return View(errors);
 		}
 
-		await SignInAsync(model.StudentId);
+		await SignInAsync(model.StudentId, _context, HttpContext);
 
 		return RedirectToAction("Index");
 	}
@@ -291,7 +259,7 @@ public class AccountController : Controller
 		return null;
 	}
 
-	async Task SignInAsync(int studentId)
+	public static async Task SignInAsync(int studentId, UserContext _context, HttpContext HttpContext)
 	{
 		// todo:  verify password here!
 
@@ -302,12 +270,17 @@ public class AccountController : Controller
 			return;
 		}
 
-		TimeEntry? activeEntry = await _context.TimeEntries.FirstOrDefaultAsync(e => e.ClockOut == null && e.UserId == lab.Id);
-		if (activeEntry != null)
-		{
-			activeEntry.ClockOut = DateTime.Now;
-			await _context.SaveChangesAsync();
-		}
+		// bool clockedIn = await _context.TimeEntries.AnyAsync(e => e.ClockOut == null && e.UserId == lab.Id);
+		// if (!clockedIn)
+		// {
+		// 	TimeEntry entry = new()
+		// 	{
+		// 		UserId = lab.Id,
+		// 		ClockIn = DateTime.Now
+		// 	};
+		// 	await _context.AddAsync(entry);
+		// 	await _context.SaveChangesAsync();
+		// }
 
 		var claims = new List<Claim>
 		{

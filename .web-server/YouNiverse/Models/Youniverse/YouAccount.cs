@@ -14,7 +14,7 @@ public class YouAccount
 
 	public ItemLoadout Loadout { get; set; } = new ItemLoadout();
 
-	public string? Catchphrase { get; set; } = "I'm too lazy to set a catchphrase!";
+	public string? Catchphrase { get; set; } = "Catchphrase!";
 	public EGameRole Role { get; set; } = EGameRole.Other;
 
 	public string PrimaryColor { get; set; } = k_DefaultPrimaryColor;

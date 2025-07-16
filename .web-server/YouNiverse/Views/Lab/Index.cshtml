@@ -12,11 +12,11 @@
 	<h1>Welcome to the Game Lab</h1>
 	<br>
 	<form method="post" id="sign-in-form">
-		<label asp-for="StudentId">Sign-In/Out:</label><br>
+		<label asp-for="StudentId">Sign-In/Out (enter student ID):</label><br>
 		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" autofocus />
 		<br><br>
-		<input type="submit" value="Quick Lab Sign-In/Out" />
-		<input onclick="signInToAction('/Account/Signin')" type="submit" value="Sign-In and Edit Profile" />
+		<input type="submit" value="Lab Sign-In/Out" />
+		<input onclick="signInToAction('/Lab/Signin')" type="submit" value="Edit Profile" />
 		@if (ViewData["loginError"] != null)
 		{
 			<p class="signin-error">@ViewData["loginError"]</p>

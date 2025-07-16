@@ -52,6 +52,44 @@ public class LabController : Controller
 		return await ClockIn(student.Id);
 	}
 
+	[HttpPost]
+	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
+	{
+		if (model.StudentId != null && model.StudentId.Length != 9)
+		{
+			ViewData["loginError"] = "Invalid student ID.";
+			return View("Index");
+		}
+
+		if (!int.TryParse(model.StudentId, out int nStudentId))
+		{
+			ViewData["loginError"] = "Invalid student ID.";
+			return View("Index");
+		}
+
+		Console.WriteLine($"Signin request for {model.StudentId}");
+
+		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
+			u => u.AccountType == EAccountType.LabAndYouniverse && u.StudentId == nStudentId);
+		if (lab == null)
+		{
+			UserRegisterGetModel registerModel = new()
+			{
+				StudentId = nStudentId,
+			};
+			return RedirectToAction("Register", registerModel);
+		}
+
+		// todo: verify password
+
+		await AccountController.SignInAsync(nStudentId, _context, HttpContext);
+
+		if (ReturnUrl != null)
+			return Redirect(ReturnUrl);
+
+		return RedirectToAction("Index", "Account");
+	}
+
 	public IActionResult Register(UserRegisterGetModel model)
 	{
 		return View(model);
