@@ -402,10 +402,10 @@ RectTransform:
   - {fileID: 1396831152}
   m_Father: {fileID: 1315228566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 160.40948, y: -185}
+  m_SizeDelta: {x: 260, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44768713
 MonoBehaviour:
@@ -849,76 +849,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1930730698}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &106826692 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -8961359253771211100, guid: 79b7b69f0dda2894b8e6f03180516747,
-    type: 3}
-  m_PrefabInstance: {fileID: 1930730698}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &106826696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106826692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 128ee7f5d32c66f40a0c3a058e0fd98f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  studentNumber: 42069
-  name: Embassy
-  year: of Cambodia
-  nameTag: McGee
-  bio: mmmm bacon
-  currentFrame: 0
-  renderers: []
-  cosmeticBundle:
-    spriteSheet: {fileID: 0}
-    walkFront: []
-    walkSide: []
-    walkBack: []
-    idleFront: []
-    idleSide: []
-    idleBack: []
-  profileImage: {fileID: 2800000, guid: 6edb59524b5174e49b8efdab441dbcc1, type: 3}
-  secondsPlayed: 90
 --- !u!1 &107490510 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3821253740895256905, guid: 79b7b69f0dda2894b8e6f03180516747,
     type: 3}
   m_PrefabInstance: {fileID: 1930730698}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &107490514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107490510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 128ee7f5d32c66f40a0c3a058e0fd98f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  studentNumber: 8989898989
-  name: Noah The Simon
-  year: 233
-  nameTag: EpikGamer
-  bio: I like KillBox
-  currentFrame: 0
-  renderers: []
-  cosmeticBundle:
-    spriteSheet: {fileID: 0}
-    walkFront: []
-    walkSide: []
-    walkBack: []
-    idleFront: []
-    idleSide: []
-    idleBack: []
-  profileImage: {fileID: 21300000, guid: fb6d072bcf2de46bc83352166bedc149, type: 3}
-  secondsPlayed: 3454
 --- !u!114 &107490515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3463,7 +3399,6 @@ MonoBehaviour:
   youPrefab: {fileID: 2798583813922436335, guid: 1d16f03a1d2fae54ab287e186dab6836,
     type: 3}
   websiteName: http://localhost
-  local: 1
   sprit: []
   studentNumbers: []
 --- !u!4 &427080041
@@ -6044,6 +5979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89abcefbae5d2494e8a6035d76531d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
@@ -6113,6 +6049,9 @@ MonoBehaviour:
   nameTag: 
   bio: 
   currentFrame: 0
+  ai: {fileID: 0}
+  velocityAnimThreshold: 0.33
+  walkAnimThreshold: 0.25
   renderers: []
   cosmeticBundle:
     spriteSheet: {fileID: 0}
@@ -6123,6 +6062,8 @@ MonoBehaviour:
     idleSide: []
     idleBack: []
   profileImage: {fileID: 0}
+  anim: 0
+  bundleClasses: []
   secondsPlayed: 0
 --- !u!1 &748232437
 GameObject:
@@ -7791,10 +7732,10 @@ RectTransform:
   - {fileID: 637860877}
   m_Father: {fileID: 1315228566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 160.40948, y: -565}
+  m_SizeDelta: {x: 260, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &922655971
 MonoBehaviour:
@@ -10899,10 +10840,10 @@ RectTransform:
   - {fileID: 1724051062}
   m_Father: {fileID: 1934804271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 825.87}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 305.4095, y: -179.265}
+  m_SizeDelta: {x: 610.819, y: 825.87}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1315228567
 MonoBehaviour:
@@ -11635,7 +11576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1453787611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12068,10 +12009,10 @@ RectTransform:
   - {fileID: 147669482}
   m_Father: {fileID: 1934804271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 179.265}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 305.4095, y: 0}
+  m_SizeDelta: {x: 610.819, y: 179.265}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1512555954
 MonoBehaviour:
@@ -12828,10 +12769,10 @@ RectTransform:
   - {fileID: 1262737122}
   m_Father: {fileID: 1315228566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 450.4095, y: -565}
+  m_SizeDelta: {x: 260, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1724051063
 MonoBehaviour:
@@ -13909,10 +13850,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1bf473c0c23e50741836ac710483b5d9,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1880611043}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1bf473c0c23e50741836ac710483b5d9,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1880611044}
   m_SourcePrefab: {fileID: 100100000, guid: 1bf473c0c23e50741836ac710483b5d9, type: 3}
 --- !u!1 &1880611042 stripped
@@ -13921,35 +13858,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1880611041}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1880611043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880611042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 128ee7f5d32c66f40a0c3a058e0fd98f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  studentNumber: 100982633
-  name: Noah Simmons
-  year: 0
-  nameTag: 
-  bio: 
-  currentFrame: 0
-  renderers: []
-  cosmeticBundle:
-    spriteSheet: {fileID: 0}
-    walkFront: []
-    walkSide: []
-    walkBack: []
-    idleFront: []
-    idleSide: []
-    idleBack: []
-  profileImage: {fileID: 0}
-  secondsPlayed: 0
 --- !u!65 &1880611044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14007,10 +13915,10 @@ RectTransform:
   - {fileID: 159180875}
   m_Father: {fileID: 1315228566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 450.4095, y: -185}
+  m_SizeDelta: {x: 260, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901684122
 MonoBehaviour:
@@ -15009,18 +14917,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1930730700}
-    - targetCorrespondingSourceObject: {fileID: -8961359253771211100, guid: 79b7b69f0dda2894b8e6f03180516747,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 106826696}
     - targetCorrespondingSourceObject: {fileID: -3821253740895256905, guid: 79b7b69f0dda2894b8e6f03180516747,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 107490515}
-    - targetCorrespondingSourceObject: {fileID: -3821253740895256905, guid: 79b7b69f0dda2894b8e6f03180516747,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 107490514}
     - targetCorrespondingSourceObject: {fileID: -3821253740895256905, guid: 79b7b69f0dda2894b8e6f03180516747,
         type: 3}
       insertIndex: -1
@@ -15054,14 +14954,12 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 0
@@ -17055,14 +16953,12 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1

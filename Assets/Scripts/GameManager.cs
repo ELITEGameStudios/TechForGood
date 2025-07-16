@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public List<You> yous;
     public GameObject youPrefab;
     public string websiteName;
-    public bool local;
     public List<Sprite> sprit;
 
 
@@ -56,11 +55,11 @@ public class GameManager : MonoBehaviour
         if (studentNumbers.Length > newStudentNumbers.Length){
             studentNumbers = newStudentNumbers;
             Debug.Log("Deleting you.");
-            if (!local) DeleteYouProcess();
+            DeleteYouProcess();
         }
         else if (studentNumbers.Length < newStudentNumbers.Length){
             studentNumbers = newStudentNumbers;
-            if (!local) InitiateYouDataRetrieval();
+            InitiateYouDataRetrieval();
             Debug.Log("Adding yous");
         }
     }
@@ -114,6 +113,7 @@ public class GameManager : MonoBehaviour
             // Texture profileImage = await GetTextureFromWeb( "http://" + websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString());
 
             you.SetData(youBaseData, youCosmeticData, studentNumbers[i]);
+            Debug.Log("Setting your data");
             yous.Add(you);
             // you.SetData(youBaseData, cosmeticBundle);
         }
@@ -122,7 +122,9 @@ public class GameManager : MonoBehaviour
 
     public async Task<YouCosmeticData> RetrieveCosmeticData(YouCosmeticData youCosmeticData)
     {
-        for (int i = 0; i < youCosmeticData.IdList.Length; i++)
+        Debug.Log("Bundling the struct");
+        youCosmeticData.bundleStruct = new CosmeticBundleClass[1];
+        for (int i = 0; i < youCosmeticData.bundleStruct.Length; i++)
         {
             youCosmeticData.bundleStruct[i] = await GetCosmeticFromWeb(youCosmeticData.IdList[i]);
         }

@@ -3,7 +3,9 @@ using UnityEngine.AI;
 
 public class AvatarAI : MonoBehaviour
 {
+    [SerializeField]
     NavMeshAgent agent;
+    public NavMeshAgent GetAgent() {return agent;}
     [SerializeField] LayerMask ground_layer;
 
     //Patrolling Variables

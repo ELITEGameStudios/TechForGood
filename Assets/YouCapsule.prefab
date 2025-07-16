@@ -412,7 +412,13 @@ MonoBehaviour:
   nameTag: 
   bio: 
   currentFrame: 0
-  renderers: []
+  ai: {fileID: 8683716975034167632}
+  velocityAnimThreshold: 1
+  walkAnimThreshold: 1
+  renderers:
+  - {fileID: 838950430668928630}
+  - {fileID: 7492457150869172559}
+  - {fileID: 5165822121132668211}
   cosmeticBundle:
     spriteSheet: {fileID: 0}
     walkFront: []
@@ -421,8 +427,9 @@ MonoBehaviour:
     idleFront: []
     idleSide: []
     idleBack: []
-    bundleClasses: []
   profileImage: {fileID: 0}
+  anim: 0
+  bundleClasses: []
   secondsPlayed: 0
 --- !u!114 &8683716975034167632
 MonoBehaviour:
@@ -436,6 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89abcefbae5d2494e8a6035d76531d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 2305669797757470735}
   ground_layer:
     serializedVersion: 2
     m_Bits: 128
