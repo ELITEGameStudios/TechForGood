@@ -5,3 +5,7 @@
 .signin-error {
 	color: red;
 }
+
+img {
+	image-rendering: pixelated;
+}

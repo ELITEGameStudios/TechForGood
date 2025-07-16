@@ -6,6 +6,7 @@ public class AddItemModel
 	public EItemSlot ItemSlot { get; set; }
 
 	public IFormFile? SpriteSheet { get; set; }
+	public IFormFile? Preview { get; set; }
 
 	public bool IsDefault { get; set; }
 }

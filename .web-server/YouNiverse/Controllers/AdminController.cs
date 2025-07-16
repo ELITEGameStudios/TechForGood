@@ -31,7 +31,7 @@ public class AdminController : Controller
 	[HttpPost]
 	public async Task<IActionResult> AddItem(AddItemModel model)
 	{
-		if (model.SpriteSheet == null || model.ItemName == null)
+		if (model.SpriteSheet == null || model.Preview == null || model.ItemName == null)
 		{
 			ViewData["itemMessage"] = "Failed to add item. An input is null.";
 			return View(model);
@@ -49,11 +49,21 @@ public class AdminController : Controller
 
 		try
 		{
-			// Front image
-			string frontPath = $"wwwroot/items/{item.Id}.png";
-			using var fs = new FileStream(frontPath, FileMode.Create);
-			using var rs = model.SpriteSheet.OpenReadStream();
-			await rs.CopyToAsync(fs);
+			// Main image
+			{
+				string mainPath = $"wwwroot/items/{item.Id}.png";
+				using var fs = new FileStream(mainPath, FileMode.Create);
+				using var rs = model.SpriteSheet.OpenReadStream();
+				await rs.CopyToAsync(fs);
+			}
+
+			// Preview image
+			{
+				string mainPath = $"wwwroot/items/{item.Id}_preview.png";
+				using var fs = new FileStream(mainPath, FileMode.Create);
+				using var rs = model.Preview.OpenReadStream();
+				await rs.CopyToAsync(fs);
+			}
 		}
 		catch (Exception e)
 		{
