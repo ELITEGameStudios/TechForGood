@@ -14,6 +14,8 @@ public class MainUIManager : MonoBehaviour
     public float timer;
     public float duration = 2.0f;
     public float speed = 3.5f;
+    public AudioClip enter_sound;
+    public AudioClip exit_sound;
 
     public enum UIState{
         DEFAULT,
