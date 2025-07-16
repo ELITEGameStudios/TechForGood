@@ -63,10 +63,8 @@ public class MainUIManager : MonoBehaviour
         SFX_player.Play();
         state = UIState.INSPECTING;
         nameText.text = you.name;
-        yearText.text = "Year " + you.year;
+        yearText.text = "Year " + you.Year;
         hoursText.text = ((int)you.hoursPlayed).ToString() + " Hours";
-        descriptionText.text = you.bio;
-        image_photo.GetComponent<Image>().sprite = you.profileImage;
         timer = 0.0f;
     }
 

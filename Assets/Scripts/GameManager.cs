@@ -9,6 +9,15 @@ using static You;
 
 public class GameManager : MonoBehaviour
 {
+	public enum DataRetrieveState
+	{
+		IDLE,
+		GETTING_STUDENT_NUMBERS,
+		GETTING_YOU_DATA,
+		FINISHED,
+		ERROR
+	}
+
 	[Header("Settings")]
 	[SerializeField] string websiteName;
 
@@ -21,15 +30,6 @@ public class GameManager : MonoBehaviour
 
 	CancellationTokenSource refreshSource;
 	Dictionary<int, You> yousInLab;
-
-	public enum DataRetrieveState
-	{
-		IDLE,
-		GETTING_STUDENT_NUMBERS,
-		GETTING_YOU_DATA,
-		FINISHED,
-		ERROR
-	}
 
 	void Start()
 	{

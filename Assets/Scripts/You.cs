@@ -6,30 +6,28 @@ using UnityEngine.UI;
 public class You : MonoBehaviour
 {
 	// General Information
-	public int studentNumber;
-	public string name;
-	public string year;
-	public string nameTag, bio;
-	public int currentFrame;
-	public GameDisplay[] contributedGames;
-	public AvatarAI ai;
 	[SerializeField] float velocityAnimThreshold = 0.33f;
 	[SerializeField] float walkAnimThreshold = 0.25f;
 	[SerializeField] SlotData[] cosmeticSlots;
 
 	// Visual Data
-
-	public Sprite profileImage;
 	public AnimationTypeEnum anim;
-	public AvatarData cosmeticData;
+
+	int currentFrame;
+	AvatarAI ai;
+	AvatarData cosmeticData;
+	GameDisplay[] contributedGames;
 
 	public SlotData[] Slots => cosmeticSlots;
+	public int StudentNumber { get; set; }
+	public string Name { get; set; }
+	public string Year { get; set; }
+	public string Catchphrase { get; set; }
 
 	bool Walk { get { return ai.GetAgent().velocity.magnitude <= walkAnimThreshold; } }
 	bool Side { get { return Mathf.Abs(ai.GetAgent().velocity.x) > Mathf.Abs(ai.GetAgent().velocity.z); } }
 	bool Front { get { return ai.GetAgent().velocity.z < 0; } }
 	bool Mirror { get { return ai.GetAgent().velocity.x < 0; } }
-
 
 	public struct GameDisplay
 	{
@@ -124,6 +122,11 @@ public class You : MonoBehaviour
 	public float minutesPlayed { get { return secondsPlayed / 60; } }
 	public float hoursPlayed { get { return minutesPlayed / 60; } }
 
+	void Awake()
+	{
+		ai = GetComponent<AvatarAI>();
+	}
+
 	public void SetRenderersEnabled(bool enabled)
 	{
 		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
@@ -136,19 +139,14 @@ public class You : MonoBehaviour
 	{ // , CosmeticBundleStruct cosmetics){
 		Debug.Log(youWebClass.FirstName + " " + youWebClass.LastName + " " + studentNumber);
 
-		this.studentNumber = studentNumber;
-		name = youWebClass.FirstName + " " + youWebClass.LastName;
-		nameTag = youWebClass.Catchphrase;
-		bio = youWebClass.Catchphrase;
-		year = youWebClass.Year;
+		StudentNumber = studentNumber;
+		Name = youWebClass.FirstName + " " + youWebClass.LastName;
+		Catchphrase = youWebClass.Catchphrase;
+		Year = youWebClass.Year;
 
 		this.cosmeticData = cosmeticData;
 
 		anim = AnimationTypeEnum.IDLE_FRONT;
-
-
-		// cosmeticBundle = cosmetics;
-		// this.profileImage = profileImage;
 	}
 
 	public void Retire()
