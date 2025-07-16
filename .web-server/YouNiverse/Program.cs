@@ -22,7 +22,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 	.AddCookie(options =>
 	{
 		options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-		options.LoginPath = "/Account/Signin";
+		options.LoginPath = "/Lab/Index";
 		options.Cookie.SameSite = SameSiteMode.Strict;
 		options.Cookie.HttpOnly = true;
 	});
