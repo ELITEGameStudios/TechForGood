@@ -9424,7 +9424,7 @@ GameObject:
   - component: {fileID: 1118330934}
   - component: {fileID: 1118330933}
   m_Layer: 0
-  m_Name: Depth of Field Volume
+  m_Name: Zoom In Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17575,7 +17575,7 @@ GameObject:
   - component: {fileID: 2137799796}
   - component: {fileID: 2137799795}
   m_Layer: 0
-  m_Name: Depth of Field Volume (1)
+  m_Name: Default Post Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
