@@ -6,7 +6,6 @@ public class YouSelector : MonoBehaviour
     private void OnMouseDown()
     {
         if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
-            Debug.Log(gameObject.name);
             You targetYou = gameObject.GetComponent<You>();
             gameObject.GetComponent<NavMeshAgent>().acceleration = 1000;
             gameObject.GetComponent<NavMeshAgent>().speed = 0;

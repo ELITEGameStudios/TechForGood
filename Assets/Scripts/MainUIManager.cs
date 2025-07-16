@@ -62,7 +62,7 @@ public class MainUIManager : MonoBehaviour
         SFX_player.clip = enter_sound;
         SFX_player.Play();
         state = UIState.INSPECTING;
-        nameText.text = you.name;
+        nameText.text = you.Name;
         yearText.text = "Year " + you.Year;
         hoursText.text = ((int)you.hoursPlayed).ToString() + " Hours";
         timer = 0.0f;
