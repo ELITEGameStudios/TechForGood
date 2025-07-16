@@ -111,7 +111,7 @@ public class You : MonoBehaviour
 						Sprite.Create(
 							(Texture2D)spriteSheet,
 							new Rect(x * spriteWidth, y * spriteHeight, spriteWidth, spriteHeight),
-							new Vector2(0.5f, 0.5f),
+							new Vector2(0.333f, 0.5f),
 							8
 						)
 
