@@ -4,10 +4,17 @@ public class YouSelector : MonoBehaviour
 {
     private void OnMouseDown()
     {
-        Debug.Log(gameObject.name);
-        You targetYou = gameObject.GetComponent<You>();
-        CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x + 3.5f, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 15.0f);
-        MainUIManager.instance.InspectYou(targetYou);
+        if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
+            Debug.Log(gameObject.name);
+            You targetYou = gameObject.GetComponent<You>();
+            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x + 3.5f, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 15.0f);
+            MainUIManager.instance.InspectYou(targetYou);
+        }
+
+        else{
+            CameraPositionControl.instance.MoveCamToPos(CameraPositionControl.instance.defaultPos, 0.5f);
+            MainUIManager.instance.UnInspect();
+        }
 
     }
 

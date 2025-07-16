@@ -17,11 +17,11 @@ public class You : MonoBehaviour
     // Visual Data
 
     public CosmeticBundleClass cosmeticBundle;
-    public Texture profileImage;
+    public Sprite profileImage;
 
     public struct GameDisplay{
         public string gameName;
-        public Image gameImage;
+        public Sprite gameImage;
         public string gameDescription;
         public int gameYear;
         public bool showGameInYouniverse;
