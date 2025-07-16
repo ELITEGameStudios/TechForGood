@@ -1,19 +1,24 @@
 @{
 	ViewData["Title"] = "Timesheet";
+	ViewData["useHeader"] = false;
 }
 
 <link rel="stylesheet" href="css/site.css">
 
 <div class="text-center">
-	<h1>@ViewData["clockMessage"]</h1>
+	<br><br>
+	<h1>Welcome to the Game Lab</h1><br>
+	<h2>
+		<pre>@ViewData["clockMessage"]</pre>
+	</h2>
 	<br><br><br>
 	<a href="../" autofocus>Back</a>
 </div>
 
 <script>
-	window.onload(() => {
+	window.onload = () => {
 		setTimeout(() => {
 			window.location.href = "../";
-		}, 4000);
-	})
+		}, 2000);
+	};
 </script>

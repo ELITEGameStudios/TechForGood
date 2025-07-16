@@ -3,6 +3,7 @@
 
 @{
 	ViewData["Title"] = "Account";
+	ViewData["doneEditing"] = false;
 }
 
 <link rel="stylesheet" href="css/site.css">
@@ -12,7 +13,8 @@
 	<h2>Hello, @Model.FirstName @Model.LastName.</h2>
 	<a asp-action="Profile">Profile</a><br>
 	<a asp-action="DressRoom">Dress Room</a><br>
+	<br><br>
 	<form method="post" action="/Account/Signout">
-		<input type="submit" value="Signout" />
+		<input type="submit" value="Done Editing" />
 	</form>
 </div>

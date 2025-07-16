@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +25,7 @@ public class LabController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Index(LabLoginViewModel model)
 	{
-		if (model.StudentId <= 0)
+		if (model.StudentId.ToString().Length != 9)
 		{
 			ViewData["loginError"] = "Invalid Student ID.";
 			return View();
@@ -51,6 +50,50 @@ public class LabController : Controller
 		}
 
 		return await ClockIn(student.Id);
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
+	{
+		if (model.StudentId == null)
+		{
+			ViewData["loginError"] = "Please enter a Student ID.";
+			return View("Index");
+		}
+
+		if (model.StudentId != null && model.StudentId.Length != 9)
+		{
+			ViewData["loginError"] = "Invalid student ID.";
+			return View("Index");
+		}
+
+		if (!int.TryParse(model.StudentId, out int nStudentId))
+		{
+			ViewData["loginError"] = "Invalid student ID.";
+			return View("Index");
+		}
+
+		Console.WriteLine($"Signin request for {model.StudentId}");
+
+		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
+			u => u.AccountType == EAccountType.LabAndYouniverse && u.StudentId == nStudentId);
+		if (lab == null)
+		{
+			UserRegisterGetModel registerModel = new()
+			{
+				StudentId = nStudentId,
+			};
+			return RedirectToAction("Register", registerModel);
+		}
+
+		// todo: verify password
+
+		await AccountController.SignInAsync(nStudentId, _context, HttpContext);
+
+		if (ReturnUrl != null)
+			return Redirect(ReturnUrl);
+
+		return RedirectToAction("Index", "Account");
 	}
 
 	public IActionResult Register(UserRegisterGetModel model)
@@ -121,7 +164,22 @@ public class LabController : Controller
 
 	async Task<IActionResult> ClockIn(int userid)
 	{
-		ViewData["clockMessage"] = $"Clocked in at {DateTime.Now:hh:mm tt}.";
+		LabAccount? lab = await _context.LabUsers.FindAsync(userid);
+
+		if (lab == null)
+		{
+			ViewData["loginError"] = "Error clocking out (couldn't find user).";
+			return View();
+		}
+
+		ViewData["clockMessage"] = $"Signed in at {DateTime.Now:hh:mm tt}.";
+
+		if (lab.AccountType == EAccountType.LabAndYouniverse && lab.StudentId.HasValue)
+		{
+			ViewData["clockMessage"] += $"\n\nStudent ID: {lab.StudentId.Value}";
+		}
+
+		ViewData["clockMessage"] += $"\n\nName: {lab.FirstName} {lab.LastName}";
 
 		TimeEntry entry = new()
 		{
@@ -154,7 +212,14 @@ public class LabController : Controller
 
 			await _context.SaveChangesAsync();
 
-			ViewData["clockMessage"] = $"Clocked out at {DateTime.Now:hh:mm tt}.";
+			ViewData["clockMessage"] = $"Signed out at {DateTime.Now:hh:mm tt}.";
+
+			if (user.AccountType == EAccountType.LabAndYouniverse && user.StudentId.HasValue)
+			{
+				ViewData["clockMessage"] += $"\n\nStudent ID: {user.StudentId.Value}";
+			}
+
+			ViewData["clockMessage"] += $"\n\nName: {user.FirstName} {user.LastName}";
 		}
 		else
 		{
