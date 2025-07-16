@@ -55,6 +55,12 @@ public class LabController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Signin(SigninViewModel model, string? ReturnUrl)
 	{
+		if (model.StudentId == null)
+		{
+			ViewData["loginError"] = "Please enter a Student ID.";
+			return View("Index");
+		}
+
 		if (model.StudentId != null && model.StudentId.Length != 9)
 		{
 			ViewData["loginError"] = "Invalid student ID.";
