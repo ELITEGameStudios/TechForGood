@@ -48,7 +48,7 @@ public class You : MonoBehaviour
         PET
     }
 
-	public enum AnimationTypeEnum
+    public enum AnimationTypeEnum
 	{
 		WALK_FRONT,
 		WALK_SIDE,
@@ -152,7 +152,8 @@ public class You : MonoBehaviour
 
     void Update()
     {
-
+        secondsPlayed = secondsPlayed + Time.deltaTime;
+        
         AnimationTypeEnum currentType = anim;
         foreach (SpriteRenderer renderer in renderers) { renderer.flipX = Mirror; }
         
