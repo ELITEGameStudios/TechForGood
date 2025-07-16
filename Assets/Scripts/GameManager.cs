@@ -1,26 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using static You;
 
 public class GameManager : MonoBehaviour
 {
+	[Header("Settings")]
+	[SerializeField] string websiteName;
 
-	public DataRetrieveState dataState;
-	public List<You> yous;
-	public GameObject youPrefab;
-	public string websiteName;
-	public List<Sprite> sprit;
+	[Tooltip("Refresh delay in seconds")]
+	[SerializeField] float refreshDelay = 1;
 
+	[Header("References")]
+	[SerializeField] GameObject youPrefab;
 	[SerializeField] Transform youSpawnPoint;
 
-
-
-	[Header("For SN Data Retrieval")]
-	[SerializeField] private string[] studentNumbers;
-	public UnityWebRequest studentNumbersRequest;
+	CancellationTokenSource refreshSource;
+	Dictionary<int, You> yousInLab;
 
 	public enum DataRetrieveState
 	{
@@ -31,110 +30,102 @@ public class GameManager : MonoBehaviour
 		ERROR
 	}
 
-
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		refreshSource = new();
+		yousInLab = new();
 
-		if (dataState != DataRetrieveState.IDLE) { return; }
-		dataState = DataRetrieveState.GETTING_STUDENT_NUMBERS;
-
-		yous = new();
-		studentNumbers = new string[0];
-
-		// Start student number requests
-		InvokeRepeating(nameof(InitiateStudentNumberRetrieval), 0, 5f);
+		// Start student number requests (loop)
+		GetLabStudentsLoop(refreshSource.Token);
 	}
 
-	public async void InitiateStudentNumberRetrieval()
+	void OnDestroy()
 	{
-		// todo: BUG: This fails if a user joins at the same time as one leaves,
-		// the length is the same so it doesn't detect a change
-		var url = websiteName + "/UserApi/GetLabUsers";
-		Debug.Log("Getting infor?");
+		// Cancel refresh loop
+		refreshSource.Cancel();
+	}
+
+	public async void GetLabStudentsLoop(CancellationToken token)
+	{
+		var http_client = new HttpClient(new JSONSerializationOption());
+
+		while (!token.IsCancellationRequested)
+		{
+			var url = websiteName + "/UserApi/GetLabUsers";
+
+			int[] newStudentNumbers = await http_client.Get<int[]>(url);
+
+			List<Task> tasks = new();
+			foreach (var number in newStudentNumbers)
+			{
+				if (yousInLab.ContainsKey(number))
+					continue;
+
+				// New user
+				tasks.Add(InitiateYouDataRetrieval(number));
+			}
+
+			List<int> usersToDelete = new(); // Required because we can't delete it inside a foreach
+			foreach (var number in yousInLab.Keys)
+			{
+				if (newStudentNumbers.Contains(number))
+					continue;
+
+				// User left
+				usersToDelete.Add(number);
+			}
+
+			foreach (var number in usersToDelete)
+			{
+				RetireYou(number);
+			}
+
+			// Wait for all user data asynchronously
+			await Task.WhenAll(tasks);
+
+			// Delay
+			await Task.Delay((int)(refreshDelay * 1000));
+		}
+	}
+
+	void RetireYou(int userId)
+	{
+		Debug.Log($"Delete You: {userId}");
+
+		You you = yousInLab[userId];
+
+		if (you == null)
+			return;
+
+		yousInLab.Remove(userId);
+		you.Retire();
+	}
+
+	async Task InitiateYouDataRetrieval(int userId)
+	{
+		Debug.Log($"New You: {userId}");
 
 		var http_client = new HttpClient(new JSONSerializationOption());
-		string[] newStudentNumbers = await http_client.Get<string[]>(url);
-		Debug.Log("Got info? " + newStudentNumbers);
 
-		if (studentNumbers.Length > newStudentNumbers.Length)
-		{
-			studentNumbers = newStudentNumbers;
-			Debug.Log("Deleting you.");
-			DeleteYouProcess();
-		}
-		else if (studentNumbers.Length < newStudentNumbers.Length)
-		{
-			studentNumbers = newStudentNumbers;
-			InitiateYouDataRetrieval();
-			Debug.Log("Adding yous");
-		}
-	}
+		// Profile Data
+		var url = websiteName + $"/UserApi/GetProfile?id={userId}";
+		YouWebClass youBaseData = await http_client.Get<YouWebClass>(url);
 
-	void DeleteYouProcess()
-	{
+		// Cosmetic Data
+		url = websiteName + $"/UserApi/GetAvatar?id={userId}";
+		YouCosmeticData youCosmeticData = await http_client.Get<YouCosmeticData>(url);
+		await RetrieveCosmeticData(youCosmeticData);
 
-		for (int i = yous.Count - 1; i >= 0; i--)
-		{
-			bool retire = true;
-			foreach (string id in studentNumbers)
-			{
-				if (id == yous[i].studentNumber)
-				{
-					retire = false;
-					break;
-				}
-			}
-			if (retire)
-			{
-				yous[i].Retire();
-				yous.RemoveAt(i);
-			}
-		}
-	}
+		You you = Instantiate(youPrefab, youSpawnPoint).GetComponent<You>();
+		you.transform.localPosition = Vector3.zero;
 
-	async void InitiateYouDataRetrieval()
-	{
-		dataState = DataRetrieveState.GETTING_YOU_DATA;
+		yousInLab.Add(userId, you);
 
-
-		for (int i = 0; i < studentNumbers.Length; i++)
-		{
-			bool exists = false;
-			foreach (You oldYou in yous)
-			{
-				if (oldYou.studentNumber == studentNumbers[i])
-				{
-					exists = true;
-					Debug.Log("You exist");
-				}
-			}
-			if (exists) continue;
-
-			You you = Instantiate(youPrefab, Vector3.zero, Quaternion.identity, youSpawnPoint).GetComponent<You>();
-
-			// Profile Data
-			var url = websiteName + "/UserApi/GetProfile?id=" + studentNumbers[i].ToString();
-			var http_client = new HttpClient(new JSONSerializationOption());
-			YouWebClass youBaseData = await http_client.Get<YouWebClass>(url);
-
-			// Cosmetic Data
-			url = websiteName + "/UserApi/GetAvatar?id=" + studentNumbers[i].ToString();
-			YouCosmeticData youCosmeticData = await http_client.Get<YouCosmeticData>(url);
-			await RetrieveCosmeticData(youCosmeticData);
-			// Texture profileImage = await GetTextureFromWeb( "http://" + websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString());
-
-			you.SetData(youBaseData, youCosmeticData, studentNumbers[i]);
-			Debug.Log("Setting your data");
-			yous.Add(you);
-			// you.SetData(youBaseData, cosmeticBundle);
-		}
-
+		you.SetData(youBaseData, youCosmeticData, userId);
 	}
 
 	public async Task<YouCosmeticData> RetrieveCosmeticData(YouCosmeticData youCosmeticData)
 	{
-		Debug.Log("Bundling the struct");
 		List<Task> allTasks = new()
 		{
 			// Base
@@ -150,34 +141,6 @@ public class GameManager : MonoBehaviour
 		await Task.WhenAll(allTasks);
 
 		return youCosmeticData;
-	}
-
-	void AddLocalYou()
-	{
-		// dataState = DataRetrieveState.GETTING_YOU_DATA;
-
-
-		// for (int i = 0; i < studentNumbers.Length; i++)
-		// {
-		// bool exists = false;
-		// foreach (You oldYou in yous)
-		// {
-		//     if(oldYou.studentNumber == studentNumbers[i]){
-		//         exists = true;
-		//     }
-		// }
-		// if(exists) continue;
-
-
-		You you = Instantiate(youPrefab, Vector3.zero, Quaternion.identity, youSpawnPoint).GetComponent<You>();
-		yous.Add(you);
-
-
-		// Texture profileImage = await GetTextureFromWeb( "http://" + websiteName +"/UserApi/GetProfile?id="+studentNumbers[i].ToString());
-		// CosmeticBundleStruct cosmeticBundle = await GetCosmeticFromWeb(youBaseData.hatCosmetic);
-		// you.SetData(youBaseData, cosmeticBundle);
-		// }
-
 	}
 
 	public async Task<CosmeticBundleClass> GetCosmeticFromWeb(int itemId)
@@ -200,20 +163,5 @@ public class GameManager : MonoBehaviour
 		{
 			return DownloadHandlerTexture.GetContent(www);
 		}
-	}
-
-	void Update()
-	{
-
-		// switch (dataState)
-		// {
-		// case DataRetrieveState.GETTING_STUDENT_NUMBERS:
-		//     InitiateStudentNumberRetrieval();
-		//     break;
-
-		// case DataRetrieveState.GETTING_YOU_DATA:
-		//     InitiateStudentNumberRetrieval();
-		//     break;
-		// }
 	}
 }

@@ -9,7 +9,6 @@ public class JSONSerializationOption : IserializationOption
     public T Deserialize<T>(string text){
         try{
             var result = JsonConvert.DeserializeObject<T>(text);
-            Debug.Log($"Success: {text}");
             return result;
         }
 

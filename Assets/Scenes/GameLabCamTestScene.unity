@@ -3500,14 +3500,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6da356abdd0fcb48b3aa412cf6aa9ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataState: 0
-  yous: []
+  websiteName: http://localhost
+  refreshDelay: 1
   youPrefab: {fileID: 2798583813922436335, guid: 1d16f03a1d2fae54ab287e186dab6836,
     type: 3}
-  websiteName: http://localhost
-  sprit: []
   youSpawnPoint: {fileID: 687771151}
-  studentNumbers: []
 --- !u!4 &427080041
 Transform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class You : MonoBehaviour
 {
 	// General Information
-	public string studentNumber;
+	public int studentNumber;
 	public string name;
 	public string year;
 	public string nameTag, bio;
@@ -111,12 +111,11 @@ public class You : MonoBehaviour
 						Sprite.Create(
 							(Texture2D)spriteSheet,
 							new Rect(x * spriteWidth, y * spriteHeight, spriteWidth, spriteHeight),
-							new Vector2(0.33f, 0.5f),
+							new Vector2(0.5f, 0.5f),
 							8
 						)
 
 					);
-					Debug.Log("Created sprite at " + y + "" + x);
 				}
 			}
 		}
@@ -126,7 +125,7 @@ public class You : MonoBehaviour
 	public float minutesPlayed { get { return secondsPlayed / 60; } }
 	public float hoursPlayed { get { return minutesPlayed / 60; } }
 
-	public void SetData(YouWebClass youWebClass, YouCosmeticData cosmeticData, string studentNumber)
+	public void SetData(YouWebClass youWebClass, YouCosmeticData cosmeticData, int studentNumber)
 	{ // , CosmeticBundleStruct cosmetics){
 		Debug.Log(youWebClass.FirstName + " " + youWebClass.LastName + " " + studentNumber);
 

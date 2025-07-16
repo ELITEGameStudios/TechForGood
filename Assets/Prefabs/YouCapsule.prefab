@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 138400671814874818}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 2.01, z: 0}
+  m_LocalPosition: {x: 1, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 520588849453551124}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.321, y: -1.01, z: -0.133}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -142,7 +142,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2351336192748757776}
-  - component: {fileID: 5267402261820209136}
   - component: {fileID: -5984603201660562644}
   - component: {fileID: 8683716975034167632}
   - component: {fileID: 2305669797757470735}
@@ -172,29 +171,6 @@ Transform:
   - {fileID: 3377468345284578254}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5267402261820209136
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2798583813922436335}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.9467445
-  m_Height: 4.1870933
-  m_Direction: 1
-  m_Center: {x: -0.6466144, y: 1.0935466, z: 0}
 --- !u!114 &-5984603201660562644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128ee7f5d32c66f40a0c3a058e0fd98f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  studentNumber: 
+  studentNumber: 0
   name: 
   year: 
   nameTag: 
@@ -261,7 +237,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!114 &9103673619261798919
@@ -336,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 5869126657000977640}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 2.01, z: 0.0011}
+  m_LocalPosition: {x: 1, y: 1.9, z: 0.0011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

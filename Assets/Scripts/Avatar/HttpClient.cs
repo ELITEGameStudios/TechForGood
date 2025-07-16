@@ -31,7 +31,6 @@ public class HttpClient
             else{
 
                 var result = _serialization_option.Deserialize<TResultType>(www.downloadHandler.text);
-                Debug.Log($"Success: {www.downloadHandler.text}");
                 return result;
             }   
         }
