@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 	public string websiteName;
 	public List<Sprite> sprit;
 
+	[SerializeField] Transform youSpawnPoint;
+
 
 
 	[Header("For SN Data Retrieval")]
@@ -109,7 +111,7 @@ public class GameManager : MonoBehaviour
 			}
 			if (exists) continue;
 
-			You you = Instantiate(youPrefab, transform).GetComponent<You>();
+			You you = Instantiate(youPrefab, Vector3.zero, Quaternion.identity, youSpawnPoint).GetComponent<You>();
 
 			// Profile Data
 			var url = websiteName + "/UserApi/GetProfile?id=" + studentNumbers[i].ToString();
@@ -167,7 +169,7 @@ public class GameManager : MonoBehaviour
 		// if(exists) continue;
 
 
-		You you = Instantiate(youPrefab, transform).GetComponent<You>();
+		You you = Instantiate(youPrefab, Vector3.zero, Quaternion.identity, youSpawnPoint).GetComponent<You>();
 		yous.Add(you);
 
 
