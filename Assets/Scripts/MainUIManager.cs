@@ -70,7 +70,7 @@ public class MainUIManager : MonoBehaviour
 		state = UIState.INSPECTING;
 		nameText.text = $"{profileData.FirstName} {profileData.LastName}";
 		yearText.text = "Year " + profileData.Year;
-		hoursText.text = ((int)you.hoursPlayed).ToString() + " Hours";
+		hoursText.text = ((int)you.ProfileData.Hours).ToString() + " Hours";
 		timer = 0.0f;
 	}
 

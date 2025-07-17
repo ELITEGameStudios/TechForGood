@@ -16,10 +16,6 @@ public class You : MonoBehaviour
 	// Stores which slot is in which index, plus renderer info
 	[SerializeField] SlotData[] cosmeticSlots;
 
-	public float secondsPlayed;
-	public float minutesPlayed { get { return secondsPlayed / 60; } }
-	public float hoursPlayed { get { return minutesPlayed / 60; } }
-
 	readonly CancellationTokenSource tokenSrc = new();
 	AvatarAI ai;
 	Animator animator;
@@ -61,8 +57,6 @@ public class You : MonoBehaviour
 	void FixedUpdate()
 	{
 		if (!isInitialized) return;
-
-		secondsPlayed += Time.fixedDeltaTime;
 
 		Vector3 velocity = ai.Velocity.normalized;
 		if (ai.Velocity.magnitude < lookDirChangeThreshold)

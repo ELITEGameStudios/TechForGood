@@ -1,26 +1,16 @@
-using UnityEngine;
-using static You;
-
 public class ProfileData
 {
-
-	// General Information
 	public string FirstName { get; set; }
 	public string LastName { get; set; }
 	public string Catchphrase { get; set; }
 	public string Role { get; set; }
 	public string PrimaryColor { get; set; }
 	public string SecondaryColor { get; set; }
-	public float Hours { get; set; }
-	public string Bio { get; set; }
 	public int Year { get; set; }
-	public string Team { get; set; }
-
-	// public string nameTag;
-	// public float secondsPlayed;
-	// Cosmetic Information
-	// public int Cosmetic;
-	// public int hatCosmetic;
+	public float Hours { get; set; }
+	public string GDWTeam { get; set; }
+	public string Pronouns { get; set; }
+	public string FavouriteGame { get; set; }
 }
 
 public enum CosmeticSlot
