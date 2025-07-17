@@ -7,17 +7,8 @@
 <link rel="stylesheet" href="css/site.css">
 
 <div class="text-center">
-	<style>
-		#Catchphrase {
-			width: 200px;
-		}
-	</style>
-
 	<h1>Profile</h1>
 	<form method="post">
-		<label asp-for="Catchphrase">Catchphrase</label><br>
-		<input type="text" asp-for="Catchphrase">
-		<br><br>
 		<label asp-for="Role">Role</label><br>
 		<select asp-for="Role" />
 		@foreach (EGameRole role in Enum.GetValues(typeof(EGameRole)))
@@ -33,11 +24,40 @@
 		}
 		</select>
 		<br><br>
-		<label asp-for="PrimaryColor">Primary Colour:</label>
+
+		<label asp-for="Pronouns">Pronouns</label><br>
+		<input type="text" asp-for="Pronouns">
+
+		<br><br>
+
+		<label asp-for="GDWTeam">GDW Team</label><br>
+		<input type="text" asp-for="GDWTeam">
+
+		<br><br>
+
+		<label asp-for="Year">Year</label><br>
+		<input type="number" asp-for="Year">
+
+		<br><br>
+
+		<label asp-for="FavouriteGame">Favourite Game</label><br>
+		<input type="text" asp-for="FavouriteGame">
+
+		<br><br>
+
+		<label asp-for="Catchphrase">Catchphrase</label><br>
+		<input type="text" asp-for="Catchphrase">
+
+		<br><br>
+
+		<label asp-for="PrimaryColor">Primary Colour: </label>
 		<input asp-for="PrimaryColor" type="color">
-		<br>
-		<label asp-for="SecondaryColor">Secondary Colour:</label>
+
+		<br><br>
+
+		<label asp-for="SecondaryColor">Secondary Colour: </label>
 		<input asp-for="SecondaryColor" type="color">
+
 		<br><br><br>
 
 		<input type="submit" value="Save">

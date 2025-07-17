@@ -6,8 +6,8 @@ public class ProfileData
 	public string Role { get; set; }
 	public string PrimaryColor { get; set; }
 	public string SecondaryColor { get; set; }
-	public int Year { get; set; }
 	public float Hours { get; set; }
+	public int Year { get; set; }
 	public string GDWTeam { get; set; }
 	public string Pronouns { get; set; }
 	public string FavouriteGame { get; set; }

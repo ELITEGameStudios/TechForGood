@@ -123,6 +123,11 @@ public class AccountController : Controller
 			Role = user.Role,
 			PrimaryColor = user.PrimaryColor,
 			SecondaryColor = user.SecondaryColor,
+
+			Year = user.Year,
+			GDWTeam = user.GDWTeam,
+			Pronouns = user.Pronouns,
+			FavouriteGame = user.FavouriteGame,
 		};
 
 		return View(model);
@@ -143,6 +148,11 @@ public class AccountController : Controller
 
 		Color secondary = ColorTranslator.FromHtml(model.SecondaryColor);
 		user.SecondaryColor = $"#{secondary.R:X2}{secondary.G:X2}{secondary.B:X2}";
+
+		user.Year = model.Year;
+		user.GDWTeam = model.GDWTeam;
+		user.Pronouns = model.Pronouns;
+		user.FavouriteGame = model.FavouriteGame;
 
 		await _context.SaveChangesAsync();
 

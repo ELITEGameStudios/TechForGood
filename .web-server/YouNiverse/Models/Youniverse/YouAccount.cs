@@ -19,6 +19,11 @@ public class YouAccount
 
 	public string PrimaryColor { get; set; } = k_DefaultPrimaryColor;
 	public string SecondaryColor { get; set; } = k_DefaultSecondaryColor;
+
+	public int Year { get; set; }
+	public string GDWTeam { get; set; } = default!;
+	public string Pronouns { get; set; } = default!;
+	public string FavouriteGame { get; set; } = default!;
 }
 
 public enum EGameRole
