@@ -62,27 +62,36 @@ public class You : MonoBehaviour
 
 		secondsPlayed += Time.fixedDeltaTime;
 
-		Vector3 velocity = ai.GetAgent().desiredVelocity.normalized;
+		Vector3 velocity = ai.Agent.velocity.normalized;
+		if (ai.Agent.velocity.magnitude < lookDirChangeThreshold)
+			velocity = Vector3.zero;
 
-		if (velocity.z > lookDirChangeThreshold)
+		bool flip = false;
+
+		if (velocity.z > 0.707f)
 			facingDir = FacingDir.FRONT;
 
-		if (velocity.z < -lookDirChangeThreshold)
+		if (velocity.z < -0.707f)
 			facingDir = FacingDir.BACK;
 
-		if (velocity.x > lookDirChangeThreshold)
+		if (velocity.x > 0.707f)
+		{
 			facingDir = FacingDir.LEFT;
+		}
 
-		if (velocity.x < -lookDirChangeThreshold)
+		if (velocity.x < -0.707f)
+		{
+			flip = true;
 			facingDir = FacingDir.RIGHT;
-
-		float vel = ai.GetAgent().velocity.magnitude;
-		animator.SetFloat("Velocity", vel);
+		}
 
 		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
 		{
-			renderer.flipX = facingDir == FacingDir.LEFT;
+			renderer.flipX = flip;
 		}
+
+		float vel = ai.Agent.velocity.magnitude;
+		animator.SetFloat("Velocity", vel);
 
 		foreach (var slot in cosmeticSlots)
 		{

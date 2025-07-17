@@ -1,74 +1,56 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AvatarAI : MonoBehaviour
 {
-    [SerializeField]
-    NavMeshAgent agent;
-    public NavMeshAgent GetAgent() {return agent;}
-    public LayerMask ground_layer;
+	[SerializeField] float minIdleTime = 2;
+	[SerializeField] float maxIdleTime = 15;
 
-    //Patrolling Variables
-    Vector3 destination_point;
-    bool walking_point_set;
-    public float range;
-    float roaming_count = 0.0f;
-    float not_roaming_count = 0.0f;
-    float roam_timer = 0.0f;
-    public float min_roam_time = 5.0f;
-    public float max_roam_time = 15.0f;
-    public float min_stand_time = 5.0f;
-    public float max_stand_time = 15.0f;
+	[SerializeField] float offsetDist = 0.5f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        roaming_count = Random.Range(min_roam_time, max_roam_time);
-        not_roaming_count = Random.Range(min_stand_time, max_stand_time);
-        agent = GetComponent<NavMeshAgent>();
-    }
+	public NavMeshAgent Agent { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Patrol();
-        roam_timer += Time.deltaTime;
-        // Debug.Log(roam_timer);
-    }
+	AiNode[] nodes;
+	Coroutine currentRoutine;
 
-    void Patrol(){
-        
-        if (roam_timer < roaming_count){
-            if (!walking_point_set){
-            SearchForPoint();
-            }
+	void Awake()
+	{
+		Agent = GetComponent<NavMeshAgent>();
 
-            if (walking_point_set){
-                agent.SetDestination(destination_point);
-            }
+		nodes = FindObjectsByType<AiNode>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
-            if (Vector3.Distance(transform.position, destination_point) < 10) walking_point_set = false;
+		StartAiRoutine(Wander);
+	}
 
-        }
+	IEnumerator Wander()
+	{
+		while (true)
+		{
+			// Wait for seconds
+			yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
 
-        else{
-            if (roam_timer > (roaming_count + not_roaming_count)){
-                roam_timer = 0.0f;
-                roaming_count = Random.Range(min_roam_time, max_roam_time);
-                not_roaming_count = Random.Range(min_stand_time, max_stand_time);
-            }
-        }
-        
-    }
+			Vector3 offset = new(UnityEngine.Random.Range(0, offsetDist), 0, UnityEngine.Random.Range(0, offsetDist));
+			Agent.destination = PickRandomNode().Position + offset; ;
 
-    void SearchForPoint(){
-        float z_pos = Random.Range(-range, range);
-        float x_pos = Random.Range(-range, range);
+			while (Agent.pathStatus == NavMeshPathStatus.PathPartial)
+			{
+				yield return null;
+			}
+		}
+	}
 
-        destination_point = new Vector3(transform.position.x + x_pos, transform.position.y, transform.position.z + z_pos);
+	void StartAiRoutine(Func<IEnumerator> routine)
+	{
+		if (currentRoutine != null)
+			StopCoroutine(currentRoutine);
 
-        if(Physics.Raycast(destination_point, Vector3.down, ground_layer)){
-            walking_point_set = true;
-        }
-    }
+		currentRoutine = StartCoroutine(routine());
+	}
+
+	AiNode PickRandomNode()
+	{
+		return nodes[UnityEngine.Random.Range(0, nodes.Length)];
+	}
 }
