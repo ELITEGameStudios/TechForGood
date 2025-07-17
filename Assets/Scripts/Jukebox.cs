@@ -1,4 +1,8 @@
 using UnityEngine;
+using System.IO;
+using System;
+using UnityEngine.UI;
+using TMPro;
 
 public class Jukebox : MonoBehaviour
 {
@@ -7,7 +11,6 @@ public class Jukebox : MonoBehaviour
     public Animator needle_animator;
     private bool opened = false;
     public static JukeboxUIState jukebox_state;
-
     public GameObject jukebox_UI_panel;
 	public Vector2 original_position;
 	public Vector2 active_position;
@@ -17,6 +20,11 @@ public class Jukebox : MonoBehaviour
 	public AudioClip enter_sound;
 	public AudioClip exit_sound;
 	public AudioSource SFX_player;
+    public GameObject music_button;
+    public GameObject grid_layout;
+
+
+    private AudioClip[] game_songs;
 
     public enum JukeboxUIState
 	{
@@ -24,6 +32,15 @@ public class Jukebox : MonoBehaviour
 		INSPECTING
 	}
 
+    void Awake()
+    {
+        game_songs = Resources.LoadAll<AudioClip>("Sound/Game Music");
+
+        for (int i = 0; i < game_songs.Length; i++){
+            GameObject button = Instantiate(music_button, grid_layout.transform);
+            button.GetComponentInChildren<TMP_Text>().text = game_songs[i].name;
+        }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
