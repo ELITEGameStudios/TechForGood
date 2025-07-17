@@ -58,13 +58,7 @@ public class AvatarAI : MonoBehaviour
 
 	IEnumerator LeaveLab()
 	{
-		agent.enabled = true;
-		agent.destination = AiPathNode.FindByName("Lab Exit").Position;
-
-		while (agent.remainingDistance > agent.stoppingDistance)
-		{
-			yield return null;
-		}
+		yield return NavigateToPosition(AiPathNode.FindByName("Lab Exit").Position);
 
 		velocity = Vector3.zero;
 		agent.enabled = false;
@@ -82,12 +76,9 @@ public class AvatarAI : MonoBehaviour
 		while (true)
 		{
 			Vector3 offset = new(UnityEngine.Random.Range(0, offsetDist), 0, UnityEngine.Random.Range(0, offsetDist));
-			agent.destination = PickRandomNode().Position + offset;
+			Vector3 dest = PickRandomNode().Position + offset;
 
-			while (agent.remainingDistance > agent.stoppingDistance)
-			{
-				yield return null;
-			}
+			yield return NavigateToPosition(dest);
 
 			yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
 		}
@@ -104,6 +95,19 @@ public class AvatarAI : MonoBehaviour
 	AiNode PickRandomNode()
 	{
 		return nodes[UnityEngine.Random.Range(0, nodes.Length)];
+	}
+
+	IEnumerator NavigateToPosition(Vector3 dest)
+	{
+		agent.enabled = true;
+		agent.destination = dest;
+
+		yield return null;
+
+		while (agent.remainingDistance > agent.stoppingDistance)
+		{
+			yield return null;
+		}
 	}
 
 	IEnumerator FollowPath(AiPathNode pathStart)

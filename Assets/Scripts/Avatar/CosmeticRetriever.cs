@@ -36,8 +36,6 @@ public class CosmeticRetriever
 
 		if (loadedTextures[url].RefCount <= 0)
 		{
-			Debug.Log($"Unloading: {url}");
-
 			Texture2D texture = loadedTextures[url].Texture2D;
 
 			List<SpriteKey> removeKeys = new();
@@ -48,8 +46,6 @@ public class CosmeticRetriever
 
 				removeKeys.Add(kv.Key);
 				Object.Destroy(kv.Value);
-
-				Debug.Log($"Destroying sprite: {url}");
 			}
 
 			foreach (var key in removeKeys)
@@ -83,7 +79,6 @@ public class CosmeticRetriever
 
 		if (!loadedSprites.ContainsKey(key))
 		{
-			Debug.Log($"Creating sprite: {url}");
 			Sprite sprite = Sprite.Create(texture, rect, pivot, ppu);
 			loadedSprites.Add(key, sprite);
 		}
@@ -93,7 +88,6 @@ public class CosmeticRetriever
 
 	async Task LoadTexture(string url)
 	{
-		Debug.Log($"Loading texture: {url}");
 		UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
 		await www.SendWebRequest();
 
