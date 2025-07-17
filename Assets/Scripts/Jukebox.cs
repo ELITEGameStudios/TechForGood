@@ -39,6 +39,7 @@ public class Jukebox : MonoBehaviour
         for (int i = 0; i < game_songs.Length; i++){
             GameObject button = Instantiate(music_button, grid_layout.transform);
             button.GetComponentInChildren<TMP_Text>().text = game_songs[i].name;
+            button.GetComponent<MusicButtonPlayer>().button_song = game_songs[i];
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

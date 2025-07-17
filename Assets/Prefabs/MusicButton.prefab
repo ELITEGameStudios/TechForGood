@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 4645550379634570854}
   - component: {fileID: 8377835722413269360}
   - component: {fileID: 3424020231161048146}
+  - component: {fileID: 1818814597087303789}
   m_Layer: 5
   m_Name: MusicButton
   m_TagString: Untagged
@@ -258,7 +259,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4645550379634570854}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1818814597087303789}
+        m_TargetAssemblyTypeName: MusicButtonPlayer, Assembly-CSharp
+        m_MethodName: ChangeSong
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3424020231161048146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,3 +292,16 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1818814597087303789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3839569688583648663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6863f3087b0a4868837887e9e527486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button_song: {fileID: 0}
