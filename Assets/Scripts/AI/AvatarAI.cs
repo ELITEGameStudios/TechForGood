@@ -10,16 +10,43 @@ public class AvatarAI : MonoBehaviour
 
 	[SerializeField] float offsetDist = 0.5f;
 
-	public NavMeshAgent Agent { get; private set; }
+	public Vector3 Velocity
+	{
+		get
+		{
+			if (agent.enabled)
+				return agent.velocity;
 
+			return velocity;
+		}
+	}
+
+	NavMeshAgent agent;
+	You you;
 	AiNode[] nodes;
 	Coroutine currentRoutine;
+	Vector3 velocity;
 
 	void Awake()
 	{
-		Agent = GetComponent<NavMeshAgent>();
+		agent = GetComponent<NavMeshAgent>();
+		agent.enabled = false;
 
+		you = GetComponent<You>();
 		nodes = FindObjectsByType<AiNode>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+	}
+
+	public void Init()
+	{
+		StartAiRoutine(EnterLab);
+	}
+
+	IEnumerator EnterLab()
+	{
+		yield return FollowPath(AiPathNode.FindByName("Lab Entrance"));
+
+		you.FacingDirection = You.FacingDir.RIGHT;
+		yield return new WaitForSeconds(1.5f);
 
 		StartAiRoutine(Wander);
 	}
@@ -28,16 +55,15 @@ public class AvatarAI : MonoBehaviour
 	{
 		while (true)
 		{
-			// Wait for seconds
-			yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
-
 			Vector3 offset = new(UnityEngine.Random.Range(0, offsetDist), 0, UnityEngine.Random.Range(0, offsetDist));
-			Agent.destination = PickRandomNode().Position + offset; ;
+			agent.destination = PickRandomNode().Position + offset; ;
 
-			while (Agent.pathStatus == NavMeshPathStatus.PathPartial)
+			while (agent.pathStatus == NavMeshPathStatus.PathPartial)
 			{
 				yield return null;
 			}
+
+			yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
 		}
 	}
 
@@ -52,5 +78,41 @@ public class AvatarAI : MonoBehaviour
 	AiNode PickRandomNode()
 	{
 		return nodes[UnityEngine.Random.Range(0, nodes.Length)];
+	}
+
+	IEnumerator FollowPath(AiPathNode pathStart)
+	{
+		agent.enabled = false;
+
+		AiPathNode nextNode = pathStart;
+
+		while (nextNode)
+		{
+			// todo: this code has gotten fucked up over time, use a lerp
+			Vector3 end = nextNode.Position;
+
+			while (true)
+			{
+				Vector3 direction = (end - transform.position).normalized;
+				float moveAmt = agent.speed * Time.deltaTime;
+
+				Vector3 move = moveAmt * direction;
+				float requiredDist = Vector3.Distance(transform.position, end);
+
+				if (move.magnitude > requiredDist)
+				{
+					transform.position = end;
+					break;
+				}
+
+				transform.position += move;
+				velocity = move / Time.deltaTime;
+
+				yield return null;
+			}
+			nextNode = nextNode.Next;
+		}
+
+		agent.enabled = true;
 	}
 }
