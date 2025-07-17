@@ -23,16 +23,18 @@ public class You : MonoBehaviour
 	readonly CancellationTokenSource tokenSrc = new();
 	AvatarAI ai;
 	Animator animator;
-	FacingDir facingDir;
 	AnimationEnum currentAnimation;
 	bool isInitialized = false;
 
 	public int currentFrame; // set by animations
 
-	public SlotData[] Slots => cosmeticSlots;
-	public int UserId { get; set; }
+	public FacingDir FacingDirection { get; set; }
+
+	public int UserId { get; private set; }
 	public ProfileData ProfileData { get; private set; }
 	public AvatarData AvatarData { get; private set; }
+
+	public SlotData[] Slots => cosmeticSlots;
 
 	void Awake()
 	{
@@ -62,35 +64,28 @@ public class You : MonoBehaviour
 
 		secondsPlayed += Time.fixedDeltaTime;
 
-		Vector3 velocity = ai.Agent.velocity.normalized;
-		if (ai.Agent.velocity.magnitude < lookDirChangeThreshold)
+		Vector3 velocity = ai.Velocity.normalized;
+		if (ai.Velocity.magnitude < lookDirChangeThreshold)
 			velocity = Vector3.zero;
 
-		bool flip = false;
-
 		if (velocity.z > 0.707f)
-			facingDir = FacingDir.FRONT;
+			FacingDirection = FacingDir.FRONT;
 
 		if (velocity.z < -0.707f)
-			facingDir = FacingDir.BACK;
+			FacingDirection = FacingDir.BACK;
 
 		if (velocity.x > 0.707f)
-		{
-			facingDir = FacingDir.LEFT;
-		}
+			FacingDirection = FacingDir.LEFT;
 
 		if (velocity.x < -0.707f)
-		{
-			flip = true;
-			facingDir = FacingDir.RIGHT;
-		}
+			FacingDirection = FacingDir.RIGHT;
 
 		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
 		{
-			renderer.flipX = flip;
+			renderer.flipX = FacingDirection == FacingDir.RIGHT;
 		}
 
-		float vel = ai.Agent.velocity.magnitude;
+		float vel = ai.Velocity.magnitude;
 		animator.SetFloat("Velocity", vel);
 
 		foreach (var slot in cosmeticSlots)
@@ -98,7 +93,21 @@ public class You : MonoBehaviour
 			int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
 			int x = currentFrame;
 			int y = (int)currentAnimation;
-			y += (int)facingDir;
+
+			switch (FacingDirection)
+			{
+				case FacingDir.RIGHT:
+					y += 1;
+					break;
+
+				case FacingDir.LEFT:
+					y += 1;
+					break;
+
+				case FacingDir.BACK:
+					y += 2;
+					break;
+			}
 
 			string url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
 
@@ -121,8 +130,6 @@ public class You : MonoBehaviour
 	{
 		UserId = userId;
 
-		transform.localPosition = Vector3.zero;
-
 		// Hide until images have loaded
 		SetRenderersEnabled(false);
 
@@ -133,6 +140,8 @@ public class You : MonoBehaviour
 		RefreshLoop(tokenSrc.Token);
 
 		isInitialized = true;
+
+		ai.Init();
 	}
 
 	public async Task RefreshData()
@@ -228,6 +237,14 @@ public class You : MonoBehaviour
 		IDLE = AnimationEnum.IDLE_FRONT,
 	}
 
+	public enum FacingDir
+	{
+		FRONT,
+		RIGHT,
+		LEFT,
+		BACK,
+	}
+
 	enum AnimationEnum
 	{
 		WALK_FRONT,
@@ -237,13 +254,5 @@ public class You : MonoBehaviour
 		IDLE_FRONT,
 		IDLE_SIDE,
 		IDLE_BACK,
-	}
-
-	enum FacingDir
-	{
-		FRONT = 0,
-		RIGHT = 1,
-		LEFT = 1,
-		BACK = 2,
 	}
 }

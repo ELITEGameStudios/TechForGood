@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("References")]
 	[SerializeField] GameObject youPrefab;
+	[SerializeField] Transform youSpawnPointHACK;
 	[SerializeField] Transform youSpawnPoint;
 
 	readonly CancellationTokenSource refreshSource = new();
@@ -105,7 +106,9 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log($"New You: {userId}");
 
-		You you = Instantiate(youPrefab, youSpawnPoint).GetComponent<You>();
+		You you = Instantiate(youPrefab, youSpawnPointHACK.transform.position, Quaternion.identity, transform).GetComponent<You>();
+		you.transform.position = youSpawnPoint.transform.position;
+
 		yousInLab.Add(userId, you);
 
 		await you.Setup(userId);
