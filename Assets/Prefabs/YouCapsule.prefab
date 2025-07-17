@@ -184,23 +184,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128ee7f5d32c66f40a0c3a058e0fd98f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  studentNumber: 0
-  name: 
-  year: 
-  nameTag: 
-  bio: 
-  currentFrame: 0
-  ai: {fileID: 8683716975034167632}
-  velocityAnimThreshold: 1
-  walkAnimThreshold: 1
+  profileRefreshPeriod: 5
+  lookDirChangeThreshold: 0.25
   cosmeticSlots:
   - slot: 0
     renderer: {fileID: 7492457150869172559}
   - slot: 3
     renderer: {fileID: 5165822121132668211}
-  profileImage: {fileID: 0}
-  anim: 0
   secondsPlayed: 0
+  currentFrame: 0
 --- !u!114 &8683716975034167632
 MonoBehaviour:
   m_ObjectHideFlags: 0
