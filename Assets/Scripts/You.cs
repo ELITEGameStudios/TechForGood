@@ -62,7 +62,9 @@ public class You : MonoBehaviour
 
 		secondsPlayed += Time.fixedDeltaTime;
 
-		Vector3 velocity = ai.GetAgent().desiredVelocity.normalized;
+		Vector3 velocity = ai.Agent.velocity.normalized;
+		if (ai.Agent.velocity.magnitude < lookDirChangeThreshold)
+			velocity = Vector3.zero;
 
 		if (velocity.z > lookDirChangeThreshold)
 			facingDir = FacingDir.FRONT;
@@ -76,7 +78,7 @@ public class You : MonoBehaviour
 		if (velocity.x < -lookDirChangeThreshold)
 			facingDir = FacingDir.RIGHT;
 
-		float vel = ai.GetAgent().velocity.magnitude;
+		float vel = ai.Agent.velocity.magnitude;
 		animator.SetFloat("Velocity", vel);
 
 		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))

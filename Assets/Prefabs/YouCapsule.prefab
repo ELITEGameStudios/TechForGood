@@ -114,7 +114,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2210881476568296712}
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profileRefreshPeriod: 5
-  lookDirChangeThreshold: 0.25
+  lookDirChangeThreshold: 0.1
   cosmeticSlots:
   - slot: 0
     renderer: {fileID: 7492457150869172559}
@@ -205,15 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89abcefbae5d2494e8a6035d76531d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 2305669797757470735}
-  ground_layer:
-    serializedVersion: 2
-    m_Bits: 128
-  range: 10
-  min_roam_time: 5
-  max_roam_time: 15
-  min_stand_time: 5
-  max_stand_time: 100
+  minIdleTime: 2
+  maxIdleTime: 8
 --- !u!195 &2305669797757470735
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -224,11 +217,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.1
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 2.5
+  m_Acceleration: 1000
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 1
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -301,7 +294,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2.92, z: 2}
+  m_Size: {x: 1.67, y: 3.08, z: 1.5}
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &5869126657000977640
 GameObject:
