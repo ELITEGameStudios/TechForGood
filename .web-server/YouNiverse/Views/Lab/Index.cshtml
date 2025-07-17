@@ -7,28 +7,63 @@
 
 <link rel="stylesheet" href="css/site.css">
 
-<div class="text-center">
-	<br><br>
-	<h1>Welcome to the Game Lab</h1>
-	<br>
+<style>
+	body {
+		background-image: url("/lab/bg.png");
+		image-rendering: pixelated;
+		background-size: cover;
+		background-attachment: fixed;
+		background-position-x: center;
+		background-position-y: bottom;
+	}
+
+	#welcome {
+		background-image: url("/lab/welcome.png");
+		image-rendering: pixelated;
+		background-size: cover;
+		background-attachment: fixed;
+		background-position-x: center;
+		background-position-y: bottom;
+
+		width: 100%;
+		height: 100%;
+		position: fixed;
+	}
+
+	#sign-in {
+		position: fixed;
+		bottom: 285px;
+		width: 100%;
+		text-align: center;
+	}
+
+	#error {
+		position: absolute;
+		bottom: -60px;
+		width: 100%;
+	}
+
+	input#StudentId {
+		margin-top: 10px;
+	}
+</style>
+
+<div id="welcome"></div>
+<div id="sign-in">
 	<form method="post" id="sign-in-form">
-		<label asp-for="StudentId">Sign-In/Out (Enter Student ID):</label><br>
+		<label asp-for="StudentId" id="StudentId">Sign-In/Out (Enter Student ID):</label><br>
 		<input autocomplete="username" placeholder="Student ID" asp-for="StudentId" type="text" autofocus />
 		<br><br>
 		<input type="submit" value="Lab Sign-In/Out" />
 		<input onclick="signInToAction('/Lab/Signin')" type="submit" value="Edit Profile" />
-		@if (ViewData["loginError"] != null)
-		{
-			<p class="signin-error">@ViewData["loginError"]</p>
-		}
-		else
-		{
-			<br>
-			<br>
-		}
+		<br>
+		<br>
 	</form>
-	<br>
 	<a asp-action="Guest">Guest Sign-In/Out</a>
+	@if (ViewData["loginError"] != null)
+	{
+		<p class="signin-error" id="error">@ViewData["loginError"]</p>
+	}
 </div>
 
 <script>

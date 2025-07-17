@@ -96,12 +96,14 @@ public class CosmeticRetriever
 			return;
 		}
 
-		Texture2D tex = DownloadHandlerTexture.GetContent(www);
-		tex.filterMode = FilterMode.Point;
+		if (!loadedTextures.ContainsKey(url))
+		{
+			Texture2D tex = DownloadHandlerTexture.GetContent(www);
+			tex.filterMode = FilterMode.Point;
 
-		TextureEntry entry = new(tex);
-
-		loadedTextures.Add(url, entry);
+			TextureEntry entry = new(tex);
+			loadedTextures.Add(url, entry);
+		}
 	}
 
 	class TextureEntry

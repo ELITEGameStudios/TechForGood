@@ -1,6 +1,21 @@
+@font-face {
+	font-family: DigitalDisco;
+	src: url("/fonts/DigitalDisco.woff2");
+}
+
+* {
+	font-family: "DigitalDisco";
+	font-size: 1.03em;
+}
+
 body {
 	margin: 0px;
 	padding: 0px;
+	color: rgb(56, 56, 56);
+}
+
+input {
+	color: rgb(56, 56, 56);
 }
 
 .text-center {
@@ -18,4 +33,20 @@ body {
 
 img {
 	image-rendering: pixelated;
+}
+
+input,
+select,
+button {
+	border-image: url(/lab/button-9slice.png);
+	border-image-slice: 4 fill;
+	border-image-width: 8;
+	padding: 6px;
+	border-color: rgb(188, 188, 188);
+}
+
+input:hover,
+select:hover,
+button:hover {
+	border-color: rgb(255, 255, 255);
 }
