@@ -15,4 +15,12 @@ public class AiPathNode : MonoBehaviour
 		return FindObjectsByType<AiPathNode>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
 			.FirstOrDefault(p => p.Name == name);
 	}
+
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+
+		if (next)
+			Gizmos.DrawLine(Position, next.Position);
+	}
 }

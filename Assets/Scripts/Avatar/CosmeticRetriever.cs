@@ -38,9 +38,14 @@ public class CosmeticRetriever
 		{
 			Debug.Log($"Unloading: {url}");
 
+			Texture2D texture = loadedTextures[url].Texture2D;
+
 			List<SpriteKey> removeKeys = new();
 			foreach (var kv in loadedSprites)
 			{
+				if (kv.Value.texture != texture)
+					continue;
+
 				removeKeys.Add(kv.Key);
 				Object.Destroy(kv.Value);
 
@@ -52,7 +57,7 @@ public class CosmeticRetriever
 				loadedSprites.Remove(key);
 			}
 
-			Object.Destroy(loadedTextures[url].Texture2D);
+			Object.Destroy(texture);
 			loadedTextures.Remove(url);
 		}
 	}

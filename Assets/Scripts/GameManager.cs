@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
 			return;
 
 		yousInLab.Remove(userId);
-		Destroy(you.gameObject);
+		you.Retire();
 	}
 
 	async Task CreateYou(int userId)

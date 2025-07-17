@@ -36,9 +36,14 @@ public class AvatarAI : MonoBehaviour
 		nodes = FindObjectsByType<AiNode>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 	}
 
-	public void Init()
+	public void Enter()
 	{
 		StartAiRoutine(EnterLab);
+	}
+
+	public void Leave()
+	{
+		StartAiRoutine(LeaveLab);
 	}
 
 	IEnumerator EnterLab()
@@ -51,14 +56,35 @@ public class AvatarAI : MonoBehaviour
 		StartAiRoutine(Wander);
 	}
 
+	IEnumerator LeaveLab()
+	{
+		agent.enabled = true;
+		agent.destination = AiPathNode.FindByName("Lab Exit").Position;
+
+		while (agent.remainingDistance > agent.stoppingDistance)
+		{
+			yield return null;
+		}
+
+		velocity = Vector3.zero;
+		agent.enabled = false;
+		you.FacingDirection = You.FacingDir.RIGHT;
+
+		yield return new WaitForSeconds(1.5f);
+
+		yield return FollowPath(AiPathNode.FindByName("Lab Exit"));
+
+		Destroy(you.gameObject);
+	}
+
 	IEnumerator Wander()
 	{
 		while (true)
 		{
 			Vector3 offset = new(UnityEngine.Random.Range(0, offsetDist), 0, UnityEngine.Random.Range(0, offsetDist));
-			agent.destination = PickRandomNode().Position + offset; ;
+			agent.destination = PickRandomNode().Position + offset;
 
-			while (agent.pathStatus == NavMeshPathStatus.PathPartial)
+			while (agent.remainingDistance > agent.stoppingDistance)
 			{
 				yield return null;
 			}

@@ -53,7 +53,7 @@ public class You : MonoBehaviour
 				int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
 				string url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
 
-				GameManager.Instance.CosmeticRetriever.IncrementTextureReference(url);
+				GameManager.Instance.CosmeticRetriever.DecrementTextureReference(url);
 			}
 		}
 	}
@@ -126,6 +126,11 @@ public class You : MonoBehaviour
 		}
 	}
 
+	public void Retire()
+	{
+		ai.Leave();
+	}
+
 	public async Task Setup(int userId)
 	{
 		UserId = userId;
@@ -141,7 +146,7 @@ public class You : MonoBehaviour
 
 		isInitialized = true;
 
-		ai.Init();
+		ai.Enter();
 	}
 
 	public async Task RefreshData()
@@ -185,7 +190,7 @@ public class You : MonoBehaviour
 				int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
 				url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
 
-				GameManager.Instance.CosmeticRetriever.IncrementTextureReference(url);
+				GameManager.Instance.CosmeticRetriever.DecrementTextureReference(url);
 			}
 		}
 
