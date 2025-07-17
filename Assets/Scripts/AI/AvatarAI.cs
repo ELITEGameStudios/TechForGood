@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class AvatarAI : MonoBehaviour
 {
-	[SerializeField] float minIdleTime;
-	[SerializeField] float maxIdleTime;
+	[SerializeField] float minIdleTime = 2;
+	[SerializeField] float maxIdleTime = 15;
+
+	[SerializeField] float offsetDist = 0.5f;
 
 	public NavMeshAgent Agent { get; private set; }
 
@@ -29,7 +31,8 @@ public class AvatarAI : MonoBehaviour
 			// Wait for seconds
 			yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
 
-			Agent.destination = PickRandomNode().Position;
+			Vector3 offset = new(UnityEngine.Random.Range(0, offsetDist), 0, UnityEngine.Random.Range(0, offsetDist));
+			Agent.destination = PickRandomNode().Position + offset; ;
 
 			while (Agent.pathStatus == NavMeshPathStatus.PathPartial)
 			{
