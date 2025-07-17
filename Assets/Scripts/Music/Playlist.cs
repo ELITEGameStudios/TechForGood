@@ -18,7 +18,7 @@ public class Playlist : MonoBehaviour
     public List<Sprite> muted_sprites = new List<Sprite>();
     public Slider volume_slider;
     private float previous_volume;
-    public TMP_Text mute_button_text;
+    //public TMP_Text mute_button_text;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -87,7 +87,7 @@ public class Playlist : MonoBehaviour
         if (muted){
             volume_slider.interactable = true;
             current_song.volume = previous_volume;
-            mute_button_text.text = "Mute";
+            //mute_button_text.text = "Mute";
 
             if (current_song.volume < 0.25f){
                 volume_image.GetComponent<Image>().sprite = volume_sprites[0];
@@ -130,7 +130,7 @@ public class Playlist : MonoBehaviour
 
             current_song.volume = 0.0f;
             volume_slider.interactable = false;
-            mute_button_text.text = "Unmute";
+            //mute_button_text.text = "Unmute";
             muted = true;
         }
     }
