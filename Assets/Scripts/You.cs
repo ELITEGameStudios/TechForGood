@@ -1,133 +1,202 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class You : MonoBehaviour
 {
-	// General Information
-	[SerializeField] float velocityAnimThreshold = 0.33f;
-	[SerializeField] float walkAnimThreshold = 0.25f;
+	const int spriteWidth = 48;
+	const int spriteHeight = 48;
+
+	[SerializeField] float profileRefreshPeriod = 5;
+	[SerializeField] float lookDirChangeThreshold = 0.5f;
+
+	// Stores which slot is in which index, plus renderer info
 	[SerializeField] SlotData[] cosmeticSlots;
 
-	// Visual Data
-	public AnimationTypeEnum anim;
-
-	int currentFrame;
-	AvatarAI ai;
-	AvatarData cosmeticData;
-	GameDisplay[] contributedGames;
-
-	public SlotData[] Slots => cosmeticSlots;
-	public int StudentNumber { get; set; }
-	public string Name { get; set; }
-	public string Year { get; set; }
-	public string Catchphrase { get; set; }
-
-	bool Walk { get { return ai.GetAgent().velocity.magnitude <= walkAnimThreshold; } }
-	bool Side { get { return Mathf.Abs(ai.GetAgent().velocity.x) > Mathf.Abs(ai.GetAgent().velocity.z); } }
-	bool Front { get { return ai.GetAgent().velocity.z < 0; } }
-	bool Mirror { get { return ai.GetAgent().velocity.x < 0; } }
-
-	public struct GameDisplay
-	{
-		public string gameName;
-		public Image gameImage;
-		public string gameDescription;
-		public int gameYear;
-		public bool showGameInYouniverse;
-	}
-
-	public enum AnimationTypeEnum
-	{
-		WALK_FRONT,
-		WALK_SIDE,
-		WALK_BACK,
-		IDLE_FRONT,
-		IDLE_SIDE,
-		IDLE_BACK
-	}
-
-	[System.Serializable]
-	public struct SlotData
-	{
-		public CosmeticSlot slot;
-		public SpriteRenderer renderer;
-	}
-
-	[System.Serializable]
-	public class CosmeticBundleClass
-	{
-		// Constants
-		public const int walkFrameCount = 4;
-		public const int idleFrameCount = 4;
-		Dictionary<int, int> lengthLookup = new Dictionary<int, int>();
-
-		public const int spriteWidth = 48;
-		public const int spriteHeight = 48;
-
-		public Texture spriteSheet;
-
-		// Walk
-		public Sprite[] walkFront;
-		public Sprite[] walkSide;
-		public Sprite[] walkBack;
-
-		// Idle
-		public Sprite[] idleFront;
-		public Sprite[] idleSide;
-		public Sprite[] idleBack;
-		public Sprite[][] spriteLists;
-
-		public CosmeticBundleClass(Texture source)
-		{
-
-			// Initialiing variables
-			walkFront = new Sprite[walkFrameCount];
-			walkSide = new Sprite[walkFrameCount];
-			walkBack = new Sprite[walkFrameCount];
-
-			idleFront = new Sprite[idleFrameCount];
-			idleSide = new Sprite[idleFrameCount];
-			idleBack = new Sprite[idleFrameCount];
-
-			spriteLists = new Sprite[][] { walkFront, walkSide, walkBack, idleFront, idleSide, idleBack };
-
-			// Getting spritesheet parameters
-			spriteSheet = (Texture2D)source;
-			spriteSheet.filterMode = FilterMode.Point;
-			int sheetWidth = spriteSheet.width;
-			int sheetHeight = spriteSheet.height;
-
-			// Maps each sprite to its assigned x,y coordinates given based on which list and frame it is
-			for (int y = 0; y < spriteLists.Length; y++)
-			{
-				for (int x = 0; x < spriteLists[y].Length; x++)
-				{
-					spriteLists[y][x] = (
-						Sprite.Create(
-							(Texture2D)spriteSheet,
-							new Rect(x * spriteWidth, y * spriteHeight, spriteWidth, spriteHeight),
-							new Vector2(0.333f, 0.5f),
-							8
-						)
-
-					);
-				}
-			}
-		}
-	}
-	// Time stats
 	public float secondsPlayed;
 	public float minutesPlayed { get { return secondsPlayed / 60; } }
 	public float hoursPlayed { get { return minutesPlayed / 60; } }
 
+	readonly CancellationTokenSource tokenSrc = new();
+	AvatarAI ai;
+	Animator animator;
+	FacingDir facingDir;
+	AnimationEnum currentAnimation;
+	bool isInitialized = false;
+
+	public int currentFrame; // set by animations
+
+	public SlotData[] Slots => cosmeticSlots;
+	public int UserId { get; set; }
+	public ProfileData ProfileData { get; private set; }
+	public AvatarData AvatarData { get; private set; }
+
 	void Awake()
 	{
 		ai = GetComponent<AvatarAI>();
+		animator = GetComponent<Animator>();
 	}
 
-	public void SetRenderersEnabled(bool enabled)
+	void OnDestroy()
+	{
+		tokenSrc.Cancel();
+
+		if (AvatarData != null)
+		{
+			foreach (var slot in Slots)
+			{
+				int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
+				string url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
+
+				GameManager.Instance.CosmeticRetriever.IncrementTextureReference(url);
+			}
+		}
+	}
+
+	void FixedUpdate()
+	{
+		if (!isInitialized) return;
+
+		secondsPlayed += Time.fixedDeltaTime;
+
+		Vector3 velocity = ai.GetAgent().desiredVelocity.normalized;
+
+		if (velocity.z > lookDirChangeThreshold)
+			facingDir = FacingDir.FRONT;
+
+		if (velocity.z < -lookDirChangeThreshold)
+			facingDir = FacingDir.BACK;
+
+		if (velocity.x > lookDirChangeThreshold)
+			facingDir = FacingDir.LEFT;
+
+		if (velocity.x < -lookDirChangeThreshold)
+			facingDir = FacingDir.RIGHT;
+
+		float vel = ai.GetAgent().velocity.magnitude;
+		animator.SetFloat("Velocity", vel);
+
+		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
+		{
+			renderer.flipX = facingDir == FacingDir.LEFT;
+		}
+
+		foreach (var slot in cosmeticSlots)
+		{
+			int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
+			int x = currentFrame;
+			int y = (int)currentAnimation;
+			y += (int)facingDir;
+
+			string url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
+
+			Texture2D texture = GameManager.Instance.CosmeticRetriever.GetCachedTexture(url);
+
+			Rect rect = new(x * spriteWidth, texture.height - (y + 1) * spriteHeight, spriteWidth, spriteHeight);
+
+			Sprite sprite = GameManager.Instance.CosmeticRetriever.GetSprite(
+				url,
+				rect,
+				new Vector2(0.333f, 0.5f),
+				8
+			);
+
+			slot.renderer.sprite = sprite;
+		}
+	}
+
+	public async Task Setup(int userId)
+	{
+		UserId = userId;
+
+		transform.localPosition = Vector3.zero;
+
+		// Hide until images have loaded
+		SetRenderersEnabled(false);
+
+		await RefreshData();
+
+		SetRenderersEnabled(true);
+
+		RefreshLoop(tokenSrc.Token);
+
+		isInitialized = true;
+	}
+
+	public async Task RefreshData()
+	{
+		var http_client = new HttpClient(new JSONSerializationOption());
+
+		// Profile Data
+		var url = $"{GameManager.Instance.WebsiteName}/UserApi/GetProfile?id={UserId}";
+		ProfileData = await http_client.Get<ProfileData>(url);
+
+		// Cosmetic Data
+		url = $"{GameManager.Instance.WebsiteName}/UserApi/GetAvatar?id={UserId}";
+		AvatarData unappliedAvatarData = await http_client.Get<AvatarData>(url);
+
+		// Cache textures
+		List<Task> cacheTasks = new();
+		foreach (var slot in Slots)
+		{
+			int itemId = unappliedAvatarData.Loadout.GetIdForSlot(slot.slot);
+			url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
+
+			cacheTasks.Add(GameManager.Instance.CosmeticRetriever.CacheTexture(url));
+		}
+
+		await Task.WhenAll(cacheTasks);
+
+		// Increment references for new cosmetics
+		foreach (var slot in Slots)
+		{
+			int itemId = unappliedAvatarData.Loadout.GetIdForSlot(slot.slot);
+			url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
+
+			GameManager.Instance.CosmeticRetriever.IncrementTextureReference(url);
+		}
+
+		// Decrement references for old cosmetics
+		if (AvatarData != null)
+		{
+			foreach (var slot in Slots)
+			{
+				int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
+				url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
+
+				GameManager.Instance.CosmeticRetriever.IncrementTextureReference(url);
+			}
+		}
+
+		AvatarData = unappliedAvatarData;
+	}
+
+	// -- Uses string instead of enum because changing the enum breaks animations. --
+	// Options for animation names are the names of PublicAnimationEnum:
+	// - WALK
+	// - IDLE
+	public void SetCurrentAnimation(string animation)
+	{
+		if (Enum.TryParse(animation.ToUpper(), out PublicAnimationEnum result))
+		{
+			currentAnimation = (AnimationEnum)result;
+		}
+	}
+
+	async void RefreshLoop(CancellationToken token)
+	{
+		while (!token.IsCancellationRequested)
+		{
+			await RefreshData();
+
+			await Task.Delay((int)(profileRefreshPeriod * 1000));
+		}
+	}
+
+	void SetRenderersEnabled(bool enabled)
 	{
 		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
 		{
@@ -135,58 +204,37 @@ public class You : MonoBehaviour
 		}
 	}
 
-	public void SetData(ProfileData youWebClass, AvatarData cosmeticData, int studentNumber)
-	{ // , CosmeticBundleStruct cosmetics){
-		Debug.Log(youWebClass.FirstName + " " + youWebClass.LastName + " " + studentNumber);
-
-		StudentNumber = studentNumber;
-		Name = youWebClass.FirstName + " " + youWebClass.LastName;
-		Catchphrase = youWebClass.Catchphrase;
-		Year = youWebClass.Year;
-
-		this.cosmeticData = cosmeticData;
-
-		anim = AnimationTypeEnum.IDLE_FRONT;
+	[Serializable]
+	public struct SlotData
+	{
+		public CosmeticSlot slot;
+		public SpriteRenderer renderer;
 	}
 
-	public void Retire()
+	// Only expose the front animations, since the offset for
+	// side/back is done in code
+	public enum PublicAnimationEnum
 	{
-		Destroy(gameObject);
+		WALK = AnimationEnum.WALK_FRONT,
+		IDLE = AnimationEnum.IDLE_FRONT,
 	}
 
-	void Update()
+	enum AnimationEnum
 	{
-		secondsPlayed = secondsPlayed + Time.deltaTime;
+		WALK_FRONT,
+		WALK_SIDE,
+		WALK_BACK,
 
-		AnimationTypeEnum currentType = anim;
-		foreach (var renderer in cosmeticSlots.Select(s => s.renderer))
-		{
-			renderer.flipX = Mirror;
-		}
-
-		if (Side)
-		{
-			anim = Walk ? AnimationTypeEnum.WALK_SIDE : AnimationTypeEnum.IDLE_SIDE;
-		}
-		else
-		{
-			if (Walk) { anim = Front ? AnimationTypeEnum.WALK_FRONT : AnimationTypeEnum.WALK_BACK; }
-			else { anim = Front ? AnimationTypeEnum.IDLE_FRONT : AnimationTypeEnum.IDLE_BACK; }
-		}
-
-		if (currentType != anim) { ChangeFrame(currentFrame); }
+		IDLE_FRONT,
+		IDLE_SIDE,
+		IDLE_BACK,
 	}
 
-	public void ChangeFrame(int animFrame)
+	enum FacingDir
 	{
-		if (cosmeticData != null)
-		{
-			foreach (var slot in cosmeticSlots)
-			{
-				slot.renderer.sprite = cosmeticData.cosmeticBundles[(int)slot.slot].spriteLists[(int)anim][animFrame];
-			}
-		}
-
-		currentFrame = animFrame;
+		FRONT = 0,
+		RIGHT = 1,
+		LEFT = 1,
+		BACK = 2,
 	}
 }

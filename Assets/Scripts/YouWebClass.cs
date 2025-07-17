@@ -5,29 +5,22 @@ public class ProfileData
 {
 
 	// General Information
-	public string FirstName;
-	public string LastName;
-	public string Catchphrase;
-	public string Role;
-	public string PrimaryColor;
-	public string SecondaryColor;
-	public float Hours;
-	public string Bio;
-	public string Year;
-	public string Team;
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+	public string Catchphrase { get; set; }
+	public string Role { get; set; }
+	public string PrimaryColor { get; set; }
+	public string SecondaryColor { get; set; }
+	public float Hours { get; set; }
+	public string Bio { get; set; }
+	public int Year { get; set; }
+	public string Team { get; set; }
 
 	// public string nameTag;
 	// public float secondsPlayed;
 	// Cosmetic Information
 	// public int Cosmetic;
 	// public int hatCosmetic;
-}
-
-public class AvatarData
-{
-	public Loadout Loadout { get; set; } = default;
-
-	public CosmeticBundleClass[] cosmeticBundles;
 }
 
 public enum CosmeticSlot
@@ -39,6 +32,11 @@ public enum CosmeticSlot
 	PANTS,
 	SHOES,
 	PET
+}
+
+public class AvatarData
+{
+	public Loadout Loadout { get; set; } = default;
 }
 
 public class Loadout
