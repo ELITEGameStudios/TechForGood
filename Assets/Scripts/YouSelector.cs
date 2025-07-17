@@ -9,7 +9,7 @@ public class YouSelector : MonoBehaviour
             You targetYou = gameObject.GetComponent<You>();
             gameObject.GetComponent<NavMeshAgent>().acceleration = 1000;
             gameObject.GetComponent<NavMeshAgent>().speed = 0;
-            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y, targetYou.transform.position.z), 0.5f, 10.0f);
+            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y + 2.0f, targetYou.transform.position.z), 0.5f, 10.0f);
             MainUIManager.instance.InspectYou(targetYou);
         }
 
