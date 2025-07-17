@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class You : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class You : MonoBehaviour
 
 	[SerializeField] float profileRefreshPeriod = 5;
 	[SerializeField] float lookDirChangeThreshold = 0.5f;
+
+	[SerializeField] float minCatchphraseTime, maxCatchphraseTime;
 
 	// Stores which slot is in which index, plus renderer info
 	[SerializeField] SlotData[] cosmeticSlots;
@@ -30,12 +33,16 @@ public class You : MonoBehaviour
 	public ProfileData ProfileData { get; private set; }
 	public AvatarData AvatarData { get; private set; }
 
+	public Animator speechBubbleAnimator;
+	[SerializeField] private Text catchphraseText;
+
 	public SlotData[] Slots => cosmeticSlots;
 
 	void Awake()
 	{
 		ai = GetComponent<AvatarAI>();
 		animator = GetComponent<Animator>();
+		TriggerCatchphrase();
 	}
 
 	void OnDestroy()
@@ -125,6 +132,12 @@ public class You : MonoBehaviour
 		ai.Leave();
 	}
 
+	public void TriggerCatchphrase()
+	{
+		speechBubbleAnimator.Play("Speak");
+		Invoke(nameof(TriggerCatchphrase), UnityEngine.Random.Range(minCatchphraseTime, maxCatchphraseTime));
+	}
+
 	public async Task Setup(int userId)
 	{
 		UserId = userId;
@@ -150,6 +163,7 @@ public class You : MonoBehaviour
 		// Profile Data
 		var url = $"{GameManager.Instance.WebsiteName}/UserApi/GetProfile?id={UserId}";
 		ProfileData = await http_client.Get<ProfileData>(url);
+		catchphraseText.text = ProfileData.Catchphrase;
 
 		// Cosmetic Data
 		url = $"{GameManager.Instance.WebsiteName}/UserApi/GetAvatar?id={UserId}";
