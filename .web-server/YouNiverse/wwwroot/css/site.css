@@ -38,15 +38,15 @@ img {
 input,
 select,
 button {
-	border-image: url(/lab/button-9slice.png);
+	border-image: url(/lab/button-9slice_noshadow.png);
 	border-image-slice: 4 fill;
 	border-image-width: 8;
 	padding: 6px;
-	border-color: rgb(188, 188, 188);
+	image-rendering: pixelated;
 }
 
 input:hover,
 select:hover,
 button:hover {
-	border-color: rgb(255, 255, 255);
+	border-image: url(/lab/button-9slice.png);
 }
