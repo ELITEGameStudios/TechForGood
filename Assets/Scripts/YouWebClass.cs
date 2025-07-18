@@ -21,12 +21,12 @@ public enum CosmeticSlot
 	SHIRT,
 	PANTS,
 	SHOES,
-	PET
 }
 
 public class AvatarData
 {
 	public Loadout Loadout { get; set; } = default;
+	public string SkinColor { get; set; } = "#00FF00";
 }
 
 public class Loadout

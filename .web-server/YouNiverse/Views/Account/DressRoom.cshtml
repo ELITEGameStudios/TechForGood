@@ -41,8 +41,7 @@
 											value="@unlockedItem.Id"
 											onclick="updateDisplay('slot-@(Enum.GetName(typeof(EItemSlot), slot))', @unlockedItem.Id)">
 									}
-									<img src="/items/@(unlockedItem.Id + "_preview.png")"
-										class="@(slot == EItemSlot.Base ? "base-tint" : "")">
+									<img src="/items/@(unlockedItem.Id + "_preview.png")">
 								</label>
 							}
 						</div>
@@ -59,11 +58,8 @@
 
 		@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
 		{
-			<div class="item-slot-display" id="slot-@Enum.GetName(typeof(EItemSlot), slot)">
-				@if (slot == EItemSlot.Base)
-				{
-					<div class="base-tint"></div>
-				}
+			<div class="item-slot-display @(slot == EItemSlot.Base ? "item-slot-base" : "")"
+				id="slot-@Enum.GetName(typeof(EItemSlot), slot)">
 			</div>
 		}
 	</div>
@@ -89,7 +85,7 @@
 	function updateSkinColor() {
 		let color = document.getElementById("skin-color-picker").value;
 
-		let bases = document.getElementsByClassName("base-tint");
+		let bases = document.getElementsByClassName("item-slot-base");
 		Array.from(bases).forEach((base) => {
 			base.style.backgroundColor = color;
 		});
@@ -216,14 +212,8 @@
 		top: 30px;
 	}
 
-	.base-tint {
+	.item-slot-base {
 		background-blend-mode: multiply;
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
 		mask-image: url("/items/base_mask.png");
 		mask-size: 600%;
 	}

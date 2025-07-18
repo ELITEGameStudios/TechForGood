@@ -203,6 +203,19 @@ public class You : MonoBehaviour
 		}
 
 		AvatarData = unappliedAvatarData;
+
+		SlotData baseSlot = Slots.FirstOrDefault(s => s.slot == CosmeticSlot.BASE);
+		if (!baseSlot.Equals(default))
+		{
+			if (ColorUtility.TryParseHtmlString(AvatarData.SkinColor, out Color color))
+			{
+				baseSlot.renderer.color = color;
+			}
+			else
+			{
+				baseSlot.renderer.color = Color.green;
+			}
+		}
 	}
 
 	// -- Uses string instead of enum because changing the enum breaks animations. --

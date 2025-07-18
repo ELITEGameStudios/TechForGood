@@ -28,9 +28,13 @@ public class UserApiController : Controller
 		if (user == null)
 			return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist.");
 
+		if (user.SkinColor == "")
+			user.SkinColor = YouAccount.k_DefaultSkinColor;
+
 		AvatarRequest request = new()
 		{
-			Loadout = user.Loadout
+			Loadout = user.Loadout,
+			SkinColor = user.SkinColor,
 		};
 
 		using var stream = new MemoryStream();
@@ -98,6 +102,7 @@ public class UserApiController : Controller
 	struct AvatarRequest
 	{
 		public ItemLoadout Loadout { get; set; }
+		public string SkinColor { get; set; }
 	}
 
 	struct BioRequest

@@ -80,6 +80,7 @@ public class CosmeticRetriever
 		if (!loadedSprites.ContainsKey(key))
 		{
 			Sprite sprite = Sprite.Create(texture, rect, pivot, ppu);
+			sprite.name = url;
 			loadedSprites.Add(key, sprite);
 		}
 
