@@ -4,60 +4,73 @@
 	ViewData["Title"] = "Dress Room";
 }
 
+<div class="all-things">
+	<h1>Dress Room</h1>
 
-
-<h1>Dress Room</h1>
-
-<div class="parent">
-	<div class="tabs">
-		<form method="post">
-			@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
-			{
-				<div class="tab">
-					@if ((int)slot == 0)
-					{
-						<input type="radio" id="@slot.ToString()" name="item-tabs" checked>
-					}
-					else
-					{
-						<input type="radio" id="@slot.ToString()" name="item-tabs">
-					}
-					<label class="tab-label" for="@slot.ToString()">@EnumHelpers.GetDisplayName(@slot)</label>
-
-					<div class="content">
-						@foreach (var unlockedItem in Model.UnlockedCategories[(int)slot].UnlockedItems)
+	<div class="parent">
+		<div class="tabs">
+			<form method="post">
+				@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
+				{
+					<div class="tab">
+						@if ((int)slot == 0)
 						{
-							<label>
-								@if (Model.SelectedItems.Length > (int)slot && Model.SelectedItems[(int)slot] ==
-														unlockedItem.Id)
-								{
-									<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
-										value="@unlockedItem.Id" checked>
-								}
-								else
-								{
-									<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
-										value="@unlockedItem.Id">
-								}
-								<img src="/items/@(unlockedItem.Id + "_preview.png")">
-							</label>
+							<input type="radio" id="@slot.ToString()" name="item-tabs" checked>
 						}
+						else
+						{
+							<input type="radio" id="@slot.ToString()" name="item-tabs">
+						}
+						<label class="tab-label" for="@slot.ToString()">@EnumHelpers.GetDisplayName(@slot)</label>
+
+						<div class="content">
+							@foreach (var unlockedItem in Model.UnlockedCategories[(int)slot].UnlockedItems)
+							{
+								<label>
+									@if (Model.SelectedItems.Length > (int)slot && Model.SelectedItems[(int)slot] ==
+																unlockedItem.Id)
+									{
+										<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
+											value="@unlockedItem.Id" checked>
+									}
+									else
+									{
+										<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
+											value="@unlockedItem.Id">
+									}
+									<img src="/items/@(unlockedItem.Id + "_preview.png")">
+								</label>
+							}
+						</div>
+
+						<input type="hidden" name="SelectedItems[@((int)slot)]" value="-1">
 					</div>
+				}
 
-					<input type="hidden" name="SelectedItems[@((int)slot)]" value="-1">
-				</div>
-			}
+				<input type="submit" value="Save">
+			</form>
+		</div>
 
-			<input type="submit" value="Save">
-		</form>
-	</div>
+		<div class="character">
 
-	<div class="character">
-
+		</div>
 	</div>
 </div>
 
 <style>
+	.all-things {
+		width: 100%;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+
+	.parent {
+		display: flex;
+		flex-direction: row;
+		height: calc(100% - 150px);
+		position: absolute;
+	}
+
 	.text-right {
 		text-align: right;
 		float: right;
@@ -111,13 +124,6 @@
 		z-index: 1;
 	}
 
-	.parent {
-		display: flex;
-		flex-direction: row;
-		height: calc(100% - 150px);
-		position: absolute;
-	}
-
 	.item-button[type="radio"] {
 		position: absolute;
 		opacity: 0;
@@ -136,5 +142,11 @@
 
 	.item-button[type="radio"]:checked+img {
 		border: 2px solid #0078D7;
+	}
+
+	input[type="submit"] {
+		position: relative;
+		bottom: 10px;
+		left: 128px;
 	}
 </style>
