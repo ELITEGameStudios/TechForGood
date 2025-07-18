@@ -56,6 +56,20 @@ public class AccountController : Controller
 			SelectedItems = new int[nCategories],
 		};
 
+		// Verify slot is valid
+		for (int i = 0; i < nCategories; ++i)
+		{
+			int itemid = user.Loadout.FromSlotIndex(i);
+			CosmeticItem? item = await _context.Cosmetics.FindAsync(itemid);
+
+			if (item == null || (int)item.ItemSlot != i)
+			{
+				// Item is not valid for slot
+				user.Loadout.SetWithSlotIndex(-1, (EItemSlot)i);
+			}
+		}
+		await _context.SaveChangesAsync();
+
 		for (int i = 0; i < nCategories; ++i)
 		{
 			var slot = (EItemSlot)i;
@@ -93,16 +107,30 @@ public class AccountController : Controller
 			}
 
 			int item = model.SelectedItems[i];
-			bool ownsItem = await _context.Users
-				.Include(u => u.Unlocks)
-				.Where(u => u.Unlocks.Any(u => u.ItemId == item))
-				.AnyAsync();
+			bool ownsItem = false;
+			if (item != -1)
+			{
+				ownsItem = await _context.Users
+						.Include(u => u.Unlocks)
+						.Where(u => u.Unlocks.Any(u => u.ItemId == item))
+						.AnyAsync();
 
-			if (item == -1) ownsItem = true;
+				CosmeticItem? itemRef = await _context.Cosmetics.FindAsync(item);
+				ownsItem &= itemRef != null;
+
+				if (itemRef != null)
+				{
+					ownsItem &= itemRef.ItemSlot == (EItemSlot)i;
+				}
+			}
 
 			if (ownsItem)
 			{
 				user.Loadout.SetWithSlotIndex(item, (EItemSlot)i);
+			}
+			else
+			{
+				user.Loadout.SetWithSlotIndex(-1, (EItemSlot)i);
 			}
 		}
 
