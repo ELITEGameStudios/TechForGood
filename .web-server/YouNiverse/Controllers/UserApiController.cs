@@ -88,6 +88,11 @@ public class UserApiController : Controller
 			PrimaryColor = user.PrimaryColor,
 			SecondaryColor = user.SecondaryColor,
 			Hours = lab.Hours,
+
+			Year = user.Year,
+			Pronouns = user.Pronouns,
+			GDWTeam = user.GDWTeam,
+			FavouriteGame = user.FavouriteGame,
 		};
 
 		using MemoryStream stream = new();
@@ -114,5 +119,10 @@ public class UserApiController : Controller
 		public string PrimaryColor { get; set; }
 		public string SecondaryColor { get; set; }
 		public float Hours { get; set; }
+
+		public int Year { get; set; }
+		public string Pronouns { get; set; }
+		public string GDWTeam { get; set; }
+		public string FavouriteGame { get; set; }
 	}
 }
