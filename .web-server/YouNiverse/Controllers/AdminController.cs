@@ -175,13 +175,19 @@ public class AdminController : Controller
 			// Give default item to all users
 			await _context.Users.ForEachAsync(async u =>
 			{
-				UnlockEntry unlock = new()
+				bool hasItem = await _context.Unlocks.AnyAsync(
+					unlock => unlock.UserId == u.Id && unlock.ItemId == model.Id);
+
+				if (!hasItem)
 				{
-					ItemId = itemFound.Id,
-					UserId = u.Id,
-					UnlockDate = DateTime.Now,
-				};
-				await _context.Unlocks.AddAsync(unlock);
+					UnlockEntry unlock = new()
+					{
+						ItemId = itemFound.Id,
+						UserId = u.Id,
+						UnlockDate = DateTime.Now,
+					};
+					await _context.Unlocks.AddAsync(unlock);
+				}
 			});
 		}
 
