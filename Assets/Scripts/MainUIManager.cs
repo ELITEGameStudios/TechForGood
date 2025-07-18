@@ -6,7 +6,7 @@ using UnityEditor.ShaderGraph.Internal;
 
 public class MainUIManager : MonoBehaviour
 {
-	public TMP_Text nameText, hoursText, yearText, descriptionText, pronounsText;
+	public TMP_Text nameText, hoursText, yearText, descriptionText, pronounsText, favouriteGameText;
 	public GameObject image_photo;
 	public static UIState state;
 	public static MainUIManager instance { get; private set; }
@@ -83,9 +83,10 @@ public class MainUIManager : MonoBehaviour
 		}
 
 		nameText.text = $"{profileData.FirstName} {profileData.LastName}";
-		pronounsText.text = "Pronouns: " + profileData.Pronouns;
-		yearText.text = "Year " + profileData.Year;
-		hoursText.text = ((int)you.ProfileData.Hours).ToString() + " Hours Logged In";
+		pronounsText.text = $"Pronouns: {profileData.Pronouns}";
+		yearText.text = $"Year {profileData.Year}";
+        favouriteGameText.text = $"Favourite Game: {profileData.FavouriteGame}";
+        hoursText.text = ((int)you.ProfileData.Hours).ToString() + " Hours Logged In";
 
 		prefix = "a ";
 
