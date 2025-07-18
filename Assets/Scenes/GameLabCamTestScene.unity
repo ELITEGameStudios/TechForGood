@@ -8265,6 +8265,7 @@ MonoBehaviour:
   maxCatchphraseTime: 0
   cosmeticSlots: []
   currentFrame: 0
+  catchphraseCanvas: {fileID: 0}
   speechBubbleAnimator: {fileID: 0}
   catchphraseText: {fileID: 0}
 --- !u!1 &748232437
@@ -9480,8 +9481,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0778, y: 138.8}
-  m_SizeDelta: {x: 245.74, y: 23.0641}
+  m_AnchoredPosition: {x: -1.0778, y: 129.65492}
+  m_SizeDelta: {x: 245.74, y: 41.3542}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &854306646
 MonoBehaviour:
@@ -9534,9 +9535,9 @@ MonoBehaviour:
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -20696,6 +20697,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 984e34395ed1145268670e26e2417aa3, type: 3}
   - {fileID: 8300000, guid: acbb1d752943445999d962d0e517b70b, type: 3}
   - {fileID: 8300000, guid: 57e1c3025025846b496c157e5cc711c9, type: 3}
+  - {fileID: 8300000, guid: ea8dd80ac485f4e62b1da4556a6dd97e, type: 3}
   song_display_text: {fileID: 330599306}
   current_song: {fileID: 386516675}
   randomize_song: 1
@@ -26188,7 +26190,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4639124948373879274}
   m_HandleRect: {fileID: 5850855265942065486}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
