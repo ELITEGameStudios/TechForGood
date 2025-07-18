@@ -11,8 +11,6 @@ public class YouAccount
 	// Required
 	public int Id { get; set; }
 
-	public ICollection<UnlockEntry> Unlocks { get; set; } = [];
-
 	public ItemLoadout Loadout { get; set; } = new ItemLoadout();
 	public string SkinColor { get; set; } = k_DefaultSkinColor;
 

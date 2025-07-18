@@ -24,20 +24,8 @@ public class AccountController : Controller
 	public async Task<IActionResult> Index()
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		YouAccount? user = await _context.Users.FindAsync(userId);
+		YouAccount user = (await _context.Users.FindAsync(userId))!;
 		LabAccount lab = (await _context.LabUsers.FindAsync(userId))!;
-
-		if (user == null)
-		{
-			UserRegisterPostModel post = new()
-			{
-				StudentId = lab.StudentId!.Value,
-				FirstName = lab.FirstName,
-				LastName = lab.LastName,
-			};
-			await RegisterAsync(post, _context);
-			user = await _context.Users.FindAsync(userId);
-		}
 
 		AccountViewModel model = new()
 		{
@@ -54,11 +42,6 @@ public class AccountController : Controller
 	{
 		int userId = int.Parse(User.Identity!.Name!);
 		YouAccount user = (await _context.Users.FindAsync(userId))!;
-
-		List<UnlockEntry> unlocks = await _context.Unlocks
-			.Include(u => u.Item)
-			.Where(i => i.UserId == user.Id)
-			.ToListAsync();
 
 		int nCategories = Enum.GetValues(typeof(EItemSlot)).Length;
 
@@ -87,9 +70,8 @@ public class AccountController : Controller
 		{
 			var slot = (EItemSlot)i;
 
-			CosmeticItem[] catItems = [.. unlocks
-				.Where(u => u.Item.ItemSlot == slot)
-				.Select(u => u.Item)];
+			CosmeticItem[] catItems = [.. _context.Cosmetics
+				.Where(u => u.ItemSlot == slot)];
 
 			model.UnlockedCategories[i] = new DressRoomViewModel.CategoryData
 			{
@@ -120,31 +102,12 @@ public class AccountController : Controller
 			}
 
 			int item = model.SelectedItems[i];
-			bool ownsItem = false;
-			if (item != -1)
-			{
-				ownsItem = await _context.Users
-						.Include(u => u.Unlocks)
-						.Where(u => u.Unlocks.Any(u => u.ItemId == item))
-						.AnyAsync();
 
-				CosmeticItem? itemRef = await _context.Cosmetics.FindAsync(item);
-				ownsItem &= itemRef != null;
+			CosmeticItem? cosmetic = await _context.Cosmetics.FindAsync(item);
+			if (cosmetic == null || cosmetic.ItemSlot != (EItemSlot)i)
+				item = -1;
 
-				if (itemRef != null)
-				{
-					ownsItem &= itemRef.ItemSlot == (EItemSlot)i;
-				}
-			}
-
-			if (ownsItem)
-			{
-				user.Loadout.SetWithSlotIndex(item, (EItemSlot)i);
-			}
-			else
-			{
-				user.Loadout.SetWithSlotIndex(-1, (EItemSlot)i);
-			}
+			user.Loadout.SetWithSlotIndex(item, (EItemSlot)i);
 		}
 
 		Color skin = ColorTranslator.FromHtml(model.SkinColor);
@@ -297,19 +260,6 @@ public class AccountController : Controller
 		};
 		await _context.Users.AddAsync(newUser);
 
-		// Give default items
-		await _context.Cosmetics.Where(c => c.IsDefault).ForEachAsync(async c =>
-		{
-			UnlockEntry unlock = new()
-			{
-				UserId = lab.Id,
-				ItemId = c.Id,
-				UnlockDate = DateTime.Now
-			};
-			await _context.Unlocks.AddAsync(unlock);
-		});
-		await _context.SaveChangesAsync();
-
 		return null;
 	}
 
@@ -322,6 +272,18 @@ public class AccountController : Controller
 		if (lab == null)
 		{
 			return;
+		}
+
+		// Make sure the account exists
+		YouAccount? you = await _context.Users.FindAsync(lab.Id);
+		if (you == null)
+		{
+			you = new()
+			{
+				Id = lab.Id
+			};
+			await _context.Users.AddAsync(you);
+			await _context.SaveChangesAsync();
 		}
 
 		// bool clockedIn = await _context.TimeEntries.AnyAsync(e => e.ClockOut == null && e.UserId == lab.Id);

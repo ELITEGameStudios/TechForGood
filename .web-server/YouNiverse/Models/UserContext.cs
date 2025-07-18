@@ -13,7 +13,6 @@ public class UserContext : DbContext
 
 	public DbSet<YouAccount> Users { get; set; } = default!;
 	public DbSet<CosmeticItem> Cosmetics { get; set; } = default!;
-	public DbSet<UnlockEntry> Unlocks { get; set; } = default!;
 
 	public DbSet<LabAccount> LabUsers { get; set; } = default!;
 	public DbSet<TimeEntry> TimeEntries { get; set; } = default!;

@@ -40,7 +40,6 @@ public class AdminController : Controller
 		{
 			Name = model.ItemName,
 			ItemSlot = model.ItemSlot,
-			IsDefault = model.IsDefault,
 			AddDate = DateTime.Now,
 		};
 		await _context.Cosmetics.AddAsync(item);
@@ -76,68 +75,8 @@ public class AdminController : Controller
 			return View(model);
 		}
 
-		// Unlock for all users
-		if (model.IsDefault)
-		{
-			await _context.Users.ForEachAsync(async u =>
-			{
-				UnlockEntry unlock = new()
-				{
-					UserId = u.Id,
-					ItemId = item.Id,
-					UnlockDate = DateTime.Now
-				};
-				await _context.Unlocks.AddAsync(unlock);
-			});
-		}
-		await _context.SaveChangesAsync();
-
 		ViewData["itemMessage"] = $"Successfully added item #{item.Id}";
 		return View();
-	}
-
-	public async Task<IActionResult> UnlockItem()
-	{
-		GiveItemModel model = new()
-		{
-			AllItems = await _context.Cosmetics.Select(i => i.Name!).ToArrayAsync(),
-		};
-
-		return View(model);
-	}
-
-	[HttpPost]
-	public async Task<IActionResult> UnlockItem(GiveItemModel model)
-	{
-		LabAccount? lab = await _context.LabUsers.FirstOrDefaultAsync(
-			u => u.StudentId == model.StudentId && u.AccountType == EAccountType.LabAndYouniverse);
-		if (lab == null)
-		{
-			ViewData["itemMessage"] = "User does not exist";
-			return View(model);
-		}
-
-		CosmeticItem? item = await _context.Cosmetics.Where(u => u.Name == model.ItemName).FirstAsync();
-		if (item == null)
-		{
-			ViewData["itemMessage"] = "Item does not exist";
-			return View(model);
-		}
-
-		_context.Unlocks.Include(u => u.Item).Where(u => u.UserId == lab.Id && u.Item.Name == model.ItemName);
-
-		UnlockEntry unlock = new()
-		{
-			UserId = lab.Id,
-			ItemId = item.Id,
-			UnlockDate = DateTime.Now,
-		};
-		await _context.Unlocks.AddAsync(unlock);
-		await _context.SaveChangesAsync();
-
-		ViewData["itemMessage"] = $"Gave item {model.ItemName} to {lab.FirstName} {lab.LastName}";
-		model.AllItems = await _context.Cosmetics.Select(i => i.Name!).ToArrayAsync();
-		return View(model);
 	}
 
 	public async Task<IActionResult> ViewItems(ViewItemsModel model)
@@ -166,29 +105,7 @@ public class AdminController : Controller
 		}
 
 		itemFound.Name = model.Name;
-		itemFound.IsDefault = model.IsDefault;
 		itemFound.ItemSlot = model.ItemSlot;
-
-		if (model.IsDefault)
-		{
-			// Give default item to all users
-			await _context.Users.ForEachAsync(async u =>
-			{
-				bool hasItem = await _context.Unlocks.AnyAsync(
-					unlock => unlock.UserId == u.Id && unlock.ItemId == model.Id);
-
-				if (!hasItem)
-				{
-					UnlockEntry unlock = new()
-					{
-						ItemId = itemFound.Id,
-						UserId = u.Id,
-						UnlockDate = DateTime.Now,
-					};
-					await _context.Unlocks.AddAsync(unlock);
-				}
-			});
-		}
 
 		await _context.SaveChangesAsync();
 
@@ -205,15 +122,16 @@ public class AdminController : Controller
 		}
 
 		_context.Cosmetics.Remove(itemFound);
-		await _context.Unlocks.Where(u => u.ItemId == itemFound.Id).ForEachAsync(u => _context.Remove(u));
 
+		// Unequip item from all loadouts
+		ItemLoadout defaultLoadout = new();
 		await _context.Users.ForEachAsync(u =>
 		{
 			for (int i = 0; i < Enum.GetValues(typeof(EItemSlot)).Length; ++i)
 			{
 				if (u.Loadout.FromSlotIndex(i) == Id)
 				{
-					u.Loadout.SetWithSlotIndex(-1, (EItemSlot)i);
+					u.Loadout.SetWithSlotIndex(defaultLoadout.FromSlotIndex(i), (EItemSlot)i);
 				}
 			}
 		});

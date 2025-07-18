@@ -7,6 +7,4 @@ public class AddItemModel
 
 	public IFormFile? SpriteSheet { get; set; }
 	public IFormFile? Preview { get; set; }
-
-	public bool IsDefault { get; set; }
 }
