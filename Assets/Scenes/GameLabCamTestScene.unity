@@ -4965,6 +4965,7 @@ MonoBehaviour:
   yearText: {fileID: 1137963464}
   descriptionText: {fileID: 1335520127}
   pronounsText: {fileID: 1520100754}
+  favouriteGameText: {fileID: 854306646}
   image_photo: {fileID: 0}
   UI_panel: {fileID: 551922864}
   UI_panel_bars: {fileID: 566647901}
