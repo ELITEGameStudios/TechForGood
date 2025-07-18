@@ -54,6 +54,7 @@ public class AccountController : Controller
 		{
 			UnlockedCategories = new DressRoomViewModel.CategoryData[nCategories],
 			SelectedItems = new int[nCategories],
+			SkinColor = user.SkinColor,
 		};
 
 		// Verify slot is valid
@@ -133,6 +134,9 @@ public class AccountController : Controller
 				user.Loadout.SetWithSlotIndex(-1, (EItemSlot)i);
 			}
 		}
+
+		Color skin = ColorTranslator.FromHtml(model.SkinColor);
+		user.SkinColor = $"#{skin.R:X2}{skin.G:X2}{skin.B:X2}";
 
 		await _context.SaveChangesAsync();
 

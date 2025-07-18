@@ -31,14 +31,18 @@
 																unlockedItem.Id)
 									{
 										<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
-											value="@unlockedItem.Id" checked>
+											value="@unlockedItem.Id"
+											onclick="updateDisplay('slot-@(Enum.GetName(typeof(EItemSlot), slot))', @unlockedItem.Id)"
+											checked>
 									}
 									else
 									{
 										<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]"
-											value="@unlockedItem.Id">
+											value="@unlockedItem.Id"
+											onclick="updateDisplay('slot-@(Enum.GetName(typeof(EItemSlot), slot))', @unlockedItem.Id)">
 									}
-									<img src="/items/@(unlockedItem.Id + "_preview.png")">
+									<img src="/items/@(unlockedItem.Id + "_preview.png")"
+										class="@(slot == EItemSlot.Base ? "base-tint" : "")">
 								</label>
 							}
 						</div>
@@ -47,21 +51,64 @@
 					</div>
 				}
 
+				<input type="color" id="skin-color-picker" asp-for="SkinColor" oninput="updateSkinColor()">
+
 				<input type="submit" value="Save">
 			</form>
 		</div>
 
-		<div class="character">
-
-		</div>
+		@foreach (EItemSlot slot in Enum.GetValues(typeof(EItemSlot)))
+		{
+			<div class="item-slot-display" id="slot-@Enum.GetName(typeof(EItemSlot), slot)">
+				@if (slot == EItemSlot.Base)
+				{
+					<div class="base-tint"></div>
+				}
+			</div>
+		}
 	</div>
 </div>
 
+<script>
+	window.onload = () => {
+		let buttons = document.getElementsByClassName("item-button");
+		Array.from(buttons).forEach((button) => {
+			if (button.checked) {
+				button.onclick();
+			}
+		});
+
+		updateSkinColor();
+	};
+
+	function updateDisplay(displayId, itemValue) {
+		let div = document.getElementById(displayId);
+		div.style.backgroundImage = `url("/items/${itemValue}.png")`;
+	}
+
+	function updateSkinColor() {
+		let color = document.getElementById("skin-color-picker").value;
+
+		let bases = document.getElementsByClassName("base-tint");
+		Array.from(bases).forEach((base) => {
+			base.style.backgroundColor = color;
+		});
+	}
+</script>
+
 <style>
+	#skin-color-picker {
+		position: fixed;
+		left: 435px;
+		height: 40px;
+		top: 110px;
+	}
+
 	.all-things {
 		width: 100%;
 		padding: 10px;
 		box-sizing: border-box;
+		user-select: none;
 	}
 
 	.parent {
@@ -157,5 +204,51 @@
 		position: relative;
 		bottom: 10px;
 		left: 128px;
+	}
+
+	.item-slot-display {
+		background-image: url(/items/blank.png);
+		position: fixed;
+		background-size: 600%;
+		width: 500px;
+		height: 800px;
+		left: 700px;
+		top: 30px;
+	}
+
+	.base-tint {
+		background-blend-mode: multiply;
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		mask-image: url("/items/base_mask.png");
+		mask-size: 600%;
+	}
+
+	#slot-Base {
+		z-index: 100;
+	}
+
+	#slot-Head {
+		z-index: 106;
+	}
+
+	#slot-Face {
+		z-index: 102;
+	}
+
+	#slot-Shirt {
+		z-index: 107;
+	}
+
+	#slot-Pants {
+		z-index: 104;
+	}
+
+	#slot-Shoes {
+		z-index: 105;
 	}
 </style>
