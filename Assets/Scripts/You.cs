@@ -10,6 +10,7 @@ public class You : MonoBehaviour
 {
 	const int spriteWidth = 48;
 	const int spriteHeight = 48;
+	const float middleRoomX = 6;
 
 	[SerializeField] float profileRefreshPeriod = 5;
 	[SerializeField] float lookDirChangeThreshold = 0.5f;
@@ -33,6 +34,7 @@ public class You : MonoBehaviour
 	public ProfileData ProfileData { get; private set; }
 	public AvatarData AvatarData { get; private set; }
 
+	public Transform catchphraseCanvas;
 	public Animator speechBubbleAnimator;
 	[SerializeField] private Text catchphraseText;
 
@@ -127,7 +129,23 @@ public class You : MonoBehaviour
 		}
 	}
 
-	public void Retire()
+    void Update()
+    {
+		catchphraseCanvas.localScale = new Vector3(
+			transform.position.x >= middleRoomX ? -1 : 1,
+			1,
+			1
+		);
+
+		catchphraseText.transform.localScale = new Vector3(
+			transform.position.x <= middleRoomX ? 1 : -1,
+			1,
+			1
+		);
+	
+    }
+
+    public void Retire()
 	{
 		ai.Leave();
 	}

@@ -457,6 +457,7 @@ MonoBehaviour:
   - slot: 5
     renderer: {fileID: 3509995129531523033}
   currentFrame: 0
+  catchphraseCanvas: {fileID: 3297009783571950495}
   speechBubbleAnimator: {fileID: 1243614923244684204}
   catchphraseText: {fileID: 6126107212342935291}
 --- !u!114 &8683716975034167632
