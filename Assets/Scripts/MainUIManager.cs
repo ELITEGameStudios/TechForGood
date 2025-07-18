@@ -21,6 +21,7 @@ public class MainUIManager : MonoBehaviour
 	public AudioClip exit_sound;
 	public AudioSource SFX_player;
 	[SerializeField] private Volume DOFVolume;
+	private string prefix;
 
 	public enum UIState
 	{
@@ -85,7 +86,18 @@ public class MainUIManager : MonoBehaviour
 		pronounsText.text = "Pronouns: " + profileData.Pronouns;
 		yearText.text = "Year " + profileData.Year;
 		hoursText.text = ((int)you.ProfileData.Hours).ToString() + " Hours Logged In";
-		descriptionText.text = "I'm a team member of " + profileData.GDWTeam + ", and my role on the team is a " + profileData.Role + ". I like to say " + profileData.Catchphrase + " a lot.";
+
+		prefix = "a ";
+		
+		if (profileData.Role[0] == 'a' || profileData.Role[0] == 'e' || profileData.Role[0] == 'i' || profileData.Role[0] == 'o' || profileData.Role[0] == 'u'){
+			prefix = "an ";
+		}
+
+		if (profileData.Role == "Other"){
+			prefix = "";
+		}
+
+		descriptionText.text = "I'm a team member of " + profileData.GDWTeam + ", and my role on the team is " + prefix + profileData.Role + ". I like to say " + profileData.Catchphrase + " a lot.";
 		timer = 0.0f;
 	}
 
