@@ -178,9 +178,9 @@ public class AccountController : Controller
 		user.SecondaryColor = $"#{secondary.R:X2}{secondary.G:X2}{secondary.B:X2}";
 
 		user.Year = model.Year;
-		user.GDWTeam = model.GDWTeam;
-		user.Pronouns = model.Pronouns;
-		user.FavouriteGame = model.FavouriteGame;
+		user.GDWTeam = model.GDWTeam ?? "";
+		user.Pronouns = model.Pronouns ?? "";
+		user.FavouriteGame = model.FavouriteGame ?? "";
 
 		await _context.SaveChangesAsync();
 

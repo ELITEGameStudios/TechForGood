@@ -78,3 +78,14 @@ input[type="color"] {
 	padding: 0;
 	border: none;
 }
+
+a {
+	color: #2e6d7b;
+	transition-duration: 500ms;
+}
+
+a:hover {
+	text-shadow: 0 0 10px rgb(76, 228, 255);
+	color: #1caccd;
+	transition-duration: 250ms;
+}
