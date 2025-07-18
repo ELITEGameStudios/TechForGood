@@ -75,24 +75,26 @@ public class Jukebox : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!opened){
-            CameraPositionControl.instance.MoveCamToPos(new Vector3 (gameObject.transform.position.x + 1.0f, gameObject.transform.position.y, gameObject.transform.position.z), 0.5f, 5.0f);
-            opened = true;
-            lid_animator.SetTrigger("Open");
-            needle_animator.SetTrigger("Play");
-            record_animator.speed = 1;
-            jukebox_state = JukeboxUIState.INSPECTING;
-            timer = 0.0f;
-        }
-        
-        else{
-            CameraPositionControl.instance.MoveCamToPos(CameraPositionControl.instance.defaultPos, 0.5f);
-            opened = false;
-            lid_animator.SetTrigger("Close");
-            needle_animator.SetTrigger("UnPlay");
-            record_animator.speed = 0;
-            jukebox_state = JukeboxUIState.DEFAULT;
-            timer = 0.0f;
+        if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
+            if (jukebox_state == JukeboxUIState.DEFAULT){
+                CameraPositionControl.instance.MoveCamToPos(new Vector3 (gameObject.transform.position.x + 1.0f, gameObject.transform.position.y, gameObject.transform.position.z), 0.5f, 5.0f);
+                opened = true;
+                lid_animator.SetTrigger("Open");
+                needle_animator.SetTrigger("Play");
+                record_animator.speed = 1;
+                jukebox_state = JukeboxUIState.INSPECTING;
+                timer = 0.0f;
+            }
+            
+            else{
+                CameraPositionControl.instance.MoveCamToPos(CameraPositionControl.instance.defaultPos, 0.5f);
+                opened = false;
+                lid_animator.SetTrigger("Close");
+                needle_animator.SetTrigger("UnPlay");
+                record_animator.speed = 0;
+                jukebox_state = JukeboxUIState.DEFAULT;
+                timer = 0.0f;
+            }
         }
     }
 }

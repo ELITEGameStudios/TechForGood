@@ -5,20 +5,23 @@ public class YouSelector : MonoBehaviour
 {
     private void OnMouseDown()
     {
-        if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
-            You targetYou = gameObject.GetComponent<You>();
-            gameObject.GetComponent<NavMeshAgent>().acceleration = 1000;
-            gameObject.GetComponent<NavMeshAgent>().speed = 0;
-            CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y + 2.0f, targetYou.transform.position.z), 0.5f, 10.0f);
-            MainUIManager.instance.InspectYou(targetYou);
+        if (Jukebox.jukebox_state == Jukebox.JukeboxUIState.DEFAULT){
+            if (MainUIManager.state == MainUIManager.UIState.DEFAULT){
+                You targetYou = gameObject.GetComponent<You>();
+                gameObject.GetComponent<NavMeshAgent>().acceleration = 1000;
+                gameObject.GetComponent<NavMeshAgent>().speed = 0;
+                CameraPositionControl.instance.MoveCamToPos(new Vector3 (targetYou.transform.position.x, targetYou.transform.position.y + 2.0f, targetYou.transform.position.z), 0.5f, 10.0f);
+                MainUIManager.instance.InspectYou(targetYou);
+            }
+
+            else{
+                gameObject.GetComponent<NavMeshAgent>().acceleration = 8;
+                gameObject.GetComponent<NavMeshAgent>().speed = 3.5f;
+                CameraPositionControl.instance.MoveCamToPos(CameraPositionControl.instance.defaultPos, 0.5f);
+                MainUIManager.instance.UnInspect();
+            }
         }
 
-        else{
-            gameObject.GetComponent<NavMeshAgent>().acceleration = 8;
-            gameObject.GetComponent<NavMeshAgent>().speed = 3.5f;
-            CameraPositionControl.instance.MoveCamToPos(CameraPositionControl.instance.defaultPos, 0.5f);
-            MainUIManager.instance.UnInspect();
-        }
 
     }
 
