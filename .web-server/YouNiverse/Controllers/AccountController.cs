@@ -24,12 +24,24 @@ public class AccountController : Controller
 	public async Task<IActionResult> Index()
 	{
 		int userId = int.Parse(User.Identity!.Name!);
-		YouAccount user = (await _context.Users.FindAsync(userId))!;
+		YouAccount? user = await _context.Users.FindAsync(userId);
 		LabAccount lab = (await _context.LabUsers.FindAsync(userId))!;
+
+		if (user == null)
+		{
+			UserRegisterPostModel post = new()
+			{
+				StudentId = lab.StudentId!.Value,
+				FirstName = lab.FirstName,
+				LastName = lab.LastName,
+			};
+			await RegisterAsync(post, _context);
+			user = await _context.Users.FindAsync(userId);
+		}
 
 		AccountViewModel model = new()
 		{
-			StudentId = user.Id,
+			StudentId = user!.Id,
 			FirstName = lab.FirstName,
 			LastName = lab.LastName
 		};
