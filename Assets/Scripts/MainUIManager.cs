@@ -2,14 +2,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEditor.ShaderGraph.Internal;
 
 public class MainUIManager : MonoBehaviour
 {
-	public TMP_Text nameText, hoursText, yearText, descriptionText;
+	public TMP_Text nameText, hoursText, yearText, descriptionText, pronounsText;
 	public GameObject image_photo;
 	public static UIState state;
 	public static MainUIManager instance { get; private set; }
 	public GameObject UI_panel;
+	public GameObject UI_panel_bars;
 	public Vector2 original_position;
 	public Vector2 active_position;
 	public float timer;
@@ -68,9 +70,22 @@ public class MainUIManager : MonoBehaviour
 		SFX_player.clip = enter_sound;
 		SFX_player.Play();
 		state = UIState.INSPECTING;
+		Color main_color = Color.blue;
+		Color secondary_color = Color.red;
+		
+		if (ColorUtility.TryParseHtmlString(profileData.PrimaryColor, out main_color)){
+			UI_panel.GetComponent<Image>().color = main_color;
+		}
+
+		if (ColorUtility.TryParseHtmlString(profileData.SecondaryColor, out secondary_color)){
+			UI_panel_bars.GetComponent<Image>().color = secondary_color;
+		}
+
 		nameText.text = $"{profileData.FirstName} {profileData.LastName}";
+		pronounsText.text = "Pronouns: " + profileData.Pronouns;
 		yearText.text = "Year " + profileData.Year;
-		hoursText.text = ((int)you.ProfileData.Hours).ToString() + " Hours";
+		hoursText.text = ((int)you.ProfileData.Hours).ToString() + " Hours Logged In";
+		descriptionText.text = "I'm a team member of " + profileData.GDWTeam + ", and my role on the team is a " + profileData.Role + ". I like to say " + profileData.Catchphrase + " a lot.";
 		timer = 0.0f;
 	}
 

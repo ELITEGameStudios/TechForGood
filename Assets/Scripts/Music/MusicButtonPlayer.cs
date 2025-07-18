@@ -4,6 +4,7 @@ public class MusicButtonPlayer : MonoBehaviour
 {
     private AudioSource audio_source;
     public AudioClip button_song;
+    public AudioClip start_song_sfx;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -13,7 +14,9 @@ public class MusicButtonPlayer : MonoBehaviour
 
     public void ChangeSong(){
         audio_source.Stop();
-        Invoke("PlaySong", 1.0f);
+        audio_source.clip = start_song_sfx;
+        audio_source.Play();
+        Invoke("PlaySong", 0.8f);
     }
 
     void PlaySong(){

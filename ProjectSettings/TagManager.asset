@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameManager
   - PlaylistManager
+  - MusicText
   layers:
   - Default
   - TransparentFX

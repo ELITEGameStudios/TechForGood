@@ -39,7 +39,6 @@ public class Playlist : MonoBehaviour
             else{
                 NextSong();
             }
-            song_display_text.text = ("Currently Playing: " + current_song.clip.name);
         }
 
         if (!muted){
@@ -59,6 +58,8 @@ public class Playlist : MonoBehaviour
                 volume_image.GetComponent<Image>().sprite = volume_sprites[3];
             }
         }
+        
+        song_display_text.text = ("Currently Playing: " + current_song.clip.name);
 
     }
 
