@@ -8265,6 +8265,7 @@ MonoBehaviour:
   maxCatchphraseTime: 0
   cosmeticSlots: []
   currentFrame: 0
+  catchphraseCanvas: {fileID: 0}
   speechBubbleAnimator: {fileID: 0}
   catchphraseText: {fileID: 0}
 --- !u!1 &748232437
@@ -20696,6 +20697,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 984e34395ed1145268670e26e2417aa3, type: 3}
   - {fileID: 8300000, guid: acbb1d752943445999d962d0e517b70b, type: 3}
   - {fileID: 8300000, guid: 57e1c3025025846b496c157e5cc711c9, type: 3}
+  - {fileID: 8300000, guid: ea8dd80ac485f4e62b1da4556a6dd97e, type: 3}
   song_display_text: {fileID: 330599306}
   current_song: {fileID: 386516675}
   randomize_song: 1
@@ -26188,7 +26190,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4639124948373879274}
   m_HandleRect: {fileID: 5850855265942065486}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
