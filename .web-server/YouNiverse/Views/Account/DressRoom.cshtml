@@ -62,6 +62,9 @@
 				id="slot-@Enum.GetName(typeof(EItemSlot), slot)">
 			</div>
 		}
+
+		<div class="item-slot-display" id="slot-Eyes">
+		</div>
 	</div>
 </div>
 
@@ -220,6 +223,11 @@
 
 	#slot-Base {
 		z-index: 100;
+	}
+
+	#slot-Eyes {
+		z-index: 101;
+		background-image: url(/items/eyes.png);
 	}
 
 	#slot-Head {
