@@ -6,9 +6,14 @@
 	ViewData["doneEditing"] = false;
 }
 
-<link rel="stylesheet" href="/css/site.css">
+<style>
+	#profile-container {
+		position: relative;
+		top: 150px;
+	}
+</style>
 
-<div class="text-center">
+<div class="text-center" id="profile-container">
 	<h1>Account</h1>
 	<h2>Hello, @Model.FirstName @Model.LastName.</h2>
 	<a asp-action="Profile">Profile</a><br>
