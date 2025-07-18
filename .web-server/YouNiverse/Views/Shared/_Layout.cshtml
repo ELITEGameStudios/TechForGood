@@ -14,10 +14,15 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			border-bottom: 1px solid #b5b5b5;
+			border-bottom: 2px ridge #d3d3d3;
 			height: 40px;
 			padding-left: 8px;
 			padding-right: 8px;
+			background-color: #fbfeff;
+		}
+
+		header a {
+			color: #272727;
 		}
 	</style>
 
@@ -25,12 +30,12 @@
 	{
 		<header>
 			<a asp-action="Index">YOUniverse</a>
-			@if (ViewData["doneEditing"] == null || ViewData["doneEditing"]!.Equals(true))
+			@* @if (ViewData["doneEditing"] == null || ViewData["doneEditing"]!.Equals(true))
 			{
 				<form method="post" action="/Account/Signout" class="text-right">
 					<input type="submit" value="Done Editing" />
 				</form>
-			}
+			} *@
 		</header>
 	}
 

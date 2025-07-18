@@ -12,10 +12,13 @@ body {
 	margin: 0px;
 	padding: 0px;
 	color: rgb(56, 56, 56);
-}
 
-input {
-	color: rgb(56, 56, 56);
+	background-image: url("/bg_min.png");
+	image-rendering: pixelated;
+	background-size: cover;
+	background-attachment: fixed;
+	background-position-x: center;
+	background-position-y: bottom;
 }
 
 .text-center {
@@ -38,15 +41,51 @@ img {
 input,
 select,
 button {
+	background-color: transparent;
 	border-image: url(/lab/button-9slice_noshadow.png);
 	border-image-slice: 4 fill;
-	border-image-width: 8;
-	padding: 6px;
+	border-image-width: 2;
+	border-width: 5px;
+	padding: 4px;
 	image-rendering: pixelated;
+	box-shadow: none;
+	border-color: transparent;
+	border-image-repeat: round;
+	box-sizing: content-box;
+
+	color: rgb(56, 56, 56);
 }
 
 input:hover,
 select:hover,
 button:hover {
 	border-image: url(/lab/button-9slice.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+}
+
+input:active,
+select:active,
+button:active {
+	border-image: url(/lab/button-9slice_noshadow.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+}
+
+input[type="color"] {
+	padding: 0;
+	border: none;
+}
+
+a {
+	color: #2e6d7b;
+	transition-duration: 500ms;
+}
+
+a:hover {
+	text-shadow: 0 0 10px rgb(76, 228, 255);
+	color: #1caccd;
+	transition-duration: 250ms;
 }

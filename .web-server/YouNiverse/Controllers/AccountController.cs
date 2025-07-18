@@ -54,6 +54,7 @@ public class AccountController : Controller
 		{
 			UnlockedCategories = new DressRoomViewModel.CategoryData[nCategories],
 			SelectedItems = new int[nCategories],
+			SkinColor = user.SkinColor,
 		};
 
 		// Verify slot is valid
@@ -134,6 +135,9 @@ public class AccountController : Controller
 			}
 		}
 
+		Color skin = ColorTranslator.FromHtml(model.SkinColor);
+		user.SkinColor = $"#{skin.R:X2}{skin.G:X2}{skin.B:X2}";
+
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction("Index");
@@ -178,9 +182,9 @@ public class AccountController : Controller
 		user.SecondaryColor = $"#{secondary.R:X2}{secondary.G:X2}{secondary.B:X2}";
 
 		user.Year = model.Year;
-		user.GDWTeam = model.GDWTeam;
-		user.Pronouns = model.Pronouns;
-		user.FavouriteGame = model.FavouriteGame;
+		user.GDWTeam = model.GDWTeam ?? "";
+		user.Pronouns = model.Pronouns ?? "";
+		user.FavouriteGame = model.FavouriteGame ?? "";
 
 		await _context.SaveChangesAsync();
 

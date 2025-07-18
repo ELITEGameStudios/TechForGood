@@ -6,6 +6,7 @@ public class YouAccount
 {
 	public const string k_DefaultPrimaryColor = "#79bac9";
 	public const string k_DefaultSecondaryColor = "#eaaf5a";
+	public const string k_DefaultSkinColor = "#00ff00";
 
 	// Required
 	public int Id { get; set; }
@@ -13,6 +14,7 @@ public class YouAccount
 	public ICollection<UnlockEntry> Unlocks { get; set; } = [];
 
 	public ItemLoadout Loadout { get; set; } = new ItemLoadout();
+	public string SkinColor { get; set; } = k_DefaultSkinColor;
 
 	public string? Catchphrase { get; set; } = "Catchphrase!";
 	public EGameRole Role { get; set; } = EGameRole.Other;
@@ -50,7 +52,6 @@ public class ItemLoadout
 	public int ShirtItemId { get; set; } = -1;
 	public int PantsItemId { get; set; } = -1;
 	public int ShoesItemId { get; set; } = -1;
-	public int PetItemId { get; set; } = -1;
 
 	public int FromSlotIndex(int i)
 	{
@@ -63,7 +64,6 @@ public class ItemLoadout
 			EItemSlot.Shirt => ShirtItemId,
 			EItemSlot.Pants => PantsItemId,
 			EItemSlot.Shoes => ShoesItemId,
-			//EItemSlot.Pet => PetItemId,
 			_ => -1,
 		};
 	}
@@ -90,9 +90,6 @@ public class ItemLoadout
 			case EItemSlot.Shoes:
 				ShoesItemId = item;
 				break;
-			// case EItemSlot.Pet:
-			// 	PetItemId = item;
-			// 	break;
 			default:
 				break;
 		}
