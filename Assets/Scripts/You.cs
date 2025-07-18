@@ -19,6 +19,7 @@ public class You : MonoBehaviour
 
 	// Stores which slot is in which index, plus renderer info
 	[SerializeField] SlotData[] cosmeticSlots;
+	[SerializeField] SpriteRenderer eyesRenderer;
 
 	readonly CancellationTokenSource tokenSrc = new();
 	AvatarAI ai;
@@ -94,43 +95,16 @@ public class You : MonoBehaviour
 		foreach (var slot in cosmeticSlots)
 		{
 			int itemId = AvatarData.Loadout.GetIdForSlot(slot.slot);
-			int x = currentFrame;
-			int y = (int)currentAnimation;
-
-			switch (FacingDirection)
-			{
-				case FacingDir.RIGHT:
-					y += 1;
-					break;
-
-				case FacingDir.LEFT:
-					y += 1;
-					break;
-
-				case FacingDir.BACK:
-					y += 2;
-					break;
-			}
-
 			string url = $"{GameManager.Instance.WebsiteName}/items/{itemId}.png";
 
-			Texture2D texture = GameManager.Instance.CosmeticRetriever.GetCachedTexture(url);
-
-			Rect rect = new(x * spriteWidth, texture.height - (y + 1) * spriteHeight, spriteWidth, spriteHeight);
-
-			Sprite sprite = GameManager.Instance.CosmeticRetriever.GetSprite(
-				url,
-				rect,
-				new Vector2(0.333f, 0.5f),
-				8
-			);
-
-			slot.renderer.sprite = sprite;
+			UpdateRenderer(url, slot.renderer);
 		}
+
+		UpdateRenderer($"{GameManager.Instance.WebsiteName}/items/eyes.png", eyesRenderer);
 	}
 
-    void Update()
-    {
+	void Update()
+	{
 		catchphraseCanvas.localScale = new Vector3(
 			transform.position.x >= middleRoomX ? -1 : 1,
 			1,
@@ -142,10 +116,10 @@ public class You : MonoBehaviour
 			1,
 			1
 		);
-	
-    }
 
-    public void Retire()
+	}
+
+	public void Retire()
 	{
 		ai.Leave();
 	}
@@ -196,6 +170,8 @@ public class You : MonoBehaviour
 
 			cacheTasks.Add(GameManager.Instance.CosmeticRetriever.CacheTexture(url));
 		}
+		// Cache eyes
+		cacheTasks.Add(GameManager.Instance.CosmeticRetriever.CacheTexture($"{GameManager.Instance.WebsiteName}/items/eyes.png"));
 
 		await Task.WhenAll(cacheTasks);
 
@@ -207,6 +183,7 @@ public class You : MonoBehaviour
 
 			GameManager.Instance.CosmeticRetriever.IncrementTextureReference(url);
 		}
+		GameManager.Instance.CosmeticRetriever.IncrementTextureReference($"{GameManager.Instance.WebsiteName}/items/eyes.png");
 
 		// Decrement references for old cosmetics
 		if (AvatarData != null)
@@ -219,6 +196,7 @@ public class You : MonoBehaviour
 				GameManager.Instance.CosmeticRetriever.DecrementTextureReference(url);
 			}
 		}
+		GameManager.Instance.CosmeticRetriever.IncrementTextureReference($"{GameManager.Instance.WebsiteName}/items/eyes.png");
 
 		AvatarData = unappliedAvatarData;
 
@@ -264,6 +242,40 @@ public class You : MonoBehaviour
 		{
 			renderer.enabled = enabled;
 		}
+	}
+
+	void UpdateRenderer(string url, SpriteRenderer renderer)
+	{
+		int x = currentFrame;
+		int y = (int)currentAnimation;
+
+		switch (FacingDirection)
+		{
+			case FacingDir.RIGHT:
+				y += 1;
+				break;
+
+			case FacingDir.LEFT:
+				y += 1;
+				break;
+
+			case FacingDir.BACK:
+				y += 2;
+				break;
+		}
+
+		Texture2D texture = GameManager.Instance.CosmeticRetriever.GetCachedTexture(url);
+
+		Rect rect = new(x * spriteWidth, texture.height - (y + 1) * spriteHeight, spriteWidth, spriteHeight);
+
+		Sprite sprite = GameManager.Instance.CosmeticRetriever.GetSprite(
+			url,
+			rect,
+			new Vector2(0.333f, 0.5f),
+			8
+		);
+
+		renderer.sprite = sprite;
 	}
 
 	[Serializable]
