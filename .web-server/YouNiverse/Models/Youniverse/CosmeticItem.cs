@@ -17,8 +17,8 @@ public enum EItemSlot
 	Pants,
 	[Display(Name = "Shoes")]
 	Shoes,
-	[Display(Name = "Pets")]
-	Pet,
+	// [Display(Name = "Pets")]
+	// Pet,
 }
 
 public static class EnumHelpers

@@ -3,7 +3,6 @@ using YouNiverse.Models.Youniverse;
 using Microsoft.EntityFrameworkCore;
 using YouNiverse.Models.LabSignin;
 using YouNiverse.Models;
-using System.Threading.Tasks;
 
 namespace YouNiverse.Controllers;
 

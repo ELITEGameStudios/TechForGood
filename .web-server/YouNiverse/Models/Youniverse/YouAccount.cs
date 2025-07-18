@@ -63,7 +63,7 @@ public class ItemLoadout
 			EItemSlot.Shirt => ShirtItemId,
 			EItemSlot.Pants => PantsItemId,
 			EItemSlot.Shoes => ShoesItemId,
-			EItemSlot.Pet => PetItemId,
+			//EItemSlot.Pet => PetItemId,
 			_ => -1,
 		};
 	}
@@ -90,9 +90,9 @@ public class ItemLoadout
 			case EItemSlot.Shoes:
 				ShoesItemId = item;
 				break;
-			case EItemSlot.Pet:
-				PetItemId = item;
-				break;
+			// case EItemSlot.Pet:
+			// 	PetItemId = item;
+			// 	break;
 			default:
 				break;
 		}

@@ -4,7 +4,7 @@
 	ViewData["Title"] = "Dress Room";
 }
 
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="/css/site.css">
 
 <h1>Dress Room</h1>
 
@@ -42,13 +42,9 @@
 								<img src="/items/@(unlockedItem.Id + "_preview.png")">
 							</label>
 						}
-
-						@if (Model.UnlockedCategories[(int)slot].UnlockedItems.Length == 0)
-						{
-							// Default item for slot with none
-							<input type="radio" class="item-button" name="SelectedItems[@((int)slot)]" value="-1" checked>
-						}
 					</div>
+
+					<input type="hidden" name="SelectedItems[@((int)slot)]" value="-1">
 				</div>
 			}
 
