@@ -23,9 +23,9 @@ public class YouAccount
 	public string SecondaryColor { get; set; } = k_DefaultSecondaryColor;
 
 	public int Year { get; set; }
-	public string GDWTeam { get; set; } = default!;
-	public string Pronouns { get; set; } = default!;
-	public string FavouriteGame { get; set; } = default!;
+	public string GDWTeam { get; set; } = "";
+	public string Pronouns { get; set; } = "";
+	public string FavouriteGame { get; set; } = "";
 }
 
 public enum EGameRole
@@ -46,7 +46,7 @@ public enum EGameRole
 
 public class ItemLoadout
 {
-	public int BaseItemId { get; set; } = -1;
+	public int BaseItemId { get; set; } = 11;
 	public int HeadItemId { get; set; } = -1;
 	public int FaceItemId { get; set; } = -1;
 	public int ShirtItemId { get; set; } = -1;
