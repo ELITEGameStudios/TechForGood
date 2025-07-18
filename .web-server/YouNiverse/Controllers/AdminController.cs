@@ -207,6 +207,17 @@ public class AdminController : Controller
 		_context.Cosmetics.Remove(itemFound);
 		await _context.Unlocks.Where(u => u.ItemId == itemFound.Id).ForEachAsync(u => _context.Remove(u));
 
+		await _context.Users.ForEachAsync(u =>
+		{
+			for (int i = 0; i < Enum.GetValues(typeof(EItemSlot)).Length; ++i)
+			{
+				if (u.Loadout.FromSlotIndex(i) == Id)
+				{
+					u.Loadout.SetWithSlotIndex(-1, (EItemSlot)i);
+				}
+			}
+		});
+
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction("ViewItems");
