@@ -1,0 +1,185 @@
+#skin-color-picker {
+	position: fixed;
+	left: 435px;
+	height: 40px;
+	top: 110px;
+}
+
+.parent {
+	user-select: none;
+
+	position: fixed;
+
+	width: 100%;
+	height: calc(100% - 42px);
+	box-sizing: border-box;
+
+	padding: 20px;
+}
+
+.inner-container {
+	display: grid;
+
+	width: 100%;
+	height: 100%;
+
+	grid-template-rows: 40px auto;
+}
+
+.tab-container {
+	grid-column: 0 1;
+	grid-row: 0 1;
+
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+input.tab[type=radio] {
+	display: none;
+}
+
+input.tab[type=radio]:checked+label.tab {
+	z-index: 115;
+}
+
+.tab-content.selected {
+	z-index: 114;
+}
+
+label.tab {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	flex: 1;
+	min-width: 0px;
+
+	border-bottom: none;
+	margin-bottom: -7px;
+
+	margin-left: -10px;
+}
+
+label.tab.tab-first {
+	margin-left: 0px;
+}
+
+label.tab span {
+	position: relative;
+	bottom: 3px;
+}
+
+.tab-content-container {
+	position: relative;
+
+	grid-column: 0 1;
+	grid-row: 1 2;
+}
+
+.border-purple {
+	border-image: url(/lab/9slice_purple.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.border-pink {
+	border-image: url(/lab/9slice_pink.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.border-red {
+	border-image: url(/lab/9slice_red.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.border-orange {
+	border-image: url(/lab/9slice_orange.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.border-yellow {
+	border-image: url(/lab/9slice_yellow.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.border-green {
+	border-image: url(/lab/9slice_green.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.border-blue {
+	border-image: url(/lab/9slice_blue.png);
+	border-image-slice: 4 fill;
+	border-image-width: 2;
+	border-width: 5px;
+	border-style: solid;
+}
+
+.tab-content {
+	box-sizing: border-box;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	z-index: 110;
+}
+
+.item-slot-display {
+	background-image: url(/items/blank.png);
+	position: fixed;
+	background-size: 600%;
+	width: 500px;
+	height: 800px;
+	left: 700px;
+	top: 30px;
+}
+
+.item-slot-base {
+	background-blend-mode: multiply;
+	mask-image: url("/items/base_mask.png");
+	mask-size: 600%;
+}
+
+#slot-Base {
+	z-index: 100;
+}
+
+#slot-Head {
+	z-index: 106;
+}
+
+#slot-Face {
+	z-index: 102;
+}
+
+#slot-Shirt {
+	z-index: 107;
+}
+
+#slot-Pants {
+	z-index: 104;
+}
+
+#slot-Shoes {
+	z-index: 105;
+}
