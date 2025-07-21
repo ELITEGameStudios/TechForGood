@@ -162,6 +162,11 @@ public class LabController : Controller
 		return await ClockIn(user.Id);
 	}
 
+	public IActionResult Credits()
+	{
+		return View();
+	}
+
 	async Task<IActionResult> ClockIn(int userid)
 	{
 		LabAccount? lab = await _context.LabUsers.FindAsync(userid);

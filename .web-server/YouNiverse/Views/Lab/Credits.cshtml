@@ -1,0 +1,31 @@
+@{
+	ViewData["Title"] = "Credits";
+	ViewData["useHeader"] = false;
+}
+
+<style>
+	.credits {
+		top: 200px;
+		position: relative;
+	}
+</style>
+
+<div class="text-center credits">
+	<style>
+		body {
+			background-image: url("/lab/bg.png");
+			image-rendering: pixelated;
+			background-size: cover;
+			background-attachment: fixed;
+			background-position-x: center;
+			background-position-y: bottom;
+		}
+	</style>
+
+	<h1>Credits</h1>
+	<span>Fonts:</span><br>
+	<a href="https://fontenddev.com/fonts/digital-disco/">Digital Disco</a>
+
+	<br><br>
+	<a asp-action="Index">Back</a>
+</div>
