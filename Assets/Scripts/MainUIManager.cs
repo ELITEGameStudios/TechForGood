@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
-using UnityEditor.ShaderGraph.Internal;
 
 public class MainUIManager : MonoBehaviour
 {
